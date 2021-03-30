@@ -1,16 +1,32 @@
-const express = require('express')
+const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors')
-app.use(express.json());
+const cors = require('cors');
+require('dotenv').config();
 
-const app = express()
-const port = 3000
-app.use(cors)
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  return res.send('Hello World!');
+});
 
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`)
-})
+const dbConnData = {
+  username: process.env.MONGO_USERNAME_ADMIN,
+  password: process.env.MONGO_PASSWORD_ADMIN,
+  port: process.env.PORT
+};
+
+mongoose
+  .connect(`mongodb+srv://${dbConnData.username}:${dbConnData.password}@clustermain.dxauc.mongodb.net/db?retryWrites=true&w=majority`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(response => {
+    console.log(`Connected to MongoDB. Database name: "${response.connections[0].name}"`)
+    const port = dbConnData.port;
+    app.listen(port, () => {
+      console.log(`API server listening at http://localhost:${port}`);
+    });
+  })
+  .catch(error => console.error('Error connecting to MongoDB', error));
