@@ -20,6 +20,7 @@ app.post('/', async (req, res) => {
   });
 
   new_user.save().then(user => res.json(user));
+  res.send(req.body)
 });
 
 const dbConnData = {
