@@ -26,10 +26,11 @@ const data = [
 
 const RegisterForm = () => {
     const [warning, setWarning] = useState("")
+    const [person, setPerson] = useState("user")
 
     const sendInfo = (event) => {
         event.preventDefault()
-        const {imie, nazwisko, pesel, hasło, powHasło} = event.target
+        const {imie, nazwisko, pesel, hasło, powHasło, idAdmin} = event.target
         const patternPesel = /^[0-9]{11}$/
         const patternPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
         let check = false
@@ -76,10 +77,21 @@ const RegisterForm = () => {
             imie.style.border = 'none'
             imie.style.borderBottom = '1px solid #333'
         }
+
+        if (person === 'admin'){
+            if (idAdmin.value === ""){
+                idAdmin.style.border = '2px solid #ff9999'
+                setWarning("* ID jest wymagane")
+                check = true
+            } else {
+                idAdmin.style.border = 'none'
+                idAdmin.style.borderBottom = '1px solid #333'
+            }
+        }
         
         if (!check){
             axios.post('http://localhost:3000',
-            {imie: imie.value, nazwisko: nazwisko.value, pesel: pesel.value, haslo: hasło.value})
+            {imie: imie.value, nazwisko: nazwisko.value, pesel: pesel.value, haslo: hasło.value, idAdmin: idAdmin.value, role: person})
             .then(response => {
                 console.log(response.data)
             })
@@ -90,11 +102,38 @@ const RegisterForm = () => {
         }
     }
 
+    const switchPerson = (event) => {
+        setPerson(event)
+    }
+
 
     return(
         <div style={formStyle}>
             <h1>Rejestracja</h1>
             <form onSubmit={sendInfo}>
+                <div>
+                    <input 
+                        style={
+                            {...buttonStyle, 
+                            width: '40%',
+                            margin: '20px'}
+                        } 
+                        type="button" 
+                        value="Administrator" 
+                        onClick={() => switchPerson("admin")}/>
+                    <input 
+                        style={
+                            {...buttonStyle, 
+                            width: '40%',
+                            margin: '20px'}
+                        } 
+                        type="button" 
+                        value="Użytkownik" 
+                        onClick={() => switchPerson("user")}/>
+                </div>
+                {person === "admin" && (
+                    <CreateInput key='idAdmin' info={['idAdmin', 'ID Admin *']} />
+                )}
                 {data.map(item => (
                     <CreateInput key={item[0]} info = {item} />
                 ))}
