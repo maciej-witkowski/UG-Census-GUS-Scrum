@@ -138,7 +138,7 @@ const RegisterForm = () => {
                     <CreateInput key={item[0]} info = {item} />
                 ))}
                 <p style={{color: 'red'}}>{warning}</p>
-                <button style={buttonStyle} type='submit'>Zatwierdż</button> 
+                <button style={buttonStyle} type='submit'>Zatwierdź</button>
             </form>
             <h5>*Pola oznaczone gwiazdką są obowiązkowe</h5>
         </div>

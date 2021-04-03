@@ -94,7 +94,7 @@ const LogInForm = () => {
                     <CreateInput key={item[0]} info = {item} />
                 ))}
                 <p style={{color: 'red'}}>{warning}</p>
-                <button style={buttonStyle} type='submit'>Zatwierdż</button> 
+                <button style={buttonStyle} type='submit'>Zatwierdź</button>
             </form>
         </div>
     )

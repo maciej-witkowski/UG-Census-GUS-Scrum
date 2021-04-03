@@ -5,6 +5,12 @@ import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import RegisterForm from "./components/RegisterForm";
 import LogInForm from "./components/LogInForm";
+import Info from "./components/Info";
+import Stats from "./components/Stats";
+import Polls from "./components/Polls";
+import Database from "./components/Database";
+import AddUserForm from "./components/AddUserForm";
+import Profile from "./components/Profile";
 
 const App = () => {
   return (
@@ -15,6 +21,12 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/register" component={RegisterForm} />
           <Route exact path="/login" component={LogInForm} />
+          <Route exact path="/info" component={Info} />
+          <Route exact path="/stats" component={Stats} />
+          <Route exact path="/db" component={Database} />
+          <Route exact path="/polls" component={Polls} />
+          <Route exact path="/add" component={AddUserForm} />
+          <Route exact path="/profile" component={Profile} />
           <Route path="/" component={NotFound} />
         </Switch>
       </Router>
