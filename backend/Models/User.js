@@ -10,6 +10,14 @@ const userSchema = new Schema({
             },
         },
     },
+    firstName: {
+        type: String,
+        required: [true, "First name is required!"],
+    },
+    lastName: {
+        type: String,
+        required: [true, "Last name is required!"],
+    },
     admin_id: {
         type: String,
         validate: {
@@ -28,7 +36,7 @@ const userSchema = new Schema({
     },
     pasword: {
         type: String,
-        match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/ // At least 1 lowercase, 1 uppercase, 1 digit, 1 special character, min 8 length
+        match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/ // At least 1 lowercase, 1 uppercase, 1 digit, 1 special character, min 8 length
     }
 });
 

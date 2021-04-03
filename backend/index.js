@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const User = require('./Models/User');
+const User = require('./models/user');
 
 app.get('/', (req, res) => {
   return res.send('Hello World!');
