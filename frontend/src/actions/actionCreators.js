@@ -23,3 +23,10 @@ export const sendPolls = (poll) => {
         payload: poll
     }
 }
+
+export const register = (info) => {
+    return {
+        type: actions.REGISTER,
+        payload: info
+    }
+}

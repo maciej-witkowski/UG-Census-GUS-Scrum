@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CreateInput from './CreateInput'
-const axios = require('axios');
+import {connect} from "react-redux";
+import * as actions from "../actions/actionCreators";
 
 const formStyle = {
     margin: 'auto',
@@ -24,7 +25,12 @@ const data = [
     ['powHasło', 'Powtórz hasło *'],
 ]
 
-const RegisterForm = () => {
+const mapStateToProps = state => ({
+    poll: state.poll.poll,
+    profile: state.profile.profile
+})
+
+const RegisterForm = ({poll, profile, dispatch}) => {
     const [warning, setWarning] = useState("")
     const [person, setPerson] = useState("user")
 
@@ -32,7 +38,7 @@ const RegisterForm = () => {
         event.preventDefault()
         const {imie, nazwisko, pesel, hasło, powHasło, idAdmin} = event.target
         const patternPesel = /^[0-9]{11}$/
-        const patternPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+        const patternPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/
         let check = false
     
         if (!patternPassword.test(hasło.value) || hasło.value !== powHasło.value){
@@ -90,12 +96,28 @@ const RegisterForm = () => {
         }
         
         if (!check){
-            axios.post('http://localhost:3000',
-            {imie: imie.value, nazwisko: nazwisko.value, pesel: pesel.value, haslo: hasło.value, idAdmin: idAdmin.value, role: person})
-            .then(response => {
-                console.log(response.data)
-            })
-            .catch(err => console.log(err))
+            let info;
+            if(person === 'admin'){
+                info = {
+                    imie: imie.value, 
+                    nazwisko: nazwisko.value, 
+                    pesel: pesel.value,
+                    haslo: hasło.value, 
+                    idAdmin: idAdmin.value, 
+                    role: 'admin'
+                }
+            }
+            else{
+                info = {
+                    imie: imie.value, 
+                    nazwisko: nazwisko.value, 
+                    pesel: pesel.value,
+                    haslo: hasło.value, 
+                    role: 'user'
+                }
+            }
+            
+            dispatch(actions.register(info))
     
             setWarning("")
             event.target.submit();
@@ -145,4 +167,4 @@ const RegisterForm = () => {
     )
 }
 
-export default RegisterForm;
+export default connect(mapStateToProps)(RegisterForm);
