@@ -13,6 +13,8 @@ const Home = ({dispatch, profile}) => {
     const setUser = () => {
         const user = {
             role: "user",
+            name: "Kasia",
+            surname: "test",
             pesel: "98060799867"
         }
         dispatch(actions.logIn(user));
