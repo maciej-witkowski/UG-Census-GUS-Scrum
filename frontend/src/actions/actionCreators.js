@@ -30,3 +30,10 @@ export const register = (info) => {
         payload: info
     }
 }
+
+export const findUser = (user) => {
+    return {
+        type: actions.FIND_USER,
+        payload: user
+    }
+}

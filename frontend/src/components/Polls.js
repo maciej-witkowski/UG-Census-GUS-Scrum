@@ -95,11 +95,11 @@ const Polls = ({poll, dispatch}) => {
             <h1>Ankieta</h1>
             <form onSubmit={sendInfo}>
                 <p>Twoje imie:</p>
-                <input type="text" name="name" defaultValue={poll.name} /> 
+                <input type="text" name="name" defaultValue={poll.name} readOnly/> 
                 <p>Twoje nazwisko:</p>
-                <input type="text" name="surname" defaultValue={poll.surname} /> 
+                <input type="text" name="surname" defaultValue={poll.surname} readOnly/> 
                 <p>Twój pesel:</p>
-                <input type="text" name="pesel" defaultValue={poll.pesel} /> 
+                <input type="text" name="pesel" defaultValue={poll.pesel} readOnly/> 
                 <p>Jaki jest twój kraj pochodzenia:</p>
                 <input type="text" name="nationality" defaultValue={poll.nationality} /> 
                 
