@@ -46,10 +46,21 @@ export const logOut = () => {
 }
 
 export const sendPolls = (poll) => {
-    return {
-        type: actions.SEND_POLLS,
-        payload: poll
-    }
+    return (dispatch) => {
+        return axios.post("http://localhost:3000/users/poll", {poll})
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: actions.SEND_POLLS,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
 }
 
 // export const register = (info) => {
@@ -77,22 +88,54 @@ export const register = (info) => {
 
 
 export const findUser = (user) => {
-    return {
-        type: actions.FIND_USER,
-        payload: user
-    }
+    return (dispatch) => {
+        return axios.post("http://localhost:3000/users/find", {pesel: user.pesel})
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: actions.FIND_USER,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
 }
 
 export const updateUser = (update) => {
-    return {
-        type: actions.SEND_UPDATE,
-        payload: update
-    }
+    return (dispatch) => {
+        return axios.post("http://localhost:3000/users/poll/update", {update})
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: actions.SEND_POLLS,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
 }
 
 export const deleteUser = (pesel) => {
-    return {
-        type: actions.DELETE_USER,
-        payload: pesel
-    }
+    return (dispatch) => {
+        return axios.post("http://localhost:3000/users/delete", {pesel})
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: actions.DELETE_USER
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
 }
