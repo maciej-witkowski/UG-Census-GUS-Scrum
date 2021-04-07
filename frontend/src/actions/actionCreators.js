@@ -21,10 +21,21 @@ export const getUsers = () => {
 
 
 export const logIn = (user) => {
-    return {
-        type: actions.LOG_IN,
-        payload: user
-    }
+    return (dispatch) => {
+        return axios.post("http://localhost:3000/users/login", {pesel: user.pesel})
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: actions.LOG_IN,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
 }
 
 export const logOut = () => {
