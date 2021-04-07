@@ -2,7 +2,7 @@ import React from 'react';
 
 const Stats = () => (
     <div>
-        <h1>Statistics</h1>
+        <h1 className="title">Statystyki</h1>
     </div>
 )
 
