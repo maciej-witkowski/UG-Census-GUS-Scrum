@@ -29,4 +29,12 @@ export const register = (info) => {
         type: actions.REGISTER,
         payload: info
     }
+
+}
+
+export const findUser = (user) => {
+    return {
+        type: actions.FIND_USER,
+        payload: user
+    }
 }
