@@ -34,8 +34,8 @@ const Home = ({dispatch, profile}) => {
     return(
     <div>
         <h1>Home</h1>
-        <button onClick={setUser}>Set example user</button>
-        <button onClick={setAdmin}>Set example admin</button>
+        <button className="test" onClick={setUser}>Set example user</button>
+        <button className="test" onClick={setAdmin}>Set example admin</button>
     </div>)
 }
 
