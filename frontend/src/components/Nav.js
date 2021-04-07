@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import logo from '../logo.png';
 
 
 const mapStateToProps = state => ({
@@ -19,11 +20,14 @@ const Nav = ({profile}) => {
     return (
         <div className="header">
             {/*zawsze*/}
-            {/*<img src="../../pics/logo.png" alt={"logo-gus"}/>*/}
-            <div className="logo">GOV.PL</div>
+
             <nav>
                 <ul className="nav_links">
-                    <li><Link  className="nav_links" to={"/"}>Home</Link></li>
+                    <li>
+                        <Link  className="nav_links" to={"/"}>
+                            <img src={logo} alt={"logo-gus"} width={"120px"} height={"50px"}/>
+                        </Link>
+                    </li>
                     <li><Link  className="nav_links" to={"/stats"}>Statystyki</Link></li>
                     <li><Link  className="nav_links" to={"/info"}>Informacje</Link></li>
                 </ul>

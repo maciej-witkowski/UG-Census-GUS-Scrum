@@ -8,7 +8,7 @@ const userSchema = new Schema({
             validator: function (v) {
                 return v === "admin" || v === "user";
             },
-        },
+        }
     },
     firstName: {
         type: String,
@@ -20,21 +20,23 @@ const userSchema = new Schema({
     },
     admin_id: {
         type: String,
-        validate: {
-            validator: function (v) {
-                return this.role === "admin";
-            },
+        required: function () {
+            return this.role === "admin";
         },
-        unique: true,
+        index: {
+            unique: true,
+            partialFilterExpression: { admin_id: { $type: 'string' } }
+        },
+        default: null,
         match: /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/ // uuidv4 format
     },
     pesel: {
         type: String,
         required: [true, "PESEL number is required!"],
-        match: /^[0-9]{11}$/, // Only digits and 11 length
-        unique: true
+        unique: true,
+        match: /^[0-9]{11}$/ // Only digits and 11 length
     },
-    pasword: {
+    password: {
         type: String,
         match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/ // At least 1 lowercase, 1 uppercase, 1 digit, 1 special character, min 8 length
     }
