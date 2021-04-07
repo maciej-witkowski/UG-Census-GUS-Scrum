@@ -19,7 +19,6 @@ export const getUsers = () => {
     };
 };
 
-
 export const logIn = (user) => {
     return (dispatch) => {
         return axios.post("http://localhost:3000/users/login", {pesel: user.pesel})
@@ -63,13 +62,6 @@ export const sendPolls = (poll) => {
     };
 }
 
-// export const register = (info) => {
-//     return {
-//         type: actions.REGISTER,
-//         payload: info
-//     }
-// }
-
 export const register = (info) => {
     return () => {
         return axios.post("http://localhost:3000/users/registration", {info})
@@ -84,8 +76,6 @@ export const register = (info) => {
             });
     };
 };
-
-
 
 export const findUser = (user) => {
     return (dispatch) => {
