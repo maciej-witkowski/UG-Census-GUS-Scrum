@@ -11,6 +11,7 @@ import Polls from "./components/Polls";
 import Database from "./components/Database";
 import AddUserForm from "./components/AddUserForm";
 import Profile from "./components/Profile";
+import Logout from "./components/Logout";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route exact path="/polls" component={Polls} />
           <Route exact path="/add" component={AddUserForm} />
           <Route exact path="/profile" component={Profile} />
+          <Route exact path="/logout" component={Logout} />
           <Route path="/" component={NotFound} />
         </Switch>
       </Router>
