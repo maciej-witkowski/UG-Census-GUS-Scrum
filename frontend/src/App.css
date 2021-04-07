@@ -122,3 +122,41 @@ li, button, div {
 p {
     color: black;
 }
+
+.home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.left-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.footer {
+    margin: 5vh 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer > * {
+    margin: 0 2vw;
+}
+
+.address {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

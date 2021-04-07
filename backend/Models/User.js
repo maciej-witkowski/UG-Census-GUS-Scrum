@@ -36,7 +36,7 @@ const userSchema = new Schema({
         unique: true,
         match: /^[0-9]{11}$/ // Only digits and 11 length
     },
-    pasword: {
+    password: {
         type: String,
         match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/ // At least 1 lowercase, 1 uppercase, 1 digit, 1 special character, min 8 length
     }
