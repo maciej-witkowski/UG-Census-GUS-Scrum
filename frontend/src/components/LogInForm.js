@@ -104,7 +104,7 @@ const LogInForm = ({profile, users, dispatch}) => {
 
     return (
         <div style={formStyle}>
-            <h1>Zaloguj się</h1>
+            <h1 className="title">Logowanie</h1>
             <form onSubmit={sendInfo}>
                 <div>
                     <input 

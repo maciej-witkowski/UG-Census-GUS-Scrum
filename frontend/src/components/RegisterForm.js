@@ -131,7 +131,7 @@ const RegisterForm = ({poll, profile, dispatch}) => {
 
     return(
         <div style={formStyle}>
-            <h1>Rejestracja</h1>
+            <h1 className="title">Rejestracja</h1>
             <form onSubmit={sendInfo}>
                 <div>
                     <input 

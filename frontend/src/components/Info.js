@@ -2,9 +2,9 @@ import React from 'react';
 
 const Info = () => (
     <div>
-        <h1>Informacje</h1>
+        <h1 className="title">Informacje</h1>
 
-        <div className="info-spis">
+        <div className="info-spis box">
             <h2 className="info-title">Czym jest spis?</h2>
             <p>Spis ludności to – jak podaje Encyklopedia PWN – podstawowe badanie i źródło danych z zakresu statystyki ludności, które ma na celu zebranie informacji o jej stanie i strukturze wg ustalonych cech demograficznych i społeczno-zawodowych, w oznaczonym momencie, na określonym terytorium.</p><br/>
             <p>Spisy realizowane są zgodnie z zaleceniami i standardami organizacji międzynarodowych, jak UE i ONZ, co umożliwia dokonywanie porównań międzynarodowych. Zgodnie z Art. 4 Rozporządzenia (WE) Nr 763/2008 Parlamentu Europejskiego i Rady z dnia 9.07.2008 r. w sprawie spisów powszechnych ludności i mieszkań, 
@@ -14,8 +14,11 @@ const Info = () => (
             spisy powszechne są dla państwa jedynym źródłem danych.</p><br/>
             <p>Uzyskane podczas spisu powszechnego dane indywidualne są opracowywane i przedstawiane w postaci agregatów danych o różnych przekrojach i na różnych poziomach podziału terytorialnego i administracyjnego kraju. Wyniki spisu umożliwiają analizę i ocenę zróżnicowania przemian demograficznych i społecznych w dowolnych przekrojach. 
             Na ich podstawie rząd podejmuje najważniejsze decyzje gospodarcze i społeczne na kolejne lata.</p>
+            <a> @GUS </a>
+            <a>#GlownyUrzadStatystyczny </a>
+
         </div>
-        <div className="info-FAQ">
+        <div className="info-FAQ box">
             <h2 className="info-title">Pytania i odpowiedzi</h2>
             <h3 className="faq">Jak wziąć udział w spisie?</h3>
             <div className="info-panel">
