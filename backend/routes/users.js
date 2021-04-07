@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
         })
 });
 
-router.post('/register', async (req, res) => {
+router.post('/registration', async (req, res) => {
     const new_user = new User({
         ...req.body
     });
