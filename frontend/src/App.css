@@ -36,6 +36,46 @@ li, button, div {
     font-size: 16px;
 }
 
+.home{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    padding-top:10vh;
+
+
+}
+.right-box{
+    order:2;
+    width:20vw;
+    height:50%;
+}
+
+.left-box{
+    order: 1;
+    width:70vw;
+    height:50%;
+}
+.footer{
+    order:3;
+    background-color: #F1F1F1EF;
+    width:100vw;
+    display:flex;
+    flex-wrap:wrap;
+}
+img#Spis{
+    height:90%;
+    width:90%;
+}
+img#pytanie1{
+    width:65%;
+}
+img#pytanie2{
+    width:65%;
+}
+img#pytanie3{
+    width:65%;
+}
+
 .nav_links, .nav_links2{
     list-style: none;
     color: #edf0f1;

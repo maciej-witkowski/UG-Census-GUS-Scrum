@@ -39,13 +39,14 @@ const Home = ({dispatch, profile}) => {
     }, [profile])
 
     return(
-    <div className={"home"}>
-        {/*<button className="test" onClick={setUser}>Set example user</button>*/}
-        {/*<button className="test" onClick={setAdmin}>Set example admin</button>*/}
-        <div className={"left-box"}>
-            <img src={spis} alt="Spis"/>
+        <div className={"home"}>
+            {/*<button className="test" onClick={setUser}>Set example user</button>*/}
+            {/*<button className="test" onClick={setAdmin}>Set example admin</button>*/}
+            <div className={"left-box"}>
+                <img src={spis} id="Spis" alt="Spis"/>
+            </div>
             <div className={"footer"}>
-                <img src={logo2} alt="logo2"/>
+                <img src={logo2} id="logo2" alt="logo2"/>
                 <div className={"address"}>
                     <img src={gus} alt="gus"/>
                     <div style={{"color": "black", "fontSize": "1.2em"}}>
@@ -53,15 +54,15 @@ const Home = ({dispatch, profile}) => {
                         02-999 Warszawa
                     </div>
                 </div>
-                <img src={icons} alt="icons"/>
+                <img src={icons} id="icons" alt="icons"/>
             </div>
-        </div>
-        <div className={"right-box"}>
-            <img src={pytanie1} alt="pytanie1"/>
-            <img src={pytanie2} alt="pytanie2"/>
-            <img src={pytanie3} alt="pytanie3"/>
-        </div>
-    </div>)
+
+            <div className={"right-box"}>
+                <img src={pytanie1} id="pytanie1" alt="pytanie1"/>
+                <img src={pytanie2} id="pytanie2" alt="pytanie2"/>
+                <img src={pytanie3} id="pytanie3" alt="pytanie3"/>
+            </div>
+        </div>)
 }
 
 
