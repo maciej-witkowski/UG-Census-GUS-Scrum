@@ -84,9 +84,8 @@ const LogInForm = ({profile, users, dispatch}) => {
                 console.log(info.haslo);
                 if (user.password === info.haslo) {
                     dispatch(actions.logIn(user));  // set redux profile
-                    event.target.submit();  // accept form
-                }
-                else {
+                    event.target.reset();  // accept form
+                } else {
                     alert("Niepoprawne hasło! Spróbuj ponownie.");
                 }
             }

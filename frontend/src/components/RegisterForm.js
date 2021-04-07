@@ -99,20 +99,20 @@ const RegisterForm = ({poll, profile, dispatch}) => {
             let info;
             if(person === 'admin'){
                 info = {
-                    imie: imie.value, 
-                    nazwisko: nazwisko.value, 
+                    firstName: imie.value,
+                    lastName: nazwisko.value,
                     pesel: pesel.value,
-                    haslo: hasło.value, 
-                    idAdmin: idAdmin.value, 
+                    password: hasło.value,
+                    admin_id: idAdmin.value,
                     role: 'admin'
                 }
             }
             else{
                 info = {
-                    imie: imie.value, 
-                    nazwisko: nazwisko.value, 
+                    firstName: imie.value,
+                    lastName: nazwisko.value,
                     pesel: pesel.value,
-                    haslo: hasło.value, 
+                    password: hasło.value,
                     role: 'user'
                 }
             }
@@ -120,7 +120,7 @@ const RegisterForm = ({poll, profile, dispatch}) => {
             dispatch(actions.register(info))
     
             setWarning("")
-            event.target.submit();
+            event.target.reset();
         }
     }
 
