@@ -1,8 +1,10 @@
 import {combineReducers} from "redux";
 import profile from "./profile";
+import poll from './poll';
 
 const rootReducer = combineReducers({
-    profile
+    profile,
+    poll
 })
 
 export default rootReducer;

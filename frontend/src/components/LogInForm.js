@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CreateInput from './CreateInput'
-const axios = require('axios');
+import * as actions from "../actions/actionCreators";
+import {connect} from "react-redux";
 
 const formStyle = {
     margin: 'auto',
@@ -16,7 +17,11 @@ const buttonStyle = {
     color: '#f2f2f2'
 }
 
-const LogInForm = () => {
+const mapStateToProps = state => ({
+    profile: state.profile.profile
+})
+
+const LogInForm = ({profile, dispatch}) => {
     const [warning, setWarning] = useState("")
     const [person, setPerson] = useState("user")
 
@@ -47,12 +52,13 @@ const LogInForm = () => {
         }
 
         if(!check){
-            axios.post('http://localhost:3000',
-                {pesel: pesel.value, idAdmin: idAdmin, role: person, haslo: hasło.value})
-                .then(response => {
-                    console.log(response.data)
-                })
-                .catch(err => console.log(err))
+            const info = {
+                pesel: pesel.value, 
+                idAdmin: idAdmin, 
+                role: person, 
+                haslo: hasło.value
+            }
+            dispatch(actions.logIn(info));
             event.target.submit();
         }
     }
@@ -100,5 +106,4 @@ const LogInForm = () => {
     )
 
 }
-
-export default LogInForm;
+export default connect(mapStateToProps)(LogInForm);

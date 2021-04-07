@@ -16,3 +16,17 @@ export const logOut = () => {
         payload: {}
     }
 }
+
+export const sendPolls = (poll) => {
+    return {
+        type: actions.SEND_POLLS,
+        payload: poll
+    }
+}
+
+export const register = (info) => {
+    return {
+        type: actions.REGISTER,
+        payload: info
+    }
+}
