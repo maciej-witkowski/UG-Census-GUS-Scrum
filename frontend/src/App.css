@@ -70,8 +70,20 @@ li, button, div {
     color: #edf0f1;
 }
 
-.cta:hover {
+.cta:hover, .cta2:hover {
     background-color: rgba(0, 136, 169, 0.8);
+}
+
+.cta2 {
+    text-decoration: none;
+    padding: 6px 10px;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    color: #edf0f1;
+    margin: 8px;
 }
 
 .add {
@@ -99,6 +111,11 @@ li, button, div {
         padding: 8px 5%;
     
     }
+
+    .poll-col25, .poll-col75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
 }
 
 @media screen and (max-width: 770px){
@@ -110,8 +127,35 @@ li, button, div {
     }
     .header {
         padding: 8px 8%;
-    
     }
+    .poll-col25, .poll-col75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
+}
+
+.poll-container {
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.poll-col25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+  
+
+.poll-col75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 
@@ -121,4 +165,10 @@ li, button, div {
 
 p {
     color: black;
+}
+
+b {
+    font-size: 15px;
+    margin-top: 15px;
+    color: rgba(0, 136, 169, 0.8);
 }

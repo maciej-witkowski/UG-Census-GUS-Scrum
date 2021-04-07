@@ -94,7 +94,9 @@ const Polls = ({poll, dispatch}) => {
     return(
         <div>
             <h1>Ankieta</h1>
-            <PollInputs user={poll} sendInfo={sendInfo} />
+            <div className="poll-container">
+                <PollInputs user={poll} sendInfo={sendInfo} />
+            </div>
         </div>
     )
 
