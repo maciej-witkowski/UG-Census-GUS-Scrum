@@ -1,4 +1,4 @@
-import {LOG_IN, LOG_OUT, SEND_POLLS} from "../actions/actionTypes";
+import {LOG_IN, LOG_OUT} from "../actions/actionTypes";
 
 const initialState = {
     profile: {}

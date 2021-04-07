@@ -1,27 +1,16 @@
 const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 
-const app = express();
+const users = require('./routes/users');
+const polls = require('./routes/polls');
+
 app.use(express.json());
 app.use(cors());
 
-const User = require('./Models/User');
-
-app.get('/', (req, res) => {
-  return res.send('Hello World!');
-});
-
-// user schema test
-app.post('/', async (req, res) => {
-  const new_user = new User({
-    ...req.body
-  });
-
-  new_user.save().then(user => res.json(user));
-  res.send(req.body)
-});
+app.use('/users', users);
+users.use('/:userId/poll', polls);
 
 const dbConnData = {
   username: process.env.MONGO_USERNAME_ADMIN,

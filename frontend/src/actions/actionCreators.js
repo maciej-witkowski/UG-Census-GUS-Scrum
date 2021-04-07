@@ -29,12 +29,25 @@ export const register = (info) => {
         type: actions.REGISTER,
         payload: info
     }
-
 }
 
 export const findUser = (user) => {
     return {
         type: actions.FIND_USER,
         payload: user
+    }
+}
+
+export const updateUser = (update) => {
+    return {
+        type: actions.SEND_UPDATE,
+        payload: update
+    }
+}
+
+export const deleteUser = (pesel) => {
+    return {
+        type: actions.DELETE_USER,
+        payload: pesel
     }
 }
