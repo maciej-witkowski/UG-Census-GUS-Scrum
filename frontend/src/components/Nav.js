@@ -49,9 +49,9 @@ const Nav = ({profile}) => {
 
             {/*po zalogowaniu jako uzytkownik*/}
             {Object.keys(profile).length !== 0 && profile.role==="user"? (
-            <ul className="nav_links">
-                <li><Link className="nav_links2" to={"/polls"}>Ankiety</Link></li>
-                <li><Link className="nav_links2" to={"/profile"}>Profil</Link></li>
+            <ul className="navbar-end mt-1">
+                <li><Link className="navbar-item has-text-centered has-text-weight-bold" to={"/polls"}>Ankiety</Link></li>
+                <li><Link className="navbar-item has-text-centered has-text-weight-bold mr-3" to={"/profile"}>Profil</Link></li>
             </ul>
             ):null}
             
@@ -66,7 +66,7 @@ const Nav = ({profile}) => {
             ):null}
 
             {/*po zalogowaniu zawsze*/}
-            {Object.keys(profile).length !== 0?(<Link className="nav_links" to={"/logout"}><button className="cta">Wylogowanie</button></Link>):null}
+            {Object.keys(profile).length !== 0?(<Link className="button is-danger" to={"/logout"}><button className="button is-danger is-1">Wylogowanie</button></Link>):null}
             
         </div>
     )
