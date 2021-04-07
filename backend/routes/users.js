@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+
+const Poll = require('../Models/Poll');
 const User = require('../Models/User');
 
 router.get('/', async (req, res) => {
@@ -33,6 +35,32 @@ router.post('/registration', async (req, res) => {
                 success: false
             });
         });
+});
+
+router.post('/login', async (req, res) => {
+    const pesel = req.body.pesel;
+
+    const foundUser = await User.findOne({ pesel: pesel });
+
+    if (foundUser) {
+        const foundPoll = await Poll.findOne({ pesel: pesel });
+        if (foundPoll) {
+            res.json({
+                profile: foundUser,
+                poll: foundPoll
+            });
+        } else {
+            res.json({
+                profile: foundUser,
+                poll: foundPoll
+            });
+        }
+    } else {
+        res.json({
+            profile: {},
+            poll: {}
+        });
+    }
 });
 
 module.exports = router;

@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const pollSchema = new Schema({
     type: String,
+    pesel: String,
     name: String,
     nationality: String,
     disability: Boolean,
