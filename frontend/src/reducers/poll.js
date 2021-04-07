@@ -57,13 +57,12 @@ const poll = (state = initialState, action) => {
         case LOG_OUT:
             return {
                 ...state, ...initialState
-                
             }
         case SEND_POLLS:
             return {
                 ...state,
                 poll: {...state.poll, ...action.payload}
-                }
+            }
         default:
             return state;
     }
