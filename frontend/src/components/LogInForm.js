@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import CreateInput from './CreateInput'
 import * as actions from "../actions/actionCreators";
 import {connect} from "react-redux";
@@ -18,12 +18,20 @@ const buttonStyle = {
 }
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile
+    profile: state.profile.profile,
+    users: state.users.users
 })
 
-const LogInForm = ({profile, dispatch}) => {
+const LogInForm = ({profile, users, dispatch}) => {
     const [warning, setWarning] = useState("")
     const [person, setPerson] = useState("user")
+
+    useEffect(() => {
+        dispatch(actions.getUsers()); // as page loads - get all users from database - update redux memory
+        // - to compare and allow logging in
+        // check if user exists in the database - find user in db
+        // compare password from database with the one typed when logging in
+    }, [])
 
     const sendInfo = (event) => {
         event.preventDefault()
@@ -58,8 +66,30 @@ const LogInForm = ({profile, dispatch}) => {
                 role: person, 
                 haslo: hasło.value
             }
-            dispatch(actions.logIn(info));
-            event.target.submit();
+
+            let foundUser;
+            if (info.role === 'user') {
+                foundUser = users.filter(user => user.pesel === info.pesel);
+            }
+            if (info.role === 'admin') {
+                foundUser = users.filter(user => user.admin_id === info.idAdmin);
+            }
+            if (foundUser.length === 0) {
+                alert("Użytkownik nie istnieje w bazie danych");
+            }
+            else {
+                const user = foundUser[0];
+                console.log(user);
+                console.log(user.password);
+                console.log(info.haslo);
+                if (user.password === info.haslo) {
+                    dispatch(actions.logIn(user));  // set redux profile
+                    event.target.submit();  // accept form
+                }
+                else {
+                    alert("Niepoprawne hasło! Spróbuj ponownie.");
+                }
+            }
         }
     }
 
@@ -68,7 +98,7 @@ const LogInForm = ({profile, dispatch}) => {
     }
 
     const data = [
-        person === 'user' ? ['pesel', 'Pesel'] : ['idAdmin', 'ID Admin *'], 
+        person === 'user' ? ['pesel', 'Pesel'] : ['idAdmin', 'ID Admin '],
         ['hasło', 'Hasło']
     ]
 
