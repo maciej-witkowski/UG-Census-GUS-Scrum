@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import * as actions from "../actions/actionCreators";
 
 
 const mapStateToProps = state => ({
@@ -24,26 +23,28 @@ const linkStyle = {
 }
 
 
-const Nav = ({profile, dispatch}) => {
+const Nav = ({profile}) => {
 
     useEffect(()=> {
         Object.keys(profile).length !== 0? console.log(profile.role): console.log("No profile");
     }, [profile])
 
-    const logout = () => {
-        dispatch(actions.logOut());  // profile = {}
-    }
+
 
     return (
         <div style={navStyle}>
             {/*zawsze*/}
-            <Link style={linkStyle} to={"/"}>Home</Link>
+
+            {/*<img src="../../pics/logo.png" alt={"logo-gus"}/>*/}
+            <Link style={linkStyle} to={"/"}>Strona główna</Link>
             <Link style={linkStyle} to={"/stats"}>Statystyki</Link>
             <Link style={linkStyle} to={"/info"}>Informacje</Link>
 
             {/*przed zalogowaniem*/}
+            <div className={"register-links"}>
             {Object.keys(profile).length === 0? (<Link style={linkStyle} to={"/register"}>Rejestracja</Link>):null}
             {Object.keys(profile).length === 0? (<Link style={linkStyle} to={"/login"}>Logowanie</Link>):null}
+            </div>
 
             {/*po zalogowaniu jako uzytkownik*/}
             {Object.keys(profile).length !== 0 && profile.role==="user"? (<Link style={linkStyle} to={"/polls"}>Ankiety</Link>):null}
@@ -53,8 +54,10 @@ const Nav = ({profile, dispatch}) => {
             {Object.keys(profile).length !== 0 && profile.role==="admin"? (<Link style={linkStyle} to={"/add"}>Dodaj</Link>):null}
 
             {/*po zalogowaniu zawsze*/}
-            {Object.keys(profile).length !== 0?(<button onClick={logout}>Wylogowanie</button>) : null}
-            {Object.keys(profile).length !== 0? (<Link style={linkStyle} to={"/profile"}>Profile</Link>):null}
+            <div className={"register-links"}>
+            {Object.keys(profile).length !== 0?(<Link style={linkStyle} to={"/logout"}>Wylogowanie</Link>):null}
+            {Object.keys(profile).length !== 0? (<Link style={linkStyle} to={"/profile"}>Profil</Link>):null}
+            </div>
         </div>
     )
 }
