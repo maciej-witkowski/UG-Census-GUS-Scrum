@@ -9,7 +9,7 @@ const profile = (state = initialState, action) => {
     switch(action.type) {
         case LOG_IN:
             return {
-                profile: {...state.profile, ...action.payload}
+                profile: {...state.profile, ...action.payload.profile}
             }
         case LOG_OUT:
             return {

@@ -52,7 +52,7 @@ const poll = (state = initialState, action) => {
     switch(action.type) {
         case LOG_IN:
             return {
-                poll: {...state.poll, ...action.payload},
+                poll: {...state.poll, ...action.payload.poll},
             }
         case LOG_OUT:
             return {
