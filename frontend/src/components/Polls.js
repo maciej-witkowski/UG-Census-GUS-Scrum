@@ -12,6 +12,7 @@ const mapStateToProps = state => ({
 
 const Polls = ({poll, read, dispatch}) => {
     const sendInfo = (event) => {
+        event.preventDefault()
         const {
             name,
             pesel,

@@ -68,9 +68,11 @@ const poll = (state = initialState, action) => {
                 ...state, ...initialState
             }
         case SEND_POLLS:
+            console.log("SUIODHJASIOW")
             return {
                 ...state,
-                poll: {...state.poll, ...action.payload.poll}
+                poll: {...state.poll, ...action.payload.poll},
+                read: false
             }
         default:
             return state;

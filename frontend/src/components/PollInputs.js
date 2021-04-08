@@ -1,8 +1,13 @@
 import {React} from "react";
+import {connect} from "react-redux";
 
-const PollInputs = ({sendInfo, read, user, deleteUser}) => (
+const mapStateToProps = state => ({
+    profile: state.profile.profile
+});
+
+const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
     <form className={"box ml-6 mr-6 mb-6"} onSubmit={sendInfo}>
-        <fieldset disabled={!read ? "disabled" : ""}>
+        <fieldset disabled={!read && !profile.admin_id? "disabled" : ""}>
             <div className={"field is-centered"}>
                 <div className={"column is-centered mx-6 is-5"}>
                     <div>
@@ -317,13 +322,13 @@ const PollInputs = ({sendInfo, read, user, deleteUser}) => (
                     <button className={"button is-success is-large"} type='submit'>Wyślij ankietę</button>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5 mb-6"}>
+                {profile.admin_id ? <div className={"column is-centered mx-6 is-5 mb-6"}>
                     <input className={"button is-danger is-large"} type="button" value="Usuń ankietę" onClick={deleteUser} />
-                </div>
+                </div> : null }
 
             </div>
         </fieldset>
     </form>
 )
 
-export default PollInputs;
+export default connect(mapStateToProps)(PollInputs);
