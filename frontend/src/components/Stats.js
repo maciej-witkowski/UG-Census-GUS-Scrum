@@ -147,7 +147,7 @@ const Stats = () => {
                 </div>
 
                 <div className={"box has-text-centered m-6"}>
-                    <p className={"title has-text-primary is-2"}>{ilemapartnerke}<b className={"subtitle"}> ma partnera/prtnerkę</b> </p>
+                    <p className={"title has-text-primary is-2"}>{ilemapartnerke}<b className={"subtitle"}> osób ma partnera/partnerkę</b> </p>
                 </div>
             </div>
         </div>
