@@ -104,10 +104,10 @@ const LogInForm = ({profile, users, dispatch}) => {
                 <div>
                     <input 
                         style={
-                            {...buttonStyle, 
+                            {...buttonStyle,
                             width: '40%',
                             margin: '20px'}
-                        } 
+                        }
                         type="button" 
                         value="Administrator" 
                         onClick={() => switchPerson("admin")}/>
@@ -125,7 +125,7 @@ const LogInForm = ({profile, users, dispatch}) => {
                     <CreateInput key={item[0]} info = {item} />
                 ))}
                 <p style={{color: 'red'}}>{warning}</p>
-                <button style={buttonStyle} type='submit'>Zatwierdź</button>
+                <button className={"button is-success mb-4"} type='submit'>Zatwierdź</button>
             </form>
         </div>
     )
