@@ -63,7 +63,7 @@ export const logOut = () => {
 
 export const sendPolls = (poll) => {
     return (dispatch) => {
-        return axios.post("http://localhost:3000/users/poll", {...poll})
+        return axios.post("http://localhost:3000/polls/", {...poll})
             .then(response => {
                 return response.data
             })
@@ -96,7 +96,7 @@ export const register = (info) => {
 
 export const findUser = (user) => {
     return (dispatch) => {
-        return axios.post("http://localhost:3000/users/find", {pesel: user.pesel})
+        return axios.get("http://localhost:3000/users/find", {pesel: user.pesel})
             .then(response => {
                 return response.data
             })
@@ -114,7 +114,7 @@ export const findUser = (user) => {
 
 export const updateUser = (update) => {
     return (dispatch) => {
-        return axios.post("http://localhost:3000/users/poll/update", {...update})
+        return axios.patch("http://localhost:3000/polls/patch", {...update})
             .then(response => {
                 return response.data
             })
@@ -132,7 +132,7 @@ export const updateUser = (update) => {
 
 export const deleteUser = (pesel) => {
     return (dispatch) => {
-        return axios.post("http://localhost:3000/users/delete", {...pesel})
+        return axios.delete("http://localhost:3000/users/delete", {...pesel})
             .then(response => {
                 return response.data
             })
