@@ -60,32 +60,28 @@ const LogInForm = ({profile, users, dispatch}) => {
         }
 
         if(!check){
-            const info = {
-                pesel: pesel.value, 
-                idAdmin: idAdmin, 
-                role: person, 
-                haslo: hasło.value
-            }
-
             let foundUser;
-            if (info.role === 'user') {
-                foundUser = users.filter(user => user.pesel === info.pesel);
+            if (person === 'user') {
+                foundUser = users.filter(user => user.pesel === pesel.value);
+
             }
-            if (info.role === 'admin') {
-                foundUser = users.filter(user => user.admin_id === info.idAdmin);
+            if (person === 'admin') {
+                foundUser = users.filter(user => user.admin_id === idAdmin.value);
             }
             if (foundUser.length === 0) {
                 alert("Użytkownik nie istnieje w bazie danych");
             }
             else {
                 const user = foundUser[0];
-                console.log(user);
-                console.log(user.password);
-                console.log(info.haslo);
-                if (user.password === info.haslo) {
-                    dispatch(actions.logIn(user));  // set redux profile
+                if (user.password === hasło.value && person === "user") {
+                    dispatch(actions.logInUser(user));  // set redux profile
                     event.target.reset();  // accept form
-                } else {
+                }
+                else if (user.password === hasło.value && person === "admin") {
+                    dispatch(actions.logInAdmin(user));  // set redux profile
+                    event.target.reset();  // accept form
+                }
+                else {
                     alert("Niepoprawne hasło! Spróbuj ponownie.");
                 }
             }

@@ -16,23 +16,23 @@ const mapStateToProps = state => ({
 
 const Home = ({dispatch, profile}) => {
 
-    // for testing
-    const setUser = () => {
-        const user = {
-            role: "user",
-            pesel: "98060799867"
-        }
-        dispatch(actions.logIn(user));
-    }
-
-    // for testing
-    const setAdmin = () => {
-        const admin = {
-            role: "admin",
-            admin_id: "ddfgfgd55"
-        }
-        dispatch(actions.logIn(admin));
-    }
+    // // for testing
+    // const setUser = () => {
+    //     const user = {
+    //         role: "user",
+    //         pesel: "98060799867"
+    //     }
+    //     dispatch(actions.logInUser(user));
+    // }
+    //
+    // // for testing
+    // const setAdmin = () => {
+    //     const admin = {
+    //         role: "admin",
+    //         admin_id: "ddfgfgd55"
+    //     }
+    //     dispatch(actions.logInAdmin(admin));
+    // }
 
     useEffect(()=> {
         Object.keys(profile).length !== 0? console.log(profile.role): console.log("No profile");

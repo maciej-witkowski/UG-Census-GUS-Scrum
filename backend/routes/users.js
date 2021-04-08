@@ -22,6 +22,7 @@ router.post('/registration', async (req, res) => {
         ...req.body
     });
 
+
     new_user.save()
         .then((user) => {
             res.json({
@@ -30,20 +31,46 @@ router.post('/registration', async (req, res) => {
             });
         })
         .catch((error) => {
-            console.log(console.log(error))
+            console.log(error);
             res.status(404).json({
                 success: false
             });
         });
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login/user', async (req, res) => {
     const pesel = req.body.pesel;
 
     const foundUser = await User.findOne({ pesel: pesel });
 
     if (foundUser) {
         const foundPoll = await Poll.findOne({ pesel: pesel });
+        if (foundPoll) {
+            res.json({
+                profile: foundUser,
+                poll: foundPoll
+            });
+        } else {
+            res.json({
+                profile: foundUser,
+                poll: foundPoll
+            });
+        }
+    } else {
+        res.json({
+            profile: {},
+            poll: {}
+        });
+    }
+});
+
+router.post('/login/admin', async (req, res) => {
+    const admin_id = req.body.admin_id;
+
+    const foundUser = await User.findOne({ admin_id: admin_id });
+
+    if (foundUser) {
+        const foundPoll = await Poll.findOne({ pesel: foundUser.pesel });
         if (foundPoll) {
             res.json({
                 profile: foundUser,

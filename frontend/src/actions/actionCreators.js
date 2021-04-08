@@ -19,9 +19,26 @@ export const getUsers = () => {
     };
 };
 
-export const logIn = (user) => {
+export const logInUser = (user) => {
     return (dispatch) => {
-        return axios.post("http://localhost:3000/users/login", {pesel: user.pesel})
+        return axios.post("http://localhost:3000/users/login/user", {pesel: user.pesel})
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: actions.LOG_IN,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+export const logInAdmin = (user) => {
+    return (dispatch) => {
+        return axios.post("http://localhost:3000/users/login/admin", {admin_id: user.admin_id})
             .then(response => {
                 return response.data
             })
