@@ -19,7 +19,7 @@ const Logout = ({dispatch}) => {
 
     return(
     <div>
-        <h1 className={"title has-text-danger-dark has-text-weight-bold mt-6"}>Użytkownik poprawnie wylogowany.</h1>
+        <h1 className={"title has-text-danger-dark has-text-weight-bold mt-6"}>Zostałeś poprawnie wylogowany.</h1>
     </div>)
 }
 
