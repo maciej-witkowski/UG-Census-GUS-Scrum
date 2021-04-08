@@ -110,16 +110,12 @@ router.post('/login/admin', async (req, res) => {
     }
 });
 
-router.delete('/deleteByPESEL', async (req, res) => {
-    const pesel = req.body.pesel;
-
-    User.findOneAndDelete({ pesel: pesel }).then(() => {
-        Poll.findOneAndDelete({ pesel: pesel }).then(() => {
-            res.send("Success")
-        })
-            .catch(err => { console.log(err); res.send(err) })
+router.delete('/deleteByPESEL/:pesel', async (req, res) => {
+    const pesel = req.params.pesel;
+    Poll.findOneAndDelete({ pesel: pesel }).then(() => {
+        res.json("Success")
     })
-        .catch(err => { console.log(err); res.send(err) });
+    .catch(err => { console.log(err); res.json(err) })
 });
 
 module.exports = router;

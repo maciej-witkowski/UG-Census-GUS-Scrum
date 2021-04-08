@@ -132,7 +132,7 @@ export const updateUser = (update) => {
 
 export const deleteUser = (pesel) => {
     return (dispatch) => {
-        return axios.delete("http://localhost:3000/users/deleteByPESEL", {...pesel})
+        return axios.delete(`http://localhost:3000/users/deleteByPESEL/${pesel}`)
             .then(response => {
                 return response.data
             })

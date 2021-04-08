@@ -99,7 +99,7 @@ const Polls = ({poll, read, dispatch}) => {
         <div>
             <h1 className="title">Ankiety</h1>
             <div>
-                <PollInputs user={poll} read={read} sendInfo={sendInfo} />
+                <PollInputs user={poll} read={read} sendInfo={sendInfo}/>
             </div>
         </div>
     )
