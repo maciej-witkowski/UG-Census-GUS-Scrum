@@ -4,10 +4,6 @@ import * as actions from "../actions/actionCreators";
 import {connect} from "react-redux";
 import PollInputs from './PollInputs';
 
-const formStyle = {
-    margin: 'auto',
-    width: '50%',
-}
 
 const mapStateToProps = state => ({
     user: state.user.user,
@@ -120,13 +116,13 @@ const Database = ({user, dispatch}) => {
     }
     
     return (
-        <div style={formStyle}>
+        <div>
             <h1 className="title">Baza danych</h1>
             {!find ? (
                 <form className={"box m-6"} onSubmit={sendFind}>
-                    <div className={"field is-centered"}>
+                    <div className={"field is-centered has-text-centered"}>
                         <h2 className={"subtitle"}>Wprowadż dane szukanego użytkownika:</h2>
-                        <div>
+                        <div className={""}>
                             {data.map(item => (
                                 <CreateInput key={item[0]} info = {item} />
                             ))}

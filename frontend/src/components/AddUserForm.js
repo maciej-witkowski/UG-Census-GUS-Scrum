@@ -3,10 +3,6 @@ import CreateInput from './CreateInput'
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
 
-const formStyle = {
-    margin: 'auto',
-    width: '50%',
-}
 
 const data = [
     ['imie', 'Imię *'],
@@ -91,9 +87,9 @@ const AddUserForm = ({poll, profile, dispatch}) => {
 
 
     return(
-        <div style={formStyle}>
+        <div>
             <h1 className="title">Dodaj użytkownika</h1>
-            <div className={"box m-6"}>
+            <div className={"box m-6 is-centered has-text-centered"}>
                 <form onSubmit={sendInfo}>
                     {data.map(item => (
                         <CreateInput key={item[0]} info = {item} />

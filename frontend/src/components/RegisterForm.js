@@ -133,14 +133,14 @@ const RegisterForm = ({poll, profile, dispatch}) => {
                             value="Użytkownik"
                             onClick={() => switchPerson("user")}/>
                     </div>
-                    <div className={"ml-6 has-text-centered"}>
+                    <div className={"has-text-centered"}>
                         {person === "admin" && (
                             <CreateInput key='idAdmin' info={['idAdmin', 'ID Admin *']} />
                         )}
                         {data.map(item => (
                             <CreateInput key={item[0]} info={item} />
                         ))}
-                        <p className={"mr-6"} style={{color: 'red'}}>{warning}</p>
+                        <p style={{color: 'red'}}>{warning}</p>
                     </div>
                     <div className={"field has-text-centered"}>
                         <button className={"button is-success"} type='submit'>Zatwierdź</button>
