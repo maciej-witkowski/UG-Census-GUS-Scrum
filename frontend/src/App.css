@@ -30,6 +30,27 @@ li, button, div {
     color: #edf0f1;
 
 }
+#statystyki{
+    color:black;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    align-items:center;
+}
+#polaankiet{
+    width:23vw;
+    height:15vw;
+    display:flex;
+    flex-direction: column;
+    color:black;
+    align-items:center;
+
+}
+#wartosci{
+    color:black;
+    display:flex;
+    justify-content: center;
+}
 
 .logo {
     cursor: pointer;
@@ -149,7 +170,7 @@ img#pytanie3{
     }
     .header {
         padding: 8px 5%;
-    
+
     }
 
     .poll-col25, .poll-col75, input[type=submit] {
@@ -159,7 +180,7 @@ img#pytanie3{
 
     .info-kontakt, .info-informacja, .info-statystyczna{
         width: 100%;
-      }
+    }
 }
 
 @media screen and (max-width: 770px){
@@ -188,7 +209,7 @@ img#pytanie3{
     width: 25%;
     margin-top: 6px;
 }
-  
+
 
 .poll-col75 {
     float: left;
@@ -296,7 +317,7 @@ b {
     float: left;
     width: 33.33%;
 }
- 
+
 .info-row{
     margin: 60px;
 }
