@@ -25,7 +25,8 @@ mongoose
   .connect(`mongodb+srv://${dbConnData.username}:${dbConnData.password}@clustermain.dxauc.mongodb.net/db?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
   })
   .then(response => {
     console.log(`Connected to MongoDB. Database name: "${response.connections[0].name}"`)

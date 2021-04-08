@@ -22,7 +22,6 @@ router.post('/registration', async (req, res) => {
         ...req.body
     });
 
-
     new_user.save()
         .then((user) => {
             res.json({
@@ -114,13 +113,13 @@ router.post('/login/admin', async (req, res) => {
 router.delete('/deleteByPESEL', async (req, res) => {
     const pesel = req.body.pesel;
 
-    User.findOneAndDelete({ pesel: pesel }).then(()=>{
-        Poll.findOneAndDelete({ pesel: pesel }).then(()=>{
+    User.findOneAndDelete({ pesel: pesel }).then(() => {
+        Poll.findOneAndDelete({ pesel: pesel }).then(() => {
             res.send("Success")
         })
-        .catch(err=>{console.log(err); res.send(err)})
+            .catch(err => { console.log(err); res.send(err) })
     })
-    .catch(err=>{console.log(err); res.send(err)});
+        .catch(err => { console.log(err); res.send(err) });
 });
 
 module.exports = router;
