@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import * as actions from "../actions/actionCreators";
 import {connect} from "react-redux";
 import spis from '../spis.jpg';
 import pytanie1 from '../pytanie1.png';

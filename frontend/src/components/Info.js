@@ -14,8 +14,6 @@ const Info = () => (
             spisy powszechne są dla państwa jedynym źródłem danych.</p><br/>
             <p>Uzyskane podczas spisu powszechnego dane indywidualne są opracowywane i przedstawiane w postaci agregatów danych o różnych przekrojach i na różnych poziomach podziału terytorialnego i administracyjnego kraju. Wyniki spisu umożliwiają analizę i ocenę zróżnicowania przemian demograficznych i społecznych w dowolnych przekrojach. 
             Na ich podstawie rząd podejmuje najważniejsze decyzje gospodarcze i społeczne na kolejne lata.</p>
-            <a> @GUS </a>
-            <a>#GlownyUrzadStatystyczny </a>
 
         </div>
         <div className="info-FAQ box">

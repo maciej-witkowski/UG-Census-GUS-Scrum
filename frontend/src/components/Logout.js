@@ -15,7 +15,7 @@ const Logout = ({dispatch}) => {
 
     useEffect(() => {
         logout()
-    }, [])
+    }, []);
 
     return(
     <div>

@@ -8,15 +8,6 @@ const formStyle = {
     width: '50%',
 }
 
-const buttonStyle = {
-    marginTop: '20px',
-    padding: '10px',
-    background: '#333',
-    borderRadius: '5px',
-    border: '1px solid #333',
-    color: '#f2f2f2'
-}
-
 const mapStateToProps = state => ({
     profile: state.profile.profile,
     users: state.users.users
@@ -27,11 +18,12 @@ const LogInForm = ({profile, users, dispatch}) => {
     const [person, setPerson] = useState("user")
 
     useEffect(() => {
-        dispatch(actions.getUsers()); // as page loads - get all users from database - update redux memory
+        dispatch(actions.getUsers());
+        // as page loads - get all users from database - update redux memory
         // - to compare and allow logging in
         // check if user exists in the database - find user in db
         // compare password from database with the one typed when logging in
-    }, [])
+    }, []);
 
     const sendInfo = (event) => {
         event.preventDefault()

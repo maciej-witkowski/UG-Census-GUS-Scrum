@@ -12,11 +12,7 @@ const mapStateToProps = state => ({
 
 const Nav = ({profile}) => {
 
-    useEffect(()=> {
-        Object.keys(profile).length !== 0? console.log(profile.role): console.log("No profile");
-    }, [profile])
-
-
+    useEffect(()=> {}, [profile])
 
     return (
         <div className={"navbar box"}>
