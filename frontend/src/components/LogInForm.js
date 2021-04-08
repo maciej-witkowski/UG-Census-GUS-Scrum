@@ -100,33 +100,29 @@ const LogInForm = ({profile, users, dispatch}) => {
     return (
         <div style={formStyle}>
             <h1 className="title">Logowanie</h1>
-            <form onSubmit={sendInfo}>
-                <div>
-                    <input 
-                        style={
-                            {...buttonStyle,
-                            width: '40%',
-                            margin: '20px'}
-                        }
-                        type="button" 
-                        value="Administrator" 
-                        onClick={() => switchPerson("admin")}/>
-                    <input 
-                        style={
-                            {...buttonStyle, 
-                            width: '40%',
-                            margin: '20px'}
-                        } 
-                        type="button" 
-                        value="Użytkownik" 
-                        onClick={() => switchPerson("user")}/>
-                </div>
-                {data.map(item => (
-                    <CreateInput key={item[0]} info = {item} />
-                ))}
-                <p style={{color: 'red'}}>{warning}</p>
-                <button className={"button is-success mb-4"} type='submit'>Zatwierdź</button>
-            </form>
+            <div className={"box m-6"}>
+                <form onSubmit={sendInfo}>
+                    <div className={"columns is-centered"}>
+                        <input
+                            className={"button is-large is-warning mt-6 mr-6 ml-6 mb-3"}
+                            type="button"
+                            value="Administrator"
+                            onClick={() => switchPerson("admin")}/>
+                        <input
+                            className={"button is-large is-info mt-6 mr-6 ml-6 mb-4"}
+                            type="button"
+                            value="Użytkownik"
+                            onClick={() => switchPerson("user")}/>
+                    </div>
+                    <div className={"ml-6"}>
+                        {data.map(item => (
+                            <CreateInput key={item[0]} info={item} />
+                        ))}
+                        <p style={{color: 'red'}}>{warning}</p>
+                    </div>
+                    <button className={"button is-success mb-4 ml-6 mt-3"} type='submit'>Zatwierdź</button>
+                </form>
+            </div>
         </div>
     )
 

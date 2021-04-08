@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="836cf2a7-f00c-4deb-8894-71c85cfe72f7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AddUserForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AddUserForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/CreateInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CreateInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Database.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Database.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Nav.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LogInForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LogInForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/RegisterForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/RegisterForm.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
