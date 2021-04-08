@@ -58,10 +58,10 @@ const Nav = ({profile}) => {
 
             {/*po zalogowaniu jako admin*/}
             {Object.keys(profile).length !== 0 && profile.role==="admin"? (
-            <ul className="nav_links">
-                <li><Link  className="nav_links2" to={"/db"}>Baza danych</Link></li>
-                <li><Link  className="nav_links2" to={"/add"}>Dodaj</Link></li>
-                <li><Link className="nav_links2" to={"/profile"}>Profil</Link></li>
+            <ul className="navbar-end mt-1">
+                <li><Link  className="navbar-item has-text-centered has-text-weight-bold" to={"/db"}>Baza danych</Link></li>
+                <li><Link  className="navbar-item has-text-centered has-text-weight-bold" to={"/add"}>Dodaj</Link></li>
+                <li><Link className="navbar-item has-text-centered has-text-weight-bold mr-3" to={"/profile"}>Profil</Link></li>
             </ul>
             ):null}
 
