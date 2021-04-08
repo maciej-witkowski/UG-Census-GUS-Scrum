@@ -139,8 +139,7 @@ const Database = ({user, dispatch}) => {
             :
             (
                 <div>
-                    <PollInputs user={user} sendInfo={sendUpdate} />
-                    <input className={"button is-danger"} type="button" value="Usuń użytkownika" onClick={deleteUser} />
+                    <PollInputs user={user} sendInfo={sendUpdate} deleteUser={deleteUser} />
                 </div>
             )}
         </div>
