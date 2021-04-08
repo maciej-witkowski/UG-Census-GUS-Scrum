@@ -6,38 +6,38 @@ const mapStateToProps = state => ({
 });
 
 const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
-    <form className={"box ml-6 mr-6 mb-6"} onSubmit={sendInfo}>
+    <form className={"box m-4"} onSubmit={sendInfo}>
         <fieldset disabled={!read && !profile.admin_id? "disabled" : ""}>
             <div className={"field is-centered"}>
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className="label">Twoje imie:</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name="name" defaultValue={user.name} placeholder={"Imie"} readOnly/>
+                    <input className={"input is-info"} type="text" name="name" defaultValue={user.name} placeholder={"Imie"} readOnly/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className="label">Twoje nazwisko:</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name="surname" defaultValue={user.surname} placeholder={"Nazwisko"} readOnly/>
+                    <input className={"input is-info"} type="text" name="surname" defaultValue={user.surname} placeholder={"Nazwisko"} readOnly/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Twój PESEL:</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name="pesel" defaultValue={user.pesel} placeholder={"PESEL"} readOnly/>
+                    <input className={"input is-info"} type="text" name="pesel" defaultValue={user.pesel} placeholder={"PESEL"} readOnly/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Jaki jest twój kraj pochodzenia:</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name="nationality" defaultValue={user.nationality} placeholder={"Kraj pochodzenia"}/>
+                    <input className={"input is-info"} type="text" name="nationality" defaultValue={user.nationality} placeholder={"Kraj pochodzenia"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Czy jesteś niepełnosprawny?</p>
                     </div>
@@ -46,14 +46,14 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Data Twoich urodzin:</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="date" name='date' defaultValue={user.date_of_birth} placeholder={"YYYY-MM-DD"}/>
+                    <input className={"input is-info"} type="date" name='date' defaultValue={user.date_of_birth} placeholder={"YYYY-MM-DD"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Płeć</p>
                     </div>
@@ -72,14 +72,14 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Jakie jest twoje wyznanie?</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='confession' defaultValue={user.confession} placeholder={"Wyznanie"}/>
+                    <input className={"input is-info"} type="text" name='confession' defaultValue={user.confession} placeholder={"Wyznanie"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Jaki jest Twój stan cywilny?</p>
                     </div>
@@ -103,7 +103,7 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Jakie jest Twoje wykształcenie?</p>
                     </div>
@@ -124,11 +124,11 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5 mt-6"}>
+                <div className={"column is-centered mx-5 is-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim gospodarstwie domowym:</p>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Czy masz dzieci?</p>
                     </div>
@@ -146,7 +146,7 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Czy mieszkasz z rodzicami?</p>
                     </div>
@@ -165,7 +165,7 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                 </div>
 
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Czy masz partnera/partnerkę?</p>
                     </div>
@@ -183,147 +183,147 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                 </div>
 
-                <div className={"column is-centered mx-6 mt-6"}>
+                <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim adresie zamieszkania w dzieciństwie:</p>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakim mieście mieszkałeś/aś?</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='cityHousehold' defaultValue={user.address.city} placeholder={"Miasto"}/>
+                    <input className={"input is-info"} type="text" name='cityHousehold' defaultValue={user.address.city} placeholder={"Miasto"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Podaj nazwę ulicy:</p>
                     </div>
-                    <input  className={"input is-info mr-6"} type="text" name='streetHousehold' defaultValue={user.address.street_name} placeholder={"Ulica"}/>
+                    <input  className={"input is-info"} type="text" name='streetHousehold' defaultValue={user.address.street_name} placeholder={"Ulica"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr domu</p>
                     </div>
-                    <input  className={"input is-info mr-6"} type="number" name='homeNumberHousehold' min="0" defaultValue={user.address.home_number} placeholder={"Numer domu"}/>
+                    <input  className={"input is-info"} type="number" name='homeNumberHousehold' min="0" defaultValue={user.address.home_number} placeholder={"Numer domu"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr lokalu</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="number" name='apartmentNumberHousehold' min="0" defaultValue={user.address.apartment_number} placeholder={"Numer lokalu"}/>
+                    <input className={"input is-info"} type="number" name='apartmentNumberHousehold' min="0" defaultValue={user.address.apartment_number} placeholder={"Numer lokalu"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Kod pocztowy</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name="postCodeHousehold" defaultValue={user.address.postal_code} placeholder={"Kod pocztowy"}/>
+                    <input className={"input is-info"} type="text" name="postCodeHousehold" defaultValue={user.address.postal_code} placeholder={"Kod pocztowy"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 mt-6"}>
+                <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim obecnym adresie zamieszkania:</p>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakim mieście mieszkasz?</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='city' defaultValue={user.registered_address.city} placeholder={"Miasto"}/>
+                    <input className={"input is-info"} type="text" name='city' defaultValue={user.registered_address.city} placeholder={"Miasto"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Podaj nazwę ulicy</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='street' defaultValue={user.registered_address.street_name} placeholder={"Ulica"}/>
+                    <input className={"input is-info"} type="text" name='street' defaultValue={user.registered_address.street_name} placeholder={"Ulica"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr domu</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="number" name='homeNumber' min="0" defaultValue={user.registered_address.home_number} placeholder={"Numer domu"}/>
+                    <input className={"input is-info"} type="number" name='homeNumber' min="0" defaultValue={user.registered_address.home_number} placeholder={"Numer domu"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr lokalu</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="number" name='apartmentNumber' min="0" defaultValue={user.registered_address.apartment_number} placeholder={"Numer lokalu"}/>
+                    <input className={"input is-info"} type="number" name='apartmentNumber' min="0" defaultValue={user.registered_address.apartment_number} placeholder={"Numer lokalu"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Kod pocztowy</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name="postCode" defaultValue={user.registered_address.postal_code} placeholder={"Kod pocztowy"}/>
+                    <input className={"input is-info"} type="text" name="postCode" defaultValue={user.registered_address.postal_code} placeholder={"Kod pocztowy"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 mt-6"}>
+                <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twojej pracy:</p>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Na jakim stanowisku pracujesz?</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='type'  defaultValue={user.workplace.type} placeholder={"Stanowisko"}/>
+                    <input className={"input is-info"} type="text" name='type'  defaultValue={user.workplace.type} placeholder={"Stanowisko"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Podaj nazwę firmy w której pracujesz</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='nameWorkplace' defaultValue={user.workplace.name} placeholder={"Nazwa firmy"}/>
+                    <input className={"input is-info"} type="text" name='nameWorkplace' defaultValue={user.workplace.name} placeholder={"Nazwa firmy"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 mt-6"}>
+                <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Dane firmy:</p>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakim mieście pracujesz?</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='cityWorkplace' defaultValue={user.workplace.address.city} placeholder={"Miasto"}/>
+                    <input className={"input is-info"} type="text" name='cityWorkplace' defaultValue={user.workplace.address.city} placeholder={"Miasto"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Podaj nazwę ulicy</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name='streetWorkplace' defaultValue={user.workplace.address.street_name} placeholder={"Ulica"}/>
+                    <input className={"input is-info"} type="text" name='streetWorkplace' defaultValue={user.workplace.address.street_name} placeholder={"Ulica"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr budynku</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="number" name='homeNumberWorkplace' min="0" defaultValue={user.workplace.address.home_number} placeholder={"Numer budynku"}/>
+                    <input className={"input is-info"} type="number" name='homeNumberWorkplace' min="0" defaultValue={user.workplace.address.home_number} placeholder={"Numer budynku"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr lokalu</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="number" name='apartmentNumberWorkplace' min="0" defaultValue={user.workplace.address.apartment_number} placeholder={"Numer lokalu"}/>
+                    <input className={"input is-info"} type="number" name='apartmentNumberWorkplace' min="0" defaultValue={user.workplace.address.apartment_number} placeholder={"Numer lokalu"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5"}>
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Kod pocztowy</p>
                     </div>
-                    <input className={"input is-info mr-6"} type="text" name="postCodeWorkplace" defaultValue={user.workplace.address.postal_code} placeholder={"Kod pocztowy"}/>
+                    <input className={"input is-info"} type="text" name="postCodeWorkplace" defaultValue={user.workplace.address.postal_code} placeholder={"Kod pocztowy"}/>
                 </div>
 
-                <div className={"column is-centered mx-6 is-5 mt-5 mb-6"}>
-                    <button className={"button is-success is-large"} type='submit'>Wyślij ankietę</button>
+                <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
+                    <button className={"button is-success is-medium"} type='submit'>Wyślij ankietę</button>
                 </div>
 
-                {profile.admin_id ? <div className={"column is-centered mx-6 is-5 mb-6"}>
-                    <input className={"button is-danger is-large"} type="button" value="Usuń ankietę" onClick={deleteUser} />
+                {profile.admin_id ? <div className={"column is-centered mx-5 is-5 mb-6"}>
+                    <input className={"button is-danger is-medium"} type="button" value="Usuń ankietę" onClick={deleteUser} />
                 </div> : null }
 
             </div>

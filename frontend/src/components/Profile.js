@@ -9,23 +9,23 @@ const Profile = ({profile}) => (
         <div className={"box m-6"}>
             {profile.role === "user" ?
             <div className={"has-text-centered"}>
-                <h2 className={"title has-text-danger-dark"}>Użytkownik {profile.firstName}</h2>
+                <h2 className={"title is-4 has-text-danger-dark"}>Użytkownik {profile.firstName}</h2>
                 <div className={"columns is-centered"}>
-                    <figure className="image is-128x128 is-centered mb-5">
+                    <figure className="image is-128x128 is-centered mb-5 ml-6">
                         <img src={userIcon} alt={"usericon"}/>
                     </figure>
                 </div>
             </div>
                 :
                 <div className={"has-text-centered"}>
-                    <h2 className={"title has-text-danger-dark"}>Administrator {profile.firstName}</h2>
+                    <h2 className={"title is-4 has-text-danger-dark"}>Administrator {profile.firstName}</h2>
                     <div className={"columns is-centered"}>
-                        <figure className="image is-128x128 is-centered mb-5">
+                        <figure className="image is-128x128 is-centered mb-6 ml-6">
                             <img src={adminIcon} alt={"adminicon"}/>
                         </figure>
                     </div>
                 </div>}
-                <div className={"box m-6"}>
+                <div className={"box m-4"}>
                     <p className={"label"}>
                         Imie: <b className={"has-text-bordered has-text-success-dark"}>{profile.firstName}</b>
                     </p>
