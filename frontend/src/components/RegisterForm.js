@@ -8,15 +8,6 @@ const formStyle = {
     width: '50%',
 }
 
-const buttonStyle = {
-    marginTop: '20px',
-    padding: '10px',
-    background: '#333',
-    borderRadius: '5px',
-    border: '1px solid #333',
-    color: '#f2f2f2'
-}
-
 const data = [
     ['imie', 'Imię *'],
     ['nazwisko', 'Nazwisko *'],
