@@ -58,4 +58,22 @@ router.patch('/patch', async (req, res) => {
     }
 });
 
+router.delete('/delete', async (req, res) => {
+    const pesel = req.body.pesel;
+
+    await Poll.findOneAndDelete({ pesel: pesel })
+        .then((poll) => {
+            res.json({
+                poll: poll,
+                success: true
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(404).json({
+                success: false
+            });
+        })
+});
+
 module.exports = router;
