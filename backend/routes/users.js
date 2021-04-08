@@ -64,9 +64,8 @@ router.post('/login/user', async (req, res) => {
     }
 });
 
-router.get('/getByPESEL', async (req, res) => {
+router.post('/getByPESEL', async (req, res) => {
     const pesel = req.body.pesel;
-
     const foundUser = await User.findOne({ pesel: pesel });
 
     if (foundUser) {

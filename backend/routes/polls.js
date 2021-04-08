@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Poll = require('../Models/Poll');
 
-// router.get('/', async (req, res) => {
-//     res.send("Hello World!")
-// });
-
 router.post('/', async (req, res) => {
     const new_poll = new Poll({
         ...req.body

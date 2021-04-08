@@ -96,7 +96,7 @@ export const register = (info) => {
 
 export const findUser = (user) => {
     return (dispatch) => {
-        return axios.get("http://localhost:3000/users/find", {pesel: user.pesel})
+        return axios.post("http://localhost:3000/users/getByPESEL", {pesel: user.pesel})
             .then(response => {
                 return response.data
             })

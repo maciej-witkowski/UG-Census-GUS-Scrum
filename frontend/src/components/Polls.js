@@ -5,14 +5,16 @@ import PollInputs from './PollInputs';
 
 
 const mapStateToProps = state => ({
-    poll: state.poll.poll
+    poll: state.poll.poll,
 })
 
 
 const Polls = ({poll, dispatch}) => {
     const sendInfo = (event) => {
+        event.preventDefault()
         const {
             name,
+            pesel,
             nationality,
             disability,
             date,
@@ -46,6 +48,7 @@ const Polls = ({poll, dispatch}) => {
         const readyInfo = {
             type: "",
             name: name.value,
+            pesel: pesel.value,
             nationality: nationality.value,
             disability: disability.checked,
             date_of_birth: date.value,

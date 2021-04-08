@@ -4,6 +4,7 @@ const initialState = {
     poll: {
         type: "",
         name: "",
+        pesel: "",
         nationality: "",
         disability: false,
         date_of_birth: "",
@@ -20,15 +21,15 @@ const initialState = {
         address: {
             city: "",
             street_name: "",
-            home_number: "",
-            apartment_number: "",
-            postal_code: ""
+            home_number: 0,
+            apartment_number: 0,
+            postal_code: ''
         },
         registered_address: {
             city: "",
             street_name: "",
-            home_number: "",
-            apartment_number: "",
+            home_number: 0,
+            apartment_number: 0,
             postal_code: ""
         },
         workplace: {
@@ -37,8 +38,8 @@ const initialState = {
             address: {
                 city: "",
                 street_name: "",
-                home_number: "",
-                apartment_number: "",
+                home_number: 0,
+                apartment_number: 0,
                 postal_code: ""
             }
         },
@@ -52,7 +53,13 @@ const poll = (state = initialState, action) => {
     switch(action.type) {
         case LOG_IN:
             return {
-                poll: {...state.poll, ...action.payload.poll},
+                poll: {
+                    ...state.poll, 
+                    ...action.payload.poll,
+                    name: action.payload.profile.firstName,
+                    surname: action.payload.profile.lastName,
+                    pesel: action.payload.profile.pesel
+                },
             }
         case LOG_OUT:
             return {
@@ -61,7 +68,7 @@ const poll = (state = initialState, action) => {
         case SEND_POLLS:
             return {
                 ...state,
-                poll: {...state.poll, ...action.payload}
+                poll: {...state.poll, ...action.payload.poll}
             }
         default:
             return state;

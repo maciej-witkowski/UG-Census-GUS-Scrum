@@ -44,6 +44,8 @@ const pollSchema = new Schema({
     },
     complition_date: Date,
     last_modified_date: Date,
-});
+},
+{ typeKey: '$type' }
+);
 
 module.exports = model("Poll", pollSchema);

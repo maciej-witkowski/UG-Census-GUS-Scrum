@@ -10,7 +10,7 @@ const formStyle = {
 }
 
 const mapStateToProps = state => ({
-    user: state.user.user
+    user: state.user.user,
 })
 
 const data = [
@@ -24,8 +24,6 @@ const Database = ({user, dispatch}) => {
 
     const sendFind = (event) => {
         const userTmp = {
-            name: event.target.imie.value,
-            surname: event.target.nazwisko.value,
             pesel: event.target.pesel.value
         }
         dispatch(actions.findUser(userTmp))
@@ -36,6 +34,7 @@ const Database = ({user, dispatch}) => {
     const sendUpdate = (event) => {
         const {
             name,
+            pesel,
             nationality,
             disability,
             date,
@@ -69,6 +68,7 @@ const Database = ({user, dispatch}) => {
         const readyInfo = {
             type: "",
             name: name.value,
+            pesel: pesel.value,
             nationality: nationality.value,
             disability: disability.checked,
             date_of_birth: date.value,

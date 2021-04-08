@@ -94,7 +94,7 @@ const AddUserForm = ({poll, profile, dispatch}) => {
             dispatch(actions.register(info))
     
             setWarning("")
-            event.target.submit();
+            event.target.reset();
         }
     }
 

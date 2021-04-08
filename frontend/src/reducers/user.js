@@ -1,9 +1,10 @@
-import {FIND_USER, SEND_UPDATE, DELETE_USER} from "../actions/actionTypes";
+import {FIND_USER, DELETE_USER} from "../actions/actionTypes";
 
 const initialState = {
     user: {
         type: "",
         name: "",
+        pesel: "",
         nationality: "",
         disability: false,
         date_of_birth: "",
@@ -20,15 +21,15 @@ const initialState = {
         address: {
             city: "",
             street_name: "",
-            home_number: "",
-            apartment_number: "",
+            home_number: 0,
+            apartment_number: 0,
             postal_code: ""
         },
         registered_address: {
             city: "",
             street_name: "",
-            home_number: "",
-            apartment_number: "",
+            home_number: 0,
+            apartment_number: 0,
             postal_code: ""
         },
         workplace: {
@@ -37,8 +38,8 @@ const initialState = {
             address: {
                 city: "",
                 street_name: "",
-                home_number: "",
-                apartment_number: "",
+                home_number: 0,
+                apartment_number: 0,
                 postal_code: ""
             }
         },
@@ -52,11 +53,7 @@ const user = (state = initialState, action) => {
     switch(action.type) {
         case FIND_USER:
             return {
-                user: {...state.user, ...action.payload}
-            }
-        case SEND_UPDATE:
-            return {
-                ...state, ...initialState
+                user: {...state.user, ...action.payload.poll}
             }
         case DELETE_USER:
             return {
