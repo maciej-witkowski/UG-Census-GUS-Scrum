@@ -13,7 +13,6 @@ app.use(cors());
 
 app.use('/users', users);
 app.use('/polls', polls);
-users.use('/:userId/poll', polls);
 
 const dbConnData = {
   username: process.env.MONGO_USERNAME_ADMIN,
