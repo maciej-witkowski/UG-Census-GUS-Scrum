@@ -45,7 +45,8 @@ const initialState = {
         },
         complition_date: "",
         last_modified_date: ""
-    }
+    },
+    read: false
 };
 
 
@@ -54,12 +55,13 @@ const poll = (state = initialState, action) => {
         case LOG_IN:
             return {
                 poll: {
-                    ...state.poll, 
+                    ...state.poll,
                     ...action.payload.poll,
                     name: action.payload.profile.firstName,
                     surname: action.payload.profile.lastName,
                     pesel: action.payload.profile.pesel
                 },
+                read: action.payload.poll === null ? true : false
             }
         case LOG_OUT:
             return {
