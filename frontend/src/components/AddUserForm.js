@@ -101,15 +101,18 @@ const AddUserForm = ({poll, profile, dispatch}) => {
 
     return(
         <div style={formStyle}>
-            <h1>Dodaj użytkownika</h1>
-            <form onSubmit={sendInfo}>
-                {data.map(item => (
-                    <CreateInput key={item[0]} info = {item} />
-                ))}
-                <p style={{color: 'red'}}>{warning}</p>
-                <button style={buttonStyle} type='submit'>Zatwierdź</button>
-            </form>
-            <h5>*Pola oznaczone gwiazdką są obowiązkowe</h5>
+            <h1 className="title">Dodaj użytkownika</h1>
+            <div className={"box m-6"}>
+                <form onSubmit={sendInfo}>
+                    {data.map(item => (
+                        <CreateInput key={item[0]} info = {item} />
+                    ))}
+                    <p style={{color: 'red'}}>{warning}</p>
+                    <button className={"button is-success mb-4"} type='submit'>Zatwierdź</button>
+                </form>
+                <h5>*Pola oznaczone gwiazdką są obowiązkowe</h5>
+            </div>
+
         </div>
     )
 }
