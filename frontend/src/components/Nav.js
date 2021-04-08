@@ -16,20 +16,18 @@ const Nav = ({profile}) => {
 
     return (
         <div className={"navbar box"}>
-            <nav>
-                <ul className={"navbar-menu"}>
-                    <div className="navbar-brand">
-                        <li className="navbar-start">
-                            <Link className={"navbar-item"} to={"/"}>
-                                <img src={logo} alt={"logo-gus"} width="100"/>
-                                <h6 className={"title has-text-light"} >|</h6>
-                            </Link>
-                        </li>
-                        <li className="navbar-item has-text-centered has-text-weight-bold"><Link  to={"/stats"}>Statystyki</Link></li>
-                        <li className="navbar-item has-text-centered has-text-weight-bold"><Link  to={"/info"}>Informacje</Link></li>
-                    </div>
-                </ul>
-            </nav>
+                <div className="navbar-brand">
+                    <Link className={"navbar-item"} to={"/"}>
+                            <img src={logo} alt={"logo-gus"} width="100"/>
+                            <h6 className={"title has-text-light"} >|</h6>
+                    </Link>
+                    <div className="navbar-item has-text-centered has-text-weight-bold"><Link  to={"/stats"}>Statystyki</Link></div>
+                    <div className="navbar-item has-text-centered has-text-weight-bold"><Link  to={"/info"}>Informacje</Link></div>
+                </div>
+
+                <div className={"navbar-menu"}>
+                    <div className="navbar-start"></div>
+                </div>
 
             <div className="navbar-end">
                 <div className="navbar-item">
@@ -45,25 +43,31 @@ const Nav = ({profile}) => {
 
             {/*po zalogowaniu jako uzytkownik*/}
             {Object.keys(profile).length !== 0 && profile.role==="user"? (
-            <ul className="navbar-end mt-1">
-                <li><Link className="navbar-item has-text-centered has-text-weight-bold" to={"/polls"}>Ankiety</Link></li>
-                <li><Link className="navbar-item has-text-centered has-text-weight-bold mr-3" to={"/profile"}>Profil</Link></li>
-            </ul>
+            <div className="navbar-end mt-1">
+                <div className={"navbar-item"}>
+                    <div><Link className="navbar-item has-text-centered has-text-weight-bold" to={"/polls"}>Ankiety</Link></div>
+                    <div><Link className="navbar-item has-text-centered has-text-weight-bold mr-3" to={"/profile"}>Profil</Link></div>
+                </div>
+            </div>
             ):null}
             
 
             {/*po zalogowaniu jako admin*/}
             {Object.keys(profile).length !== 0 && profile.role==="admin"? (
-            <ul className="navbar-end mt-1">
-                <li><Link  className="navbar-item has-text-centered has-text-weight-bold" to={"/db"}>Baza danych</Link></li>
-                <li><Link  className="navbar-item has-text-centered has-text-weight-bold" to={"/add"}>Dodaj</Link></li>
-                <li><Link className="navbar-item has-text-centered has-text-weight-bold mr-3" to={"/profile"}>Profil</Link></li>
-            </ul>
+            <div className="navbar-end mt-1">
+                <div><Link  className="navbar-item has-text-centered has-text-weight-bold" to={"/db"}>Baza danych</Link></div>
+                <div><Link  className="navbar-item has-text-centered has-text-weight-bold" to={"/add"}>Dodaj</Link></div>
+                <div><Link className="navbar-item has-text-centered has-text-weight-bold mr-3" to={"/profile"}>Profil</Link></div>
+            </div>
             ):null}
 
             {/*po zalogowaniu zawsze*/}
-            {Object.keys(profile).length !== 0?(<Link className="button is-danger" to={"/logout"}><button className="button is-danger is-1">Wylogowanie</button></Link>):null}
-            
+            {Object.keys(profile).length !== 0?(
+                <div className="navbar-end has-text-centered">
+                    <Link className="has-text-centered" to={"/logout"}><button className="button is-danger mt-2">Wylogowanie</button></Link>
+                </div>
+                    ):null}
+                
         </div>
     )
 }
