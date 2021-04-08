@@ -6,12 +6,12 @@ import PollInputs from './PollInputs';
 
 const mapStateToProps = state => ({
     poll: state.poll.poll,
+    read: state.poll.read
 })
 
 
-const Polls = ({poll, dispatch}) => {
+const Polls = ({poll, read, dispatch}) => {
     const sendInfo = (event) => {
-        event.preventDefault()
         const {
             name,
             pesel,
@@ -44,7 +44,7 @@ const Polls = ({poll, dispatch}) => {
             apartmentNumberWorkplace,
             postCodeWorkplace,
         } = event.target
-    
+
         const readyInfo = {
             type: "",
             name: name.value,
@@ -90,7 +90,7 @@ const Polls = ({poll, dispatch}) => {
             complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
             last_modified_date: new Date(),
         }
-    
+
         dispatch(actions.sendPolls(readyInfo))
     }
 
@@ -98,12 +98,12 @@ const Polls = ({poll, dispatch}) => {
         <div>
             <h1 className="title">Ankiety</h1>
             <div>
-                <PollInputs user={poll} sendInfo={sendInfo} />
+                <PollInputs user={poll} read={read} sendInfo={sendInfo} />
             </div>
         </div>
     )
 
 }
-    
+
 export default connect(mapStateToProps)(Polls);
 

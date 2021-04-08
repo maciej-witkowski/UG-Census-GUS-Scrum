@@ -1,22 +1,6 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-
-const PollInputs = ({sendInfo, user}) => {
-
-    // const [alreadySent, setAlreadySent] = useState(false);
-    //
-    // useEffect(()=>{
-    //     const check = async () => {
-    //         await axios.post("http://localhost:3000/users/getByPESEL", {pesel: user.pesel})
-    //             .then(response => {console.log(response.data.poll); setAlreadySent(response.data.poll)})
-    //             .catch(err => alert(err))
-    //     }
-    //     check();
-    // });
-
-    return (
-        <form className={"box ml-6 mr-6 mb-6"} onSubmit={sendInfo}>
-
+const PollInputs = ({sendInfo, read, user}) => (
+    <form className={"box ml-6 mr-6 mb-6"} onSubmit={sendInfo}>
+        <fieldset disabled={!read ? "disabled" : ""}>
             <div className={"field is-centered"}>
                 <div className={"column is-centered mx-6 is-5"}>
                     <div>
@@ -146,8 +130,8 @@ const PollInputs = ({sendInfo, user}) => {
                             <div className="field is-narrow">
                                 <div className="select">
                                     <select name='children' defaultValue={user.household.children === true ? 'Tak' : 'Nie'}>
-                                            <option value="Tak">Tak</option>
-                                            <option value="Nie">Nie</option>
+                                        <option value="Tak">Tak</option>
+                                        <option value="Nie">Nie</option>
                                     </select>
                                 </div>
                             </div>
@@ -327,13 +311,12 @@ const PollInputs = ({sendInfo, user}) => {
                     <input className={"input is-info mr-6"} type="text" name="postCodeWorkplace" defaultValue={user.workplace.address.postal_code} placeholder={"Kod pocztowy"}/>
                 </div>
 
-                {/*{alreadySent === false ? */}
                 <div className={"column is-centered mx-6 is-5 mt-5 mb-6"}>
                     <button className={"button is-success is-large"} type='submit'>Wyślij ankietę</button>
                 </div>
-                {/*: null}*/}
             </div>
+        </fieldset>
     </form>
-)}
+)
 
 export default PollInputs;
