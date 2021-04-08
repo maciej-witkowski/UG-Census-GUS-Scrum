@@ -80,7 +80,7 @@ router.post('/getByPESEL', async (req, res) => {
         }
     } else {
         res.json({
-            poll: {}
+            poll: false
         });
     }
 });
