@@ -73,7 +73,19 @@ router.get('/getByPESEL', async (req, res) => {
         const foundPoll = await Poll.findOne({ pesel: pesel });
         if (foundPoll) {
             res.json({
-
+                poll: foundPoll
+            });
+        } else {
+            res.json({
+                poll: foundPoll
+            });
+        }
+    } else {
+        res.json({
+            poll: {}
+        });
+    }
+});
 router.post('/login/admin', async (req, res) => {
     const admin_id = req.body.admin_id;
 
