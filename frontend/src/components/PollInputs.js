@@ -1,4 +1,6 @@
-const PollInputs = ({sendInfo, read, user}) => (
+import {React} from "react";
+
+const PollInputs = ({sendInfo, read, user, deleteUser}) => (
     <form className={"box ml-6 mr-6 mb-6"} onSubmit={sendInfo}>
         <fieldset disabled={!read ? "disabled" : ""}>
             <div className={"field is-centered"}>
@@ -314,6 +316,11 @@ const PollInputs = ({sendInfo, read, user}) => (
                 <div className={"column is-centered mx-6 is-5 mt-5 mb-6"}>
                     <button className={"button is-success is-large"} type='submit'>Wyślij ankietę</button>
                 </div>
+
+                <div className={"column is-centered mx-6 is-5 mb-6"}>
+                    <input className={"button is-danger is-large"} type="button" value="Usuń ankietę" onClick={deleteUser} />
+                </div>
+
             </div>
         </fieldset>
     </form>
