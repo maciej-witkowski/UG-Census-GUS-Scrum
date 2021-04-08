@@ -62,7 +62,6 @@ router.get('/ileankietwyslano', async (req, res) => {
     try {
         const allpolls = await Poll.find()
         const x = Object.keys(allpolls).length
-        console.log(x)
         return res.json(x);
     } catch (err) {
         return res.json({error: err.message});
@@ -194,7 +193,6 @@ router.get('/sredniawieku', async (req, res) => {
         const x=Object.keys(allpolls).length
         let sumalat=0
         let currentTime= new Date().getFullYear()
-        console.log(currentTime)
         for(let i=0;i<x;i++){
             let datebirth= allpolls[i].date_of_birth
             let x=new Date(datebirth).getFullYear()
@@ -202,7 +200,6 @@ router.get('/sredniawieku', async (req, res) => {
             sumalat=sumalat+wiek
         }
         sumalat=sumalat/x
-
         return res.json(sumalat);
     } catch (err) {
         return res.json({error: err.message});
