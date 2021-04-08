@@ -1,9 +1,9 @@
 import React from 'react';
 
 const CreateInput = (item) => (
-    <div className={"field is-centered mr-6"}>
+    <div className={"field is-centered has-text-centered mr-6"}>
         <input
-            className={"input is-info mr-6"}
+            className={"input is-info is-flex-mobile"} style={{ width:"60%", margin:"auto" }}
             type={item.info[0] === 'hasło' || item.info[0] === 'powHasło' ? "password" : "text"}
             name={item.info[0]}
             placeholder={item.info[1]}/>

@@ -3,10 +3,6 @@ import CreateInput from './CreateInput'
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
 
-const formStyle = {
-    margin: 'auto',
-    width: '50%',
-}
 
 const data = [
     ['imie', 'Imię *'],
@@ -121,34 +117,38 @@ const RegisterForm = ({poll, profile, dispatch}) => {
 
 
     return(
-        <div style={formStyle}>
+        <div>
             <h1 className="title">Rejestracja</h1>
-            <div className={"box m-6"}>
-                <form onSubmit={sendInfo}>
-                    <div className={"columns is-centered"}>
+            <div className={"box"}>
+                <form className={"field"}onSubmit={sendInfo}>
+                    <div className={"columns is-centered is-flex-mobile"}>
                         <input
-                            className={"button is-large is-warning mt-6 mr-6 ml-6 mb-3"}
+                            className={"button is-medium is-warning mt-6 mr-7 ml-6 mb-3"}
                             type="button"
                             value="Administrator"
                             onClick={() => switchPerson("admin")}/>
                         <input
-                            className={"button is-large is-info mt-6 mr-6 ml-6 mb-4"}
+                            className={"button is-medium is-info mt-6 mr-6 ml-6 mb-4"}
                             type="button"
                             value="Użytkownik"
                             onClick={() => switchPerson("user")}/>
                     </div>
-                    <div className={"ml-6"}>
+                    <div className={"ml-6 has-text-centered"}>
                         {person === "admin" && (
                             <CreateInput key='idAdmin' info={['idAdmin', 'ID Admin *']} />
                         )}
                         {data.map(item => (
                             <CreateInput key={item[0]} info={item} />
                         ))}
-                        <p style={{color: 'red'}}>{warning}</p>
+                        <p className={"mr-6"} style={{color: 'red'}}>{warning}</p>
                     </div>
-                    <button className={"button is-success mb-4 ml-6"} type='submit'>Zatwierdź</button>
+                    <div className={"field has-text-centered"}>
+                        <button className={"button is-success"} type='submit'>Zatwierdź</button>
+                    </div>
                 </form>
-                <h5 className={"ml-6"}>* Pola oznaczone gwiazdką są obowiązkowe</h5>
+                <div className={"field has-text-centered"}>
+                    <h5 className={"has-text-grey"}>* Pola oznaczone gwiazdką są obowiązkowe</h5>
+                </div>
             </div>
         </div>)
 }
