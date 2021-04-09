@@ -72,15 +72,14 @@ const AddUserForm = ({poll, profile, dispatch}) => {
         
         if (!check){
             const info = {
-                imie: imie.value, 
-                nazwisko: nazwisko.value, 
+                firstName: imie.value,
+                lastName: nazwisko.value,
                 pesel: pesel.value,
-                haslo: hasło.value, 
+                password: hasło.value,
                 role: 'user'
             }
+
             dispatch(actions.register(info))
-    
-            setWarning("")
             event.target.reset();
         }
     }
