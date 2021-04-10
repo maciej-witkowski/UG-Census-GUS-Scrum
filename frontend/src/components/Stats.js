@@ -87,16 +87,18 @@ const Stats = () => {
     return(
         <div>
             <h1 className="title">Statystyki</h1>
-            <div className={"m-3"}>
-                <div className={"box has-text-centered m-3"}>
+            <div className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-danger is-1"}>{ileankiet} <b className={"subtitle"}>wysłanych ankiet</b></p>
                 </div>
 
-                <div className={"box has-text-centered m-3"}>
-                    <p className={"title has-text-info is-2"}><b className={"subtitle"}>średni wiek - </b>{Math.round(sredniawieku)}<b className={"subtitle"}> lat</b> </p>
+                <div className={"column box has-text-centered m-3"}>
+                    <p className={"title has-text-info is-1"}><b className={"subtitle"}>średni wiek - </b>{Math.round(sredniawieku)}<b className={"subtitle"}> lat</b> </p>
                 </div>
+            </div>
 
-                <div style={{ textAlign: "center" }} className={"box m-3"}>
+            <div className={"columns m-3"}>
+                <div style={{ textAlign: "center" }} className={"column box m-3"}>
                     <h1 className={"subtitle"}>Płeć ankietowanych</h1>
                     <div className="App columns is-centered is-flex-mobile mr-5">
                         <BarChart
@@ -119,7 +121,7 @@ const Stats = () => {
                     </div>
                 </div>
 
-                <div style={{ textAlign: "center" }} className={"box m-3"}>
+                <div style={{ textAlign: "center" }} className={"column box m-3"}>
                     <h1 className={"subtitle"}>Wyksztalcenie ankietowanych</h1>
                     <div className="App columns is-centered mr-5 is-flex-mobile">
                         <BarChart
@@ -141,12 +143,14 @@ const Stats = () => {
                         </BarChart>
                     </div>
                 </div>
+            </div>
 
-                <div className={"box has-text-centered m-3"}>
+            <div className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-link is-2"}>{ilemieszkazrodzicami}<b className={"subtitle"}> osób mieszka z rodzicami</b> </p>
                 </div>
 
-                <div className={"box has-text-centered m-3"}>
+                <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-primary is-2"}>{ilemapartnerke}<b className={"subtitle"}> osób ma partnera/partnerkę</b> </p>
                 </div>
             </div>
