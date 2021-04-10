@@ -143,7 +143,7 @@ const RegisterForm = ({poll, profile, dispatch}) => {
                         <p style={{color: 'red'}}>{warning}</p>
                     </div>
                     <div className={"field has-text-centered"}>
-                        <button className={"button is-success"} type='submit'>Zatwierdź</button>
+                        <button className={"button is-success is-large"} type='submit'>Zatwierdź</button>
                     </div>
                 </form>
                 <div className={"field has-text-centered"}>
