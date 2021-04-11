@@ -18,14 +18,24 @@ const pollSchema = new Schema({
         partner: Boolean
     },
     address: {
-        city: String,
+        place: {
+            voivodeship: String,
+            district: String,
+            community: String,
+            city: String
+        },
         street_name: String,
         home_number: Number,
         apartment_number: Number,
         postal_code: String
     },
     registered_address: {
-        city: String,
+        place: {
+            voivodeship: String,
+            district: String,
+            community: String,
+            city: String
+        },
         street_name: String,
         home_number: Number,
         apartment_number: Number,
@@ -35,17 +45,27 @@ const pollSchema = new Schema({
         type: String,
         name: String,
         address: {
-            city: String,
+            place: {
+                voivodeship: String,
+                district: String,
+                community: String,
+                city: String
+            },
             street_name: String,
             home_number: Number,
             apartment_number: Number,
             postal_code: String
+        },
+        job_title: String,
+        monthly_earnings: {
+            brutto: Number,
+            netto: Number
         }
     },
     complition_date: Date,
     last_modified_date: Date,
 },
-{ typeKey: '$type' }
+    { typeKey: '$type' }
 );
 
 module.exports = model("Poll", pollSchema);
