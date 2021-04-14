@@ -16,23 +16,43 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const new_poll = new Poll({
-        ...req.body
-    });
 
-    new_poll.save()
-        .then((poll) => {
-            res.json({
-                poll: poll,
-                success: true
+    Poll.find({pesel: req.body.pesel})
+    .then(result => {
+        if (!result.length) {
+
+            const new_poll = new Poll({
+                ...req.body
             });
-        })
-        .catch((error) => {
-            console.log(console.log(error))
+
+            new_poll.save()
+            .then((poll) => {
+                res.json({
+                    poll: poll,
+                    success: true
+                });
+            })
+            .catch((error) => {
+                console.log(console.log(error))
+                res.status(404).json({
+                    success: false
+                });
+            });
+        } else {
             res.status(404).json({
-                success: false
-            });
-        });
+                success: false,
+                msg: "PESEL already in use!"
+            })
+        }
+    })
+    .catch(err => {
+        console.log(console.log(err))
+        res.status(404).json({
+            success: false,
+            err: err
+        })
+    })
+    
 });
 
 router.patch('/patch', async (req, res) => {
@@ -57,6 +77,48 @@ router.patch('/patch', async (req, res) => {
         });
     }
 });
+
+router.get('/ITfield', async (req, res) => {
+    Poll.find().then(result => {
+        const data = {}
+        result.forEach(poll => {
+            let title = poll.workplace.job_title
+            if (data.hasOwnProperty(`${title}`)) {
+                data[title] += 1
+            } else {
+                data[title] = 0
+            }
+        })
+        res.json({
+            success: true,
+            data: data
+        })
+    })
+    .catch(err => {
+        res.status(404).json({success: false, err: err})
+    })
+})
+
+router.get('/communes', async (req, res) => {
+    Poll.find().then(result => {
+        const data = {}
+        result.forEach(poll => {
+            let nationality = poll.nationality
+            if (data.hasOwnProperty(`${nationality}`)) {
+                data[nationality].push(poll.registeres_address.place)
+            } else {
+                data[nationality] = []
+            }
+        })
+        res.json({
+            success: true,
+            data: data
+        })
+    })
+    .catch(err => {
+        res.status(404).json({success: false, err: err})
+    })
+})
 
 router.get('/ileankietwyslano', async (req, res) => {
     try {
