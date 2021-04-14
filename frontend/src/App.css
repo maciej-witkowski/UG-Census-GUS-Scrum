@@ -158,7 +158,7 @@ img#pytanie3{
 }
 
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 480px) {
     .logo, li, button, div{
         font-size: 6px;
     }
@@ -181,6 +181,10 @@ img#pytanie3{
     .info-kontakt, .info-informacja, .info-statystyczna{
         width: 100%;
     }
+    .reg-input {
+        width: 95%;
+        margin: auto;
+    }
 }
 
 @media screen and (max-width: 770px){
@@ -196,6 +200,13 @@ img#pytanie3{
     .poll-col25, .poll-col75, input[type=submit] {
         width: 100%;
         margin-top: 0;
+    }
+}
+
+@media screen and (min-width: 750px) {
+    .reg-input {
+        width: 50%;
+        margin: auto;
     }
 }
 

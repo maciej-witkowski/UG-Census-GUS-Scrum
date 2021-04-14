@@ -133,7 +133,7 @@ const RegisterForm = ({poll, profile, dispatch}) => {
                             value="Użytkownik"
                             onClick={() => switchPerson("user")}/>
                     </div>
-                    <div className={"has-text-centered"}>
+                    <div className={"reg-input has-text-centered"}>
                         {person === "admin" && (
                             <CreateInput key='idAdmin' info={['idAdmin', 'ID Admin *']} />
                         )}

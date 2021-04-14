@@ -102,7 +102,7 @@ const LogInForm = ({profile, users, dispatch}) => {
                             value="Użytkownik"
                             onClick={() => switchPerson("user")}/>
                     </div>
-                    <div className={"has-text-centered"}>
+                    <div className={"reg-input has-text-centered"}>
                         {data.map(item => (
                             <CreateInput key={item[0]} info={item} />
                         ))}
