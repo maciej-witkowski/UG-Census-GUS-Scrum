@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CreateInput from './CreateInput'
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
@@ -14,12 +14,18 @@ const data = [
 
 const mapStateToProps = state => ({
     poll: state.poll.poll,
-    profile: state.profile.profile
+    profile: state.profile.profile,
+    users: state.users.users,
 })
 
-const RegisterForm = ({poll, profile, dispatch}) => {
+const RegisterForm = ({poll, profile, users, dispatch}) => {
     const [warning, setWarning] = useState("")
     // const [person, setPerson] = useState("user")
+
+    useEffect(() => {
+        dispatch(actions.getUsers());
+    }, []);
+
 
     const sendInfo = (event) => {
         event.preventDefault()
@@ -104,8 +110,20 @@ const RegisterForm = ({poll, profile, dispatch}) => {
                     role: 'user'
                 }
             // }
+
+            // check if user with this pesel already exists
+            const duplicateUser = users.filter(user => user.pesel === pesel.value)[0];
+
+            if (duplicateUser) {
+                alert("Rejestracja nie powiodła się. Podany pesel istnieje już bazie danych.");
+            }
+
+            else {  // if there is no duplicate 
+                dispatch(actions.register(info))
+                alert(`Rejestracja przebiegła poprawnie. Witaj ${name.value}!`)
+            }
             
-            dispatch(actions.register(info))
+//             dispatch(actions.register(info))
     
             setWarning("")
             event.target.reset();

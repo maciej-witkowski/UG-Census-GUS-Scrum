@@ -61,6 +61,7 @@ export const logOut = () => {
     }
 }
 
+
 export const sendPolls = (poll) => {
     return (dispatch) => {
         return axios.post("http://localhost:3000/polls/", {...poll})
