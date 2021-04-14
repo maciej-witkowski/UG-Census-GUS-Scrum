@@ -3,8 +3,8 @@ import {FIND_USER, DELETE_USER} from "../actions/actionTypes";
 const initialState = {
     user: {
         type: "",
-        name: "",
         pesel: "",
+        name: "",
         nationality: "",
         disability: false,
         date_of_birth: "",
@@ -19,14 +19,24 @@ const initialState = {
             partner: false
         },
         address: {
-            city: "",
+            place: {
+                voivodeship: "",
+                district: "",
+                community: "",
+                city: ""
+            },
             street_name: "",
             home_number: 0,
             apartment_number: 0,
             postal_code: ""
         },
         registered_address: {
-            city: "",
+            place: {
+                voivodeship: "",
+                district: "",
+                community: "",
+                city: ""
+            },
             street_name: "",
             home_number: 0,
             apartment_number: 0,
@@ -36,11 +46,21 @@ const initialState = {
             type: "",
             name: "",
             address: {
-                city: "",
+                place: {
+                    voivodeship: "",
+                    district: "",
+                    community: "",
+                    city: ""
+                },
                 street_name: "",
                 home_number: 0,
                 apartment_number: 0,
                 postal_code: ""
+            },
+            job_title: "",
+            monthly_earnings: {
+                brutto: 0,
+                netto: 0
             }
         },
         complition_date: "",

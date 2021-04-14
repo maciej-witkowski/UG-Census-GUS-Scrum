@@ -11,8 +11,8 @@ const mapStateToProps = state => ({
 
 const data = [
     ['pesel', 'Pesel'], 
-    ['imie', 'Imię'],
-    ['nazwisko', 'Nazwisko']
+    ['name', 'Imię'],
+    ['surname', 'Nazwisko']
 ]
 
 const Database = ({user, dispatch}) => {
@@ -42,11 +42,17 @@ const Database = ({user, dispatch}) => {
             children,
             livingWithParents,
             partner,
+            voivodeshipHousehold,
+            districtHousehold,
+            communityHousehold,
             cityHousehold,
             streetHousehold,
             homeNumberHousehold,
             apartmentNumberHousehold,
             postCodeHousehold,
+            voivodeship,
+            district,
+            community,
             city,
             street,
             homeNumber,
@@ -54,13 +60,19 @@ const Database = ({user, dispatch}) => {
             postCode,
             type,
             nameWorkplace,
+            voivodeshipWorkplace,
+            districtWorkplace,
+            communityWorkplace,
             cityWorkplace,
             streetWorkplace,
             homeNumberWorkplace,
             apartmentNumberWorkplace,
             postCodeWorkplace,
+            jobTitle,
+            brutto,
+            netto
         } = event.target
-    
+
         const readyInfo = {
             type: "",
             name: name.value,
@@ -79,14 +91,24 @@ const Database = ({user, dispatch}) => {
                 partner: partner.value === "Tak" ? true : false
             },
             address: {
-                city: cityHousehold.value,
+                place: {
+                    voivodeship: voivodeshipHousehold.value,
+                    district: districtHousehold.value,
+                    community: communityHousehold.value,
+                    city: cityHousehold.value
+                },
                 street_name: streetHousehold.value,
                 home_number: homeNumberHousehold.value,
                 apartment_number: apartmentNumberHousehold.value,
                 postal_code: postCodeHousehold.value
             },
             registered_address: {
-                city: city.value,
+                place: {
+                    voivodeship: voivodeship.value,
+                    district: district.value,
+                    community: community.value,
+                    city: city.value,
+                },
                 street_name: street.value,
                 home_number: homeNumber.value,
                 apartment_number: apartmentNumber.value,
@@ -96,11 +118,21 @@ const Database = ({user, dispatch}) => {
                 type: type.value,
                 name: nameWorkplace.value,
                 address: {
-                    city: cityWorkplace.value,
+                    place: {
+                        voivodeship: voivodeshipWorkplace.value,
+                        district: districtWorkplace.value,
+                        community: communityWorkplace.value,
+                        city: cityWorkplace.value,
+                    },
                     street_name: streetWorkplace.value,
                     home_number: homeNumberWorkplace.value,
                     apartment_number: apartmentNumberWorkplace.value,
                     postal_code: postCodeWorkplace.value
+                },
+                job_title: jobTitle.value,
+                monthly_earnings: {
+                    brutto: brutto.value,
+                    netto: netto.value
                 }
             },
             complition_date: user.complition_date,

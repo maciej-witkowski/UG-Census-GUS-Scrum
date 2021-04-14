@@ -24,7 +24,7 @@ const LogInForm = ({profile, users, dispatch}) => {
     const sendInfo = (event) => {
         event.preventDefault()
         const patternPesel = /^[0-9]{11}$/
-        const {pesel, idAdmin, hasło} = event.target
+        const {pesel, admin_id, password} = event.target
         let check = false
     
         if (person === 'user'){
@@ -37,13 +37,13 @@ const LogInForm = ({profile, users, dispatch}) => {
                 pesel.style.borderBottom = '1px solid #333'
             }
         } else {
-            if (idAdmin.value === ""){
-                idAdmin.style.border = '2px solid #ff9999'
+            if (admin_id.value === ""){
+                admin_id.style.border = '2px solid #ff9999'
                 setWarning("* ID jest wymagane")
                 check = true
             } else {
-                idAdmin.style.border = 'none'
-                idAdmin.style.borderBottom = '1px solid #333'
+                admin_id.style.border = 'none'
+                admin_id.style.borderBottom = '1px solid #333'
             }
         }
 
@@ -54,18 +54,18 @@ const LogInForm = ({profile, users, dispatch}) => {
 
             }
             if (person === 'admin') {
-                foundUser = users.filter(user => user.admin_id === idAdmin.value);
+                foundUser = users.filter(user => user.admin_id === admin_id.value);
             }
             if (foundUser.length === 0) {
                 alert("Użytkownik nie istnieje w bazie danych");
             }
             else {
                 const user = foundUser[0];
-                if (user.password === hasło.value && person === "user") {
+                if (user.password === password.value && person === "user") {
                     dispatch(actions.logInUser(user));  // set redux profile
                     event.target.reset();  // accept form
                 }
-                else if (user.password === hasło.value && person === "admin") {
+                else if (user.password === password.value && person === "admin") {
                     dispatch(actions.logInAdmin(user));  // set redux profile
                     event.target.reset();  // accept form
                 }
@@ -81,8 +81,8 @@ const LogInForm = ({profile, users, dispatch}) => {
     }
 
     const data = [
-        person === 'user' ? ['pesel', 'Pesel'] : ['idAdmin', 'ID Admin '],
-        ['hasło', 'Hasło']
+        person === 'user' ? ['pesel', 'Pesel'] : ['admin_id', 'ID Admin '],
+        ['password', 'Hasło']
     ]
 
     return (

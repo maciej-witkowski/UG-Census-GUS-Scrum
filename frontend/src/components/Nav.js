@@ -23,6 +23,7 @@ const Nav = ({profile}) => {
                     </Link>
                     <div className="navbar-item has-text-centered has-text-weight-bold"><Link  to={"/stats"}>Statystyki</Link></div>
                     <div className="navbar-item has-text-centered has-text-weight-bold"><Link  to={"/info"}>Informacje</Link></div>
+                    <div className="navbar-item has-text-centered has-text-weight-bold"><Link  to={"/polls"}>Ankieta</Link></div>
                 </div>
 
                 <div className={"navbar-menu"}>
@@ -45,7 +46,6 @@ const Nav = ({profile}) => {
             {Object.keys(profile).length !== 0 && profile.role==="user"? (
             <div className="navbar-end mt-1">
                 <div className={"navbar-item"}>
-                    <div><Link className="navbar-item has-text-centered has-text-weight-bold" to={"/polls"}>Ankiety</Link></div>
                     <div><Link className="navbar-item has-text-centered has-text-weight-bold mr-3" to={"/profile"}>Profil</Link></div>
                 </div>
             </div>

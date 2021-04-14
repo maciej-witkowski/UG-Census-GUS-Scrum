@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 
 const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
     <form className={"box m-4"} onSubmit={sendInfo}>
-        <fieldset disabled={!read && !profile.admin_id? "disabled" : ""}>
+        {/* <fieldset disabled={!read ? "disabled" : ""}> */}
             <div className={"field is-centered"}>
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
@@ -189,9 +189,30 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
+                        <p className={"label"}>W jakim województwie mieszkałeś/aś?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='voivodeshipHousehold' defaultValue={user.address.place.voivodeship} placeholder={"Województwo"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>W jakim powiacie mieszkałeś/aś?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='districtHousehold' defaultValue={user.address.place.district} placeholder={"Powiat"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>W jakiej gminie mieszkałeś/aś?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='communityHousehold' defaultValue={user.address.place.community} placeholder={"Gmina"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
                         <p className={"label"}>W jakim mieście mieszkałeś/aś?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='cityHousehold' defaultValue={user.address.city} placeholder={"Miasto"}/>
+                    <input className={"input is-info"} type="text" name='cityHousehold' defaultValue={user.address.place.city} placeholder={"Miasto"}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -228,9 +249,30 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
+                        <p className={"label"}>W jakim województwie mieszkasz?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='voivodeship' defaultValue={user.registered_address.place.voivodeship} placeholder={"Województwo"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>W jakim powiacie mieszkasz?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='district' defaultValue={user.registered_address.place.district} placeholder={"Powiat"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>W jakiej gminie mieszkasz?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='community' defaultValue={user.registered_address.place.community} placeholder={"Gmina"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
                         <p className={"label"}>W jakim mieście mieszkasz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='city' defaultValue={user.registered_address.city} placeholder={"Miasto"}/>
+                    <input className={"input is-info"} type="text" name='city' defaultValue={user.registered_address.place.city} placeholder={"Miasto"}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -285,9 +327,30 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
+                        <p className={"label"}>W jakim województwie pracujesz?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='voivodeshipWorkplace' defaultValue={user.workplace.address.place.voivodeship} placeholder={"Województwo"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>W jakim powiacie pracujesz?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='districtWorkplace' defaultValue={user.workplace.address.place.district} placeholder={"Powiat"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>W jakiej gminie pracujesz?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='communityWorkplace' defaultValue={user.workplace.address.place.community} placeholder={"Gmina"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
                         <p className={"label"}>W jakim mieście pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='cityWorkplace' defaultValue={user.workplace.address.city} placeholder={"Miasto"}/>
+                    <input className={"input is-info"} type="text" name='cityWorkplace' defaultValue={user.workplace.address.place.city} placeholder={"Miasto"}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -318,6 +381,36 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     <input className={"input is-info"} type="text" name="postCodeWorkplace" defaultValue={user.workplace.address.postal_code} placeholder={"Kod pocztowy"}/>
                 </div>
 
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>Jaki jest twój rodzaj umowy?</p>
+                    </div>
+                    <div className={"control is-5"}>
+                        <div className="field-body">
+                            <div className="field is-narrow">
+                                <div className="select">
+                                    <select name='jobTitle' defaultValue={user.workplace.job_title}>
+                                        <option value='B2B'>B2B</option>
+                                        <option value='employment_contract'>Umowa o pracę</option>
+                                        <option value='contract_of_mandate'>Umowa zlecenie</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>Jakie jest twoje wynagrodzenie?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name="brutto" defaultValue={user.workplace.brutto} placeholder={"Brutto"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <input className={"input is-info"} type="text" name="netto" defaultValue={user.workplace.netto} placeholder={"Netto"}/>
+                </div>
+
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <button className={"button is-success is-medium"} type='submit'>Wyślij ankietę</button>
                 </div>
@@ -327,7 +420,7 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                 </div> : null }
 
             </div>
-        </fieldset>
+        {/* </fieldset> */}
     </form>
 )
 

@@ -27,11 +27,17 @@ const Polls = ({poll, read, dispatch}) => {
             children,
             livingWithParents,
             partner,
+            voivodeshipHousehold,
+            districtHousehold,
+            communityHousehold,
             cityHousehold,
             streetHousehold,
             homeNumberHousehold,
             apartmentNumberHousehold,
             postCodeHousehold,
+            voivodeship,
+            district,
+            community,
             city,
             street,
             homeNumber,
@@ -39,11 +45,17 @@ const Polls = ({poll, read, dispatch}) => {
             postCode,
             type,
             nameWorkplace,
+            voivodeshipWorkplace,
+            districtWorkplace,
+            communityWorkplace,
             cityWorkplace,
             streetWorkplace,
             homeNumberWorkplace,
             apartmentNumberWorkplace,
             postCodeWorkplace,
+            jobTitle,
+            brutto,
+            netto
         } = event.target
 
         const readyInfo = {
@@ -64,14 +76,24 @@ const Polls = ({poll, read, dispatch}) => {
                 partner: partner.value === "Tak" ? true : false
             },
             address: {
-                city: cityHousehold.value,
+                place: {
+                    voivodeship: voivodeshipHousehold.value,
+                    district: districtHousehold.value,
+                    community: communityHousehold.value,
+                    city: cityHousehold.value
+                },
                 street_name: streetHousehold.value,
                 home_number: homeNumberHousehold.value,
                 apartment_number: apartmentNumberHousehold.value,
                 postal_code: postCodeHousehold.value
             },
             registered_address: {
-                city: city.value,
+                place: {
+                    voivodeship: voivodeship.value,
+                    district: district.value,
+                    community: community.value,
+                    city: city.value,
+                },
                 street_name: street.value,
                 home_number: homeNumber.value,
                 apartment_number: apartmentNumber.value,
@@ -81,11 +103,21 @@ const Polls = ({poll, read, dispatch}) => {
                 type: type.value,
                 name: nameWorkplace.value,
                 address: {
-                    city: cityWorkplace.value,
+                    place: {
+                        voivodeship: voivodeshipWorkplace.value,
+                        district: districtWorkplace.value,
+                        community: communityWorkplace.value,
+                        city: cityWorkplace.value,
+                    },
                     street_name: streetWorkplace.value,
                     home_number: homeNumberWorkplace.value,
                     apartment_number: apartmentNumberWorkplace.value,
                     postal_code: postCodeWorkplace.value
+                },
+                job_title: jobTitle.value,
+                monthly_earnings: {
+                    brutto: brutto.value,
+                    netto: netto.value
                 }
             },
             complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,

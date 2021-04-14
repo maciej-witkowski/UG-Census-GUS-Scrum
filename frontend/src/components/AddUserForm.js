@@ -5,11 +5,11 @@ import * as actions from "../actions/actionCreators";
 
 
 const data = [
-    ['imie', 'Imię *'],
-    ['nazwisko', 'Nazwisko *'],
+    ['name', 'Imię *'],
+    ['surname', 'Nazwisko *'],
     ['pesel', 'Pesel *'], 
-    ['hasło', 'Hasło *'],
-    ['powHasło', 'Powtórz hasło *'],
+    ['password', 'Hasło *'],
+    ['repeatPassword', 'Powtórz hasło *'],
 ]
 
 const mapStateToProps = state => ({
@@ -22,25 +22,25 @@ const AddUserForm = ({poll, profile, dispatch}) => {
 
     const sendInfo = (event) => {
         event.preventDefault()
-        const {imie, nazwisko, pesel, hasło, powHasło} = event.target
+        const {name, surname, pesel, password, repeatPassword} = event.target
         const patternPesel = /^[0-9]{11}$/
         const patternPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/
         let check = false
     
-        if (!patternPassword.test(hasło.value) || hasło.value !== powHasło.value){
-            hasło.style.border = '2px solid #ff9999'
-            powHasło.style.border = '2px solid #ff9999'
-            if (!patternPassword.test(hasło.value)){
+        if (!patternPassword.test(password.value) || password.value !== repeatPassword.value){
+            password.style.border = '2px solid #ff9999'
+            repeatPassword.style.border = '2px solid #ff9999'
+            if (!patternPassword.test(password.value)){
                 setWarning("* Hasło musi zawierać conajmniej: 1 małą literę, 1 wielką literę, 1 liczbe, 1 znak specjalny, 8 znaków")
             } else {
                 setWarning("* Hasła nie są takie same")
             }
             check = true
         } else {
-            hasło.style.border = 'none'
-            powHasło.style.border = 'none'
-            hasło.style.borderBottom = '1px solid #333'
-            powHasło.style.borderBottom = '1px solid #333'
+            password.style.border = 'none'
+            repeatPassword.style.border = 'none'
+            password.style.borderBottom = '1px solid #333'
+            repeatPassword.style.borderBottom = '1px solid #333'
         }
 
         if (!patternPesel.test(pesel.value)){
@@ -52,30 +52,30 @@ const AddUserForm = ({poll, profile, dispatch}) => {
             pesel.style.borderBottom = '1px solid #333'
         }
         
-        if (nazwisko.value === ""){
-            nazwisko.style.border = '2px solid #ff9999'
+        if (surname.value === ""){
+            surname.style.border = '2px solid #ff9999'
             setWarning("* Nazwisko jest wymagane")
             check = true
         } else {
-            nazwisko.style.border = 'none'
-            nazwisko.style.borderBottom = '1px solid #333'
+            surname.style.border = 'none'
+            surname.style.borderBottom = '1px solid #333'
         }
 
-        if (imie.value === ""){
-            imie.style.border = '2px solid #ff9999'
+        if (name.value === ""){
+            name.style.border = '2px solid #ff9999'
             setWarning("* Imie jest wymagane")
             check = true
         } else {
-            imie.style.border = 'none'
-            imie.style.borderBottom = '1px solid #333'
+            name.style.border = 'none'
+            name.style.borderBottom = '1px solid #333'
         }
         
         if (!check){
             const info = {
-                firstName: imie.value,
-                lastName: nazwisko.value,
+                firstName: name.value,
+                lastName: surname.value,
                 pesel: pesel.value,
-                password: hasło.value,
+                password: password.value,
                 role: 'user'
             }
 

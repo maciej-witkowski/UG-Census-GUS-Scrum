@@ -3,8 +3,8 @@ import {LOG_IN, LOG_OUT, SEND_POLLS} from "../actions/actionTypes";
 const initialState = {
     poll: {
         type: "",
-        name: "",
         pesel: "",
+        name: "",
         nationality: "",
         disability: false,
         date_of_birth: "",
@@ -19,14 +19,24 @@ const initialState = {
             partner: false
         },
         address: {
-            city: "",
+            place: {
+                voivodeship: "",
+                district: "",
+                community: "",
+                city: ""
+            },
             street_name: "",
             home_number: 0,
             apartment_number: 0,
-            postal_code: ''
+            postal_code: ""
         },
         registered_address: {
-            city: "",
+            place: {
+                voivodeship: "",
+                district: "",
+                community: "",
+                city: ""
+            },
             street_name: "",
             home_number: 0,
             apartment_number: 0,
@@ -36,17 +46,27 @@ const initialState = {
             type: "",
             name: "",
             address: {
-                city: "",
+                place: {
+                    voivodeship: "",
+                    district: "",
+                    community: "",
+                    city: ""
+                },
                 street_name: "",
                 home_number: 0,
                 apartment_number: 0,
                 postal_code: ""
+            },
+            job_title: "",
+            monthly_earnings: {
+                brutto: 0,
+                netto: 0
             }
         },
         complition_date: "",
         last_modified_date: ""
     },
-    read: false
+    read: true
 };
 
 
@@ -61,7 +81,7 @@ const poll = (state = initialState, action) => {
                     surname: action.payload.profile.lastName,
                     pesel: action.payload.profile.pesel
                 },
-                read: action.payload.poll === null ? true : false
+                read: action.payload.poll !== null ? false : true
             }
         case LOG_OUT:
             return {
