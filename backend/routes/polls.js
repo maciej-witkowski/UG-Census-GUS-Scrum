@@ -224,4 +224,33 @@ router.delete('/delete', async (req, res) => {
         })
 });
 
+router.get('/monthly_earnings', async (req, res) => {
+    const data = await Poll.find()
+    .then(result => {
+        return result.map(poll => poll.workplace.monthly_earnings)
+    })
+    .then(list => {
+        const count = list.length;
+        let brutto_sum = 0;
+        let netto_sum = 0;
+        list.forEach(el => {
+            brutto_sum += el.brutto;
+            netto_sum += el.netto;
+        })
+        const brutto_avg = brutto_sum / count;
+        const netto_avg = netto_sum / count;
+        res.json({
+            all: list,
+            brutto_avg: brutto_avg,
+            netto_avg: netto_avg
+        })
+        return list
+    })
+    .catch(err=>{
+        console.log(err);
+        res.json(err)
+    })
+    console.log(data);
+})
+
 module.exports = router;
