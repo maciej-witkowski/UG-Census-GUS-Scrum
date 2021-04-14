@@ -26,6 +26,7 @@ const RegisterForm = ({poll, profile, users, dispatch}) => {
         dispatch(actions.getUsers());
     }, []);
 
+
     const sendInfo = (event) => {
         event.preventDefault()
         const {name, surname, pesel, password, repeatPassword} = event.target
@@ -110,7 +111,6 @@ const RegisterForm = ({poll, profile, users, dispatch}) => {
                 }
             // }
 
-
             // check if user with this pesel already exists
             const duplicateUser = users.filter(user => user.pesel === pesel.value)[0];
 
@@ -122,6 +122,8 @@ const RegisterForm = ({poll, profile, users, dispatch}) => {
                 dispatch(actions.register(info))
                 alert(`Rejestracja przebiegła poprawnie. Witaj ${name.value}!`)
             }
+            
+//             dispatch(actions.register(info))
     
             setWarning("")
             event.target.reset();
