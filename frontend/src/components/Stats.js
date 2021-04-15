@@ -59,9 +59,7 @@ const Stats = () => {
     useEffect(() => {
         axios.get("http://localhost:3000/polls/communes")
         .then(res=> {
-            console.log(res.data.data.voivodeships)
             setwojewodztwo(res.data.data.voivodeships)
-            console.log(res.data.data.voivodeships)
             setczydostalem(true)
         });
 
@@ -113,7 +111,6 @@ const Stats = () => {
             axios.get("http://localhost:3000/polls/ITfield")
             .then(res=> {
                 setITfield(res.data);
-                console.log(res.data.data)
             });
 
         axios.get("http://localhost:3000/polls/workplace_type")
@@ -278,18 +275,18 @@ const Stats = () => {
             <div>
                 {Object.keys(wojewodztwo).map(function(key, index) {
                      return (
-                         <div className={"panel m-4"}>
+                         <div key={index}  className={"panel m-4"}>
                              <div className={"column box m-3"}>
                                  <p className={"title has-text-danger is-2 has-text-centered"}><b className={"subtitle"}>Województwo:  </b> {key}</p>
                                  <div className={"subtitle has-text-centered has-text-success is-3"}>{wojewodztwo[key].working} <b className={"subtitle"}>osób  </b></div>
-                                 <div id="powiat" className={"rows"}>
+                                 <div  className={"rows"}>
                                      {Object.keys(wojewodztwo[key].districts).map(function(key2, index2) {
-                                         return <div className={"columns box m-1"}>
-                                             <div className={"column has-text-warning-dark has-text-weight-bold is-capitalized"}>Powiat: {key2}-{wojewodztwo[key].districts[key2].working}</div>
+                                         return <div key={index2} className={"columns box m-1"}>
+                                             <div className={"column has-text-warning-dark has-text-weight-bold is-capitalized"}><b className={"has-text-warning-dark"}>Powiat: {key2}</b>-{wojewodztwo[key].districts[key2].working}</div>
 
                                              {Object.keys(wojewodztwo[key].districts[key2].communes).map(function(key3, index3) {
-                                                 return <div>
-                                                     <div className={"column box m-1 has-text-info-dark is-capitalized"}><b>{key3}</b> {wojewodztwo[key].districts[key2].communes[key3].working} osoba</div>
+                                                 return <div key={index3}>
+                                                     <div className={"column box m-1 has-text-success-dark is-capitalized"}><b className={"has-text-info-dark"}>{key3}:</b> {wojewodztwo[key].districts[key2].communes[key3].working} osoba</div>
                                                  </div>
                                              })}
                                          </div>
