@@ -223,7 +223,7 @@ router.get('/communes', async (req, res) => {
                     data.voivodeships[voivodeship].working += 1
                 }
             }
-
+          
             let district = poll.workplace.address.place.district
             if (data.voivodeships[voivodeship].districts.hasOwnProperty(`${district}`)) {
                 if (poll.workplace === "bezrobotny") {
@@ -262,7 +262,6 @@ router.get('/communes', async (req, res) => {
                     data.voivodeships[voivodeship].districts[district].communes[community].working += 1
                 }
             }
-
         })
         res.json({
             success: true,
