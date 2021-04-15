@@ -6,6 +6,7 @@ const initialState = {
         pesel: "",
         name: "",
         nationality: "",
+        residence: "Stały meldunek",
         disability: false,
         date_of_birth: "",
         sex: "",
@@ -58,6 +59,7 @@ const initialState = {
                 postal_code: ""
             },
             job_title: "",
+            contract: "",
             monthly_earnings: {
                 brutto: 0,
                 netto: 0

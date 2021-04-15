@@ -51,7 +51,7 @@ const BasicForm = ({user, nextPage, profile, setInput}) => (
                             <div>
                                 <p className={"label"}>Twój PESEL:</p>
                             </div>
-                            <input className={"input is-info"} type="text" name="pesel" defauvalueltValue={user.pesel} onChange={(ev) => setInput({...user, pesel: ev.target.value})} placeholder={"PESEL"} readOnly/>
+                            <input className={"input is-info"} type="text" name="pesel" defaultValue={user.pesel} onChange={(ev) => setInput({...user, pesel: ev.target.value})} placeholder={"PESEL"} readOnly/>
                         </div>
                     </div>
                 )}
@@ -60,7 +60,16 @@ const BasicForm = ({user, nextPage, profile, setInput}) => (
                     <div>
                         <p className={"label"}>Jaki jest twój kraj pochodzenia:</p>
                     </div>
-                    <input className={"input is-info"} type="text" name="nationality" value={user.nationality} onChange={(ev) => setInput({...user, nationality: ev.target.value})} placeholder={"Kraj pochodzenia"}/>
+                    <input className={"input is-info"} type="text" name="nationality" defaultChecked={user.nationality} onChange={(ev) => setInput({...user, nationality: ev.target.checked})} placeholder={"Kraj pochodzenia"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>Czy mieszkasz w polsce tymczasowo?</p>
+                    </div>
+                    <div className={"checkbox"}>
+                        <input className={"checkbox is-primary"} type="checkbox" name='residence' defaultChecked={user.residence === "Tymczasowy meldunek" ? true : false} onChange={(ev) => setInput({...user, residence: ev.target.checked})}/> Tak
+                    </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -68,7 +77,7 @@ const BasicForm = ({user, nextPage, profile, setInput}) => (
                         <p className={"label"}>Czy jesteś niepełnosprawny?</p>
                     </div>
                     <div className={"checkbox"}>
-                        <input className={"checkbox is-primary"} type="checkbox" name='disability' checked={user.disability} onChange={(ev) => setInput({...user, disability: ev.target.value})}/> Tak
+                        <input className={"checkbox is-primary"} type="checkbox" name='disability' defaultChecked={user.disability} onChange={(ev) => setInput({...user, disability: ev.target.checked})}/> Tak
                     </div>
                 </div>
 

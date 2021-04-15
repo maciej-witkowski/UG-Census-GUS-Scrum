@@ -14,9 +14,16 @@ const WorkplaceForm = ({user, previousPage, profile, deleteUser}) => (
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
+                        <p className={"label"}>W jakiej branży pracujesz?</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name='type'  defaultValue={user.workplace.type} placeholder={"Branża"}/>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
                         <p className={"label"}>Na jakim stanowisku pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='type'  defaultValue={user.workplace.type} placeholder={"Stanowisko"}/>
+                    <input className={"input is-info"} type="text" name='jobTitle'  defaultValue={user.workplace.job_title} placeholder={"Stanowisko"}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -94,7 +101,7 @@ const WorkplaceForm = ({user, previousPage, profile, deleteUser}) => (
                         <div className="field-body">
                             <div className="field is-narrow">
                                 <div className="select">
-                                    <select name='jobTitle' defaultValue={user.workplace.job_title}>
+                                    <select name='contract' defaultValue={user.workplace.contract}>
                                         <option value='B2B'>B2B</option>
                                         <option value='employment_contract'>Umowa o pracę</option>
                                         <option value='contract_of_mandate'>Umowa zlecenie</option>

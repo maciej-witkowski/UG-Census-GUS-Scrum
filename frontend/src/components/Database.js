@@ -42,10 +42,13 @@ const Database = ({user, dispatch, profile, read}) => {
     }
 
     const sendUpdate = (event) => {
+        const patternPesel = /^[0-9]{11}$/
+
         const {
             name,
             pesel,
             nationality,
+            residence,
             disability,
             date,
             sex,
@@ -83,6 +86,7 @@ const Database = ({user, dispatch, profile, read}) => {
             apartmentNumberWorkplace,
             postCodeWorkplace,
             jobTitle,
+            contract,
             brutto,
             netto
         } = event.target
@@ -92,6 +96,7 @@ const Database = ({user, dispatch, profile, read}) => {
             name: name.value,
             pesel: pesel.value,
             nationality: nationality.value,
+            residence: residence.checked === true ? "Tymczasowy meldunek" : "Stały meldunek",
             disability: disability.checked,
             date_of_birth: date.value,
             sex: sex.value,
@@ -144,6 +149,7 @@ const Database = ({user, dispatch, profile, read}) => {
                     postal_code: postCodeWorkplace.value
                 },
                 job_title: jobTitle.value,
+                contract: contract.value,
                 monthly_earnings: {
                     brutto: brutto.value,
                     netto: netto.value
@@ -152,8 +158,15 @@ const Database = ({user, dispatch, profile, read}) => {
             complition_date: user.complition_date,
             last_modified_date: new Date(),
         }
-        dispatch(actions.updateUser(readyInfo))
-        setFind(false)
+
+        if(name.value !== "" && surname.value !== "" && patternPesel.test(pesel.value)){
+            dispatch(actions.updateUser(readyInfo))
+            setFind(false)
+        } else {
+            name.style.border = '2px solid #ff9999'
+            surname.style.border = '2px solid #ff9999'
+            pesel.style.border = '2px solid #ff9999'
+        }
     }
 
     const deleteUser = () => {

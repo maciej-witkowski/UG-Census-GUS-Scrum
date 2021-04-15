@@ -28,12 +28,14 @@ const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
     }
 
     const sendInfo = (event) => {
-        console.log(event.target)
+        const patternPesel = /^[0-9]{11}$/
+
         event.preventDefault()
         const {
             name,
             pesel,
             nationality,
+            residence,
             disability,
             date,
             sex,
@@ -71,6 +73,7 @@ const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
             apartmentNumberWorkplace,
             postCodeWorkplace,
             jobTitle,
+            contract,
             brutto,
             netto
         } = event.target
@@ -80,6 +83,7 @@ const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
             name: name.value,
             pesel: pesel.value,
             nationality: nationality.value,
+            residence: residence.checked === true ? "Tymczasowy meldunek" : "Stały meldunek",
             disability: disability.checked,
             date_of_birth: date.value,
             sex: sex.value,
@@ -131,6 +135,7 @@ const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
                     apartment_number: apartmentNumberWorkplace.value,
                     postal_code: postCodeWorkplace.value
                 },
+                contract: contract.value,
                 job_title: jobTitle.value,
                 monthly_earnings: {
                     brutto: brutto.value,
@@ -141,7 +146,13 @@ const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
             last_modified_date: new Date(),
         }
 
-        dispatch(actions.sendPolls(readyInfo))
+        if(name.value !== "" && surname.value !== "" && patternPesel.test(pesel.value)){
+            dispatch(actions.sendPolls(readyInfo))
+        } else {
+            name.style.border = '2px solid #ff9999'
+            surname.style.border = '2px solid #ff9999'
+            pesel.style.border = '2px solid #ff9999'
+        }
     }
 
     return(
