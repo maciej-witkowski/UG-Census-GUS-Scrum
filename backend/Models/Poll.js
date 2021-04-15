@@ -5,6 +5,7 @@ const pollSchema = new Schema({
     pesel: String,
     name: String,
     nationality: String,
+    residence: String,
     disability: Boolean,
     date_of_birth: Date,
     sex: String,
@@ -44,6 +45,8 @@ const pollSchema = new Schema({
     workplace: {
         type: String,
         name: String,
+        job_title: String,
+        contract: String,
         address: {
             place: {
                 voivodeship: String,
@@ -56,7 +59,6 @@ const pollSchema = new Schema({
             apartment_number: Number,
             postal_code: String
         },
-        job_title: String,
         monthly_earnings: {
             brutto: Number,
             netto: Number
@@ -64,6 +66,7 @@ const pollSchema = new Schema({
     },
     complition_date: Date,
     last_modified_date: Date,
+    filled: Boolean
 },
     { typeKey: '$type' }
 );
