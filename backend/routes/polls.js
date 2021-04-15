@@ -214,12 +214,52 @@ router.get('/communes', async (req, res) => {
             } else {
                 data.voivodeships[voivodeship] = {
                     working: 0,
-                    not_working: 0
+                    not_working: 0,
+                    districts: {}
                 }
                 if (poll.workplace === "bezrobotny") {
                     data.voivodeships[voivodeship].not_working += 1
                 } else {
                     data.voivodeships[voivodeship].working += 1
+                }
+            }
+
+            let district = poll.workplace.address.place.district
+            if (data.voivodeships[voivodeship].districts.hasOwnProperty(`${district}`)) {
+                if (poll.workplace === "bezrobotny") {
+                    data.voivodeships[voivodeship].districts[district].not_working += 1
+                } else {
+                    data.voivodeships[voivodeship].districts[district].working += 1
+                }
+            } else {
+                data.voivodeships[voivodeship].districts[district] = {
+                    working: 0,
+                    not_working: 0,
+                    communes: {}
+                }
+                if (poll.workplace === "bezrobotny") {
+                    data.voivodeships[voivodeship].districts[district].not_working += 1
+                } else {
+                    data.voivodeships[voivodeship].districts[district].working += 1
+                }
+            }
+
+            let community = poll.workplace.address.place.community
+            if (data.voivodeships[voivodeship].districts[district].hasOwnProperty(`${community}`)) {
+                if (poll.workplace === "bezrobotny") {
+                    data.voivodeships[voivodeship].districts[district].communes[community].not_working += 1
+                } else {
+                    data.voivodeships[voivodeship].districts[district].communes[community].working += 1
+                }
+            } else {
+                data.voivodeships[voivodeship].districts[district].communes[community] = {
+                    working: 0,
+                    not_working: 0,
+                }
+                if (poll.workplace === "bezrobotny") {
+                    data.voivodeships[voivodeship].districts[district].communes[community].not_working += 1
+                } else {
+                    data.voivodeships[voivodeship].districts[district].communes[community].working += 1
                 }
             }
 
