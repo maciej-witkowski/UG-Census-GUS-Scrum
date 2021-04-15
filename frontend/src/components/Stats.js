@@ -220,8 +220,9 @@ const Stats = () => {
                 </div>
             </div>
 
-            <div style={{ textAlign: "center" }} className={"column box m-3"}>
-                <h1 className={"subtitle"}>Procent zatrudnionych osób ze względu na branżę.</h1>
+            <div style={{ textAlign: "center" }} className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Procent zatrudnionych osób ze względu na branżę.</h1>
                     <div className="App columns is-centered mr-5 is-flex-mobile">
                         <BarChart
                             width={600}
@@ -240,65 +241,65 @@ const Stats = () => {
                             <Bar dataKey="percent" fill="#48D1CC" background={{ fill: "#eee" }} />
                         </BarChart>
                     </div>
+                </div>
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Wykształcenie</h1>
+                    <div className="App columns is-centered is-flex-mobile mr-5">
+                        <PieChart width={400} height={400}>
+                            <Pie
+                                dataKey="value"
+                                isAnimationActive={false}
+                                data={procentwyksztalcenia}
+                                cx={200}
+                                cy={200}
+                                outerRadius={80}
+                                fill="#8884d8"
+                                label={(entry) => entry.name}
+                            />
+                            <Tooltip />
+                        </PieChart>
+                    </div>
+                </div>
             </div>
 
-            <PieChart width={400} height={400}>
-          <Pie
-            dataKey="value"
-            isAnimationActive={false}
-            data={procentwyksztalcenia}
-            cx={200}
-            cy={200}
-            outerRadius={80}
-            fill="#8884d8"
-            label={(entry) => entry.name}
-          />
-          <Tooltip />
-        </PieChart>
-
-
-        {czydostalem ? 
-            <div>
-                {Object.keys(wojewodztwo).map(function(key, index) {
-         return <div id="wojewodztwo">
-             <div>{key}</div> <div>{wojewodztwo[key].working}</div>
-             <div id="powiat">
-             {Object.keys(wojewodztwo[key].districts).map(function(key2, index2) {
-                return <div>
-                <div>{key2}</div> <div>{wojewodztwo[key].districts[key2].working}</div>
-
-                {Object.keys(wojewodztwo[key].districts[key2].communes).map(function(key3, index3) {
-                return <div>
-                    <div>{key3}</div> <div>{wojewodztwo[key].districts[key2].communes[key3].working}</div>
-                </div>
-
-                })}
-                </div>
-             })}
-             </div>
-
-             </div>
-          })}
-
-            </div>
-            
-            : null }
-        <div className={"columns m-5"}>
-            <div className={"column box has-text-centered m-5"}>
+            <div className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-link is-2"}>{Math.round(monthlyearnings.brutto_avg)}<b className={"subtitle"}> Średnie zarobki brutto</b> </p>
                 </div>
-                <div className={"column box has-text-centered m-5"}>
+                <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-link is-2"}>{Math.round(monthlyearnings.netto_avg)}<b className={"subtitle"}> Średnie zarobki netto</b> </p>
                 </div>
-            </div>
-
-            <div className={"columns m-6"}>
-            <div className={"column box has-text-centered m-6"}>
-                    <p className={"title has-text-link is-1"}>{Math.round(ITfield)}<b className={"subtitle"}> Ilosc osob pracujacych w IT</b> </p>
+                <div className={"column box has-text-centered m-3"}>
+                    <p className={"title has-text-link is-2"}>{Math.round(ITfield)}<b className={"subtitle"}> Ilosc osob pracujacych w IT</b> </p>
                 </div>
-
             </div>
 
+        {czydostalem ?
+            <div>
+                {Object.keys(wojewodztwo).map(function(key, index) {
+                     return (
+                         <div className={"panel m-4"}>
+                             <div className={"column box m-3"}>
+                                 <p className={"title has-text-danger is-2 has-text-centered"}><b className={"subtitle"}>Województwo:  </b> {key}</p>
+                                 <div className={"subtitle has-text-centered has-text-success is-3"}>{wojewodztwo[key].working} <b className={"subtitle"}>osób  </b></div>
+                                 <div id="powiat" className={"columns"}>
+                                     {Object.keys(wojewodztwo[key].districts).map(function(key2, index2) {
+                                         return <div>
+                                             <div className={"column has-text-warning-dark has-text-weight-bold is-capitalized"}>{key2}-{wojewodztwo[key].districts[key2].working}</div>
+
+                                             {Object.keys(wojewodztwo[key].districts[key2].communes).map(function(key3, index3) {
+                                                 return <div>
+                                                     <div className={"column has-text-info-dark is-capitalized"}><b>{key3}</b> {wojewodztwo[key].districts[key2].communes[key3].working} osoba</div>
+                                                 </div>
+                                             })}
+                                         </div>
+                                     })}
+                                 </div>
+                             </div>
+                         </div>)
+                })}
+            </div>
+            : null }
         </div>
     )
 }
