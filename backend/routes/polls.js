@@ -85,9 +85,21 @@ router.get('/ITfield', async (req, res) => {
             if (poll.workplace.type === "IT") {
                 let title = poll.workplace.job_title
                 if (data.hasOwnProperty(`${title}`)) {
-                    data[title] += 1
+                    if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                        data[title].polish += 1
+                    } else {
+                        data[title].other += 1
+                    }
                 } else {
-                    data[title] = 1
+                    data[title] = {
+                        polish: 0,
+                        other: 0
+                    }
+                    if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                        data[title].polish += 1
+                    } else {
+                        data[title].other += 1
+                    }
                 }
             }
         })
