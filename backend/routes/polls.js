@@ -2,20 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Poll = require('../Models/Poll');
 
-
-router.get('/:pesel', async (req, res) => {
-    Poll.find({ pesel: req.params.pesel })
-        .then((poll) => {
-            res.json(poll)
-        })
-        .catch((error) => {
-            console.log(console.log(error))
-            res.status(404).json({
-                success: false
-            });
-        })
-});
-
 router.get('/', async (req, res) => {
     Poll.find()
         .then((polls) => {
@@ -428,7 +414,7 @@ router.get('/ilenieokreslonych', async (req, res) => {
         const x = Object.keys(allpolls).length
         let ilemezczyzn = 0
         for (let i = 0; i < x; i++) {
-            if (allpolls[i].sex === "Wole nie odpowiadać") {
+            if (allpolls[i].sex === "Wolę nie odpowiadać") {
                 ilemezczyzn = ilemezczyzn + 1
             }
         }
@@ -496,7 +482,7 @@ router.get('/ilemapartnerke', async (req, res) => {
         let ilepartnerka = 0
         for (let i = 0; i < x; i++) {
             if (allpolls[i].household.partner === true) {
-                ilezrodzicami = ilepartnerka + 1
+                ilepartnerka = ilepartnerka + 1
             }
         }
         return res.json(ilepartnerka);
@@ -570,6 +556,17 @@ router.get('/monthly_earnings', async (req, res) => {
         })
 })
 
-
+router.get('/:pesel', async (req, res) => {
+    Poll.find({ pesel: req.params.pesel })
+        .then((poll) => {
+            res.json(poll)
+        })
+        .catch((error) => {
+            console.log(console.log(error))
+            res.status(404).json({
+                success: false
+            });
+        })
+});
 
 module.exports = router;
