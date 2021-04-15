@@ -2,11 +2,16 @@ import {React, useState} from 'react';
 import CreateInput from './CreateInput'
 import * as actions from "../actions/actionCreators";
 import {connect} from "react-redux";
-import PollInputs from './PollInputs';
+import BasicForm from './BasicForm'
+import HouseholdForm from './HouseholdForm'
+import AddressForm from './AddressForm.js'
+import RegistrationAddressFrom from './RegisteredAddressFrom'
+import WorkplaceFrom from './WorkplaceFrom'
 
 
 const mapStateToProps = state => ({
     user: state.user.user,
+    profile: state.profile.profile
 })
 
 const data = [
@@ -15,8 +20,17 @@ const data = [
     ['surname', 'Nazwisko']
 ]
 
-const Database = ({user, dispatch}) => {
+const Database = ({user, dispatch, profile, read}) => {
     const [find, setFind] = useState(false)
+    const [num, setNum] = useState(0)
+    
+    const nextPage = () => {
+        setNum(num + 1)
+    }
+
+    const previousPage = () => {
+        setNum(num - 1)
+    }
 
     const sendFind = (event) => {
         const userTmp = {
@@ -167,7 +181,15 @@ const Database = ({user, dispatch}) => {
             :
             (
                 <div>
-                    <PollInputs user={user} sendInfo={sendUpdate} deleteUser={deleteUser} />
+                    <form onSubmit={sendUpdate}>
+                        <fieldset disabled={!read && !profile.admin_id ? "disabled" : ""}>
+                            {num === 0 && (<BasicForm user={user} profile={profile} nextPage={nextPage}/>)}
+                            {num === 1 && (<HouseholdForm user={user}  nextPage={nextPage} previousPage={previousPage}/>)}
+                            {num === 2 && (<AddressForm user={user} nextPage={nextPage} previousPage={previousPage}/>)}
+                            {num === 3 && (<RegistrationAddressFrom user={user} nextPage={nextPage} previousPage={previousPage}/>)}
+                            {num === 4 && (<WorkplaceFrom user={user} previousPage={previousPage} profile={profile} deleteUser={deleteUser}/>)}
+                        </fieldset>
+                    </form>
                 </div>
             )}
         </div>

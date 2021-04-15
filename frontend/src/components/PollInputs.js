@@ -124,6 +124,30 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div className={"column is-centered mx-5 is-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim gospodarstwie domowym:</p>
                 </div>
@@ -182,6 +206,27 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
 
                 <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim adresie zamieszkania w dzieciństwie:</p>
@@ -243,6 +288,38 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     <input className={"input is-info"} type="text" name="postCodeHousehold" defaultValue={user.address.postal_code} placeholder={"Kod pocztowy"}/>
                 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim obecnym adresie zamieszkania:</p>
                 </div>
@@ -302,6 +379,36 @@ const PollInputs = ({sendInfo, read, user, deleteUser, profile}) => (
                     </div>
                     <input className={"input is-info"} type="text" name="postCode" defaultValue={user.registered_address.postal_code} placeholder={"Kod pocztowy"}/>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twojej pracy:</p>
