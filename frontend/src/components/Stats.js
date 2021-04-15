@@ -282,14 +282,14 @@ const Stats = () => {
                              <div className={"column box m-3"}>
                                  <p className={"title has-text-danger is-2 has-text-centered"}><b className={"subtitle"}>Województwo:  </b> {key}</p>
                                  <div className={"subtitle has-text-centered has-text-success is-3"}>{wojewodztwo[key].working} <b className={"subtitle"}>osób  </b></div>
-                                 <div id="powiat" className={"columns"}>
+                                 <div id="powiat" className={"rows"}>
                                      {Object.keys(wojewodztwo[key].districts).map(function(key2, index2) {
-                                         return <div>
-                                             <div className={"column has-text-warning-dark has-text-weight-bold is-capitalized"}>{key2}-{wojewodztwo[key].districts[key2].working}</div>
+                                         return <div className={"columns box m-1"}>
+                                             <div className={"column has-text-warning-dark has-text-weight-bold is-capitalized"}>Powiat: {key2}-{wojewodztwo[key].districts[key2].working}</div>
 
                                              {Object.keys(wojewodztwo[key].districts[key2].communes).map(function(key3, index3) {
                                                  return <div>
-                                                     <div className={"column has-text-info-dark is-capitalized"}><b>{key3}</b> {wojewodztwo[key].districts[key2].communes[key3].working} osoba</div>
+                                                     <div className={"column box m-1 has-text-info-dark is-capitalized"}><b>{key3}</b> {wojewodztwo[key].districts[key2].communes[key3].working} osoba</div>
                                                  </div>
                                              })}
                                          </div>
