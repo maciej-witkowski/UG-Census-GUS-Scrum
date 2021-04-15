@@ -71,7 +71,7 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                         <p className={"label"}>Na jakim stanowisku pracujesz?</p>
                     </div>
                     <input className={"input is-info"} type="text" name='type' value={type} placeholder={"Stanowisko"}
-                    onChange={(ev) => setType(ev.target.value)}
+                    onChange={(ev) => setType(ev.target.value)}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>

@@ -43,7 +43,7 @@ const RegistrationAddressForm = ({user, previousPage, poll, dispatch, nextPage})
 
 
     return (
-            <div className={"field is-centered"}>
+            <div className={"box m-6 field is-centered"}>
                 
                 <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim obecnym adresie zamieszkania:</p>
@@ -120,13 +120,10 @@ const RegistrationAddressForm = ({user, previousPage, poll, dispatch, nextPage})
                     onChange={(ev) => setPostalCode(ev.target.value)}
                     />
                 </div>
-                
-                <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
-                    <input type="button" onClick={previousPage} className={"button is-success is-medium"} value="Poprzednia strona"/>
-                </div>
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
-                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Nastepna strona"/>
+                    <input type="button" onClick={previousPage} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
+                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Następna strona"/>
                 </div>
             </div>
 )
