@@ -12,6 +12,11 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
 
     const [type, setType] = useState(poll.workplace.type);
     const [name, setName] = useState(poll.workplace.name);
+    const [jobTitle, setJobTitle] = useState(poll.workplace.job_title);
+    const [contract, setContract] = useState(poll.workplace.contract);
+    const [brutto, setBrutto] = useState(poll.workplace.brutto);
+    const [netto, setNetto] = useState(poll.workplace.netto);
+    
 
     const [voivodeship, setVoivodeship] = useState(poll.workplace.address.place.voivodeship);
     const [district, setDistrict] = useState(poll.workplace.address.place.district);
@@ -33,6 +38,8 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
             workplace: {
                 type: type,
                 name: name,
+                contract: contract,
+                job_title: jobTitle,
                 address: {
                     place: {
                         voivodeship: voivodeship,
@@ -44,6 +51,10 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                     home_number: home_number,
                     apartment_number: apartment_number,
                     postal_code: postal_code
+                },
+                monthly_earnings: {
+                    brutto: brutto,
+                    netto: netto
                 }
             }
         }
@@ -63,15 +74,16 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                     <div>
                         <p className={"label"}>W jakiej branży pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='type'  defaultValue={user.workplace.type} placeholder={"Branża"}/>
+                    <input className={"input is-info"} type="text" name='type'  value={type} placeholder={"Branża"}
+                    onChange={(ev) => setType(ev.target.value)}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Na jakim stanowisku pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='type' value={type} placeholder={"Stanowisko"}
-                    onChange={(ev) => setType(ev.target.value)}/>
+                    <input className={"input is-info"} type="text" name='job_title' value={jobTitle} placeholder={"Stanowisko"}
+                    onChange={(ev) => setJobTitle(ev.target.value)}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -167,7 +179,7 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                         <div className="field-body">
                             <div className="field is-narrow">
                                 <div className="select">
-                                    <select name='contract' defaultValue={user.workplace.contract}>
+                                    <select name='contract' value={user.workplace.contract} onChange={(ev) => setContract(ev.target.value)}>
                                         <option value='B2B'>B2B</option>
                                         <option value='employment_contract'>Umowa o pracę</option>
                                         <option value='contract_of_mandate'>Umowa zlecenie</option>
@@ -182,11 +194,11 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                     <div>
                         <p className={"label"}>Jakie jest twoje wynagrodzenie?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name="brutto" defaultValue={user.workplace.brutto} placeholder={"Brutto"}/>
+                    <input className={"input is-info"} type="text" name="brutto" value={user.workplace.monthly_earnings.brutto} placeholder={"Brutto"} onChange={(ev) => setBrutto(ev.target.value)}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
-                    <input className={"input is-info"} type="text" name="netto" defaultValue={user.workplace.netto} placeholder={"Netto"}/>
+                    <input className={"input is-info"} type="text" name="netto" value={user.workplace.monthly_earnings.netto} placeholder={"Netto"} onChange={(ev) => setNetto(ev.target.value)}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>

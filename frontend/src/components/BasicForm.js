@@ -16,6 +16,8 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
     const [confession, setConfession] = useState(poll.confession);
     const [marital_status, setMaritalStatus] = useState(poll.marital_status);
     const [education, setEducation] = useState(poll.education);
+    const [residence, setResidence] = useState(poll.residence);
+
 
     useEffect(() => {
         console.log(poll);
@@ -29,8 +31,10 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
             sex: sex,
             confession: confession,
             marital_status: marital_status,
-            education: education
+            education: education,
+            residence: residence
         }
+
         dispatch(actions.setInfo(info));
         nextPage();
     }
@@ -98,7 +102,7 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
                         <p className={"label"}>Czy mieszkasz w polsce tymczasowo?</p>
                     </div>
                     <div className={"checkbox"}>
-                        <input className={"checkbox is-primary"} type="checkbox" name='residence' defaultChecked={user.residence === "Tymczasowy meldunek" ? true : false} onChange={(ev) => setInput({...user, residence: ev.target.checked})}/> Tak
+                        <input className={"checkbox is-primary"} type="checkbox" name='residence' checked={residence === "Tymczasowy meldunek" ? true : false} onChange={(ev) => setResidence(ev.target.checked === true ? "Tymczasowy meldunek" : "Stały meldunek")}/> Tak
                     </div>
                 </div>
 
@@ -107,7 +111,7 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
                         <p className={"label"}>Czy jesteś niepełnosprawny?</p>
                     </div>
                     <div className={"checkbox"}>
-                        <input className={"checkbox is-primary"} type="checkbox" name='disability' defaultChecked={disability} onChange={() => setDisability(!disability)}/> Tak
+                        <input className={"checkbox is-primary"} type="checkbox" name='disability' checked={disability} onChange={() => setDisability(!disability)}/> Tak
                     </div>
                 </div>
 
