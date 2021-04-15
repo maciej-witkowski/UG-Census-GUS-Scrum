@@ -75,6 +75,7 @@ export const sendPolls = (poll) => {
                 return response.data
             })
             .then(data => {
+                console.log(data);
                 dispatch({
                     type: actions.SEND_POLLS,
                     payload: data
@@ -82,6 +83,39 @@ export const sendPolls = (poll) => {
             })
             .catch(error => {
                 throw (error);
+            });
+    };
+}
+
+export const getPollByPesel = (pesel) => {
+    return (dispatch) => {
+        return axios.get(`http://localhost:3000/polls/${pesel}`)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                console.log(data);
+                if (data.length!==0) {
+                    console.log("setting to true")
+                    dispatch({
+                        type: actions.SUCCESS,
+                        payload: {}
+                    })
+                }
+                else {
+                    console.log("setting to false")
+                dispatch({
+                    type: actions.FAILURE,
+                    payload: {}
+                })
+            }
+            })
+            .catch(error => {
+                dispatch({
+                    type: actions.FAILURE,
+                    payload: {}
+                })
+                // throw (error);
             });
     };
 }

@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const Poll = require('../Models/Poll');
 
+
+router.get('/:pesel', async (req, res) => {
+    Poll.find({pesel: req.params.pesel})
+        .then((poll) => {
+            res.json(poll)
+        })
+        .catch((error) => {
+            console.log(console.log(error))
+            res.status(404).json({
+                success: false
+            });
+        })
+});
+
 router.get('/', async (req, res) => {
     Poll.find()
         .then((polls) => {
@@ -54,6 +68,7 @@ router.post('/', async (req, res) => {
     })
     
 });
+
 
 router.patch('/patch', async (req, res) => {
     const pesel = req.body.pesel;

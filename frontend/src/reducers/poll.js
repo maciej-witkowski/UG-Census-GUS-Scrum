@@ -1,4 +1,4 @@
-import {LOG_IN, LOG_OUT, SEND_POLLS, SET_NATIONALITY, SET_DISABILITY, SET_DATE, SET_INFO} from "../actions/actionTypes";
+import {LOG_IN, LOG_OUT, SEND_POLLS, SET_INFO} from "../actions/actionTypes";
 
 const initialState = {
     poll: {

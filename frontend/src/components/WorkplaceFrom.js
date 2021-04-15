@@ -4,18 +4,19 @@ import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
-    poll: state.poll.poll
+    poll: state.poll.poll,
+    alerts: state.alerts
 });
 
 
-const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}) => {
+const WorkplaceForm = ({user, previousPage, profile, poll, alerts, dispatch, deleteUser}) => {
 
     const [type, setType] = useState(poll.workplace.type);
     const [name, setName] = useState(poll.workplace.name);
     const [jobTitle, setJobTitle] = useState(poll.workplace.job_title);
     const [contract, setContract] = useState(poll.workplace.contract);
-    const [brutto, setBrutto] = useState(poll.workplace.brutto);
-    const [netto, setNetto] = useState(poll.workplace.netto);
+    const [brutto, setBrutto] = useState(poll.workplace.monthly_earnings.brutto);
+    const [netto, setNetto] = useState(poll.workplace.monthly_earnings.netto);
     
 
     const [voivodeship, setVoivodeship] = useState(poll.workplace.address.place.voivodeship);
@@ -28,10 +29,54 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
     const [apartment_number, setApartment] = useState(poll.workplace.address.apartment_number);
     const [postal_code, setPostalCode] = useState(poll.workplace.address.postal_code);
 
+    const [readyToGetPollByPesel, setReadyToGetPollByPesel] = useState(false);
+    const [readyToCheckIfSuccess, setReadyToCheckIfSuccess] = useState(false);
+
+    const sendInfo = () => {
+        // const patternPesel = /^[0-9]{11}$/
+        // event.preventDefault()
+        const readyInfo = {
+            ...poll,
+            // residence: residence.checked === true ? "Tymczasowy meldunek" : "Stały meldunek",
+            complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
+            last_modified_date: new Date(),
+        }
+
+        dispatch(actions.sendPolls(readyInfo));
+
+        // if(name.value !== "" && surname.value !== "" && patternPesel.test(pesel.value)){
+        //     dispatch(actions.sendPolls(readyInfo))
+        // } else {
+        //     name.style.border = '2px solid #ff9999'
+        //     surname.style.border = '2px solid #ff9999'
+        //     pesel.style.border = '2px solid #ff9999'
+        // }
+    }
+
 
     useEffect(() => {
         console.log(poll);
     }, [poll]);
+
+
+    useEffect(() => {
+        if (readyToGetPollByPesel) {
+            dispatch(actions.getPollByPesel(poll.pesel));
+            setReadyToCheckIfSuccess(true);
+        }
+    }, [readyToGetPollByPesel]);
+
+    useEffect(() => {
+        if (readyToCheckIfSuccess) {
+            if (alerts.success) {  // if pesel already exists - was successfully found by getPollByPesel
+                alert(`Poll for this pesel already exists!`);
+            }
+            else {
+                sendInfo();
+                alert(`Poll successfully sent!`)
+            }
+        }
+    }, [readyToCheckIfSuccess]);
 
     const updatePoll = () => {
         const info = {
@@ -58,7 +103,8 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                 }
             }
         }
-        dispatch(actions.setInfo(info));
+         dispatch(actions.setInfo(info));
+         setReadyToGetPollByPesel(true);
     }
 
 
@@ -179,7 +225,7 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                         <div className="field-body">
                             <div className="field is-narrow">
                                 <div className="select">
-                                    <select name='contract' value={user.workplace.contract} onChange={(ev) => setContract(ev.target.value)}>
+                                    <select name='contract' value={contract} onChange={(ev) => setContract(ev.target.value)}>
                                         <option value='B2B'>B2B</option>
                                         <option value='employment_contract'>Umowa o pracę</option>
                                         <option value='contract_of_mandate'>Umowa zlecenie</option>
@@ -194,20 +240,26 @@ const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}
                     <div>
                         <p className={"label"}>Jakie jest twoje wynagrodzenie?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name="brutto" value={user.workplace.monthly_earnings.brutto} placeholder={"Brutto"} onChange={(ev) => setBrutto(ev.target.value)}/>
+                    <input className={"input is-info"} type="text" name="brutto" value={brutto} placeholder={"Brutto"} 
+                    onChange={(ev) => setBrutto(ev.target.value)}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
-                    <input className={"input is-info"} type="text" name="netto" value={user.workplace.monthly_earnings.netto} placeholder={"Netto"} onChange={(ev) => setNetto(ev.target.value)}/>
+                    <input className={"input is-info"} type="text" name="netto" value={netto} placeholder={"Netto"} 
+                    onChange={(ev) => setNetto(ev.target.value)}/>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <input type="button" onClick={previousPage} className={"button is-success is-medium"} value="Poprzednia strona"/>
                 </div>
-
-                {/* <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
-                    <button className={"button is-success is-medium"} type='submit'>Wyślij ankietę</button>
+{/* 
+                <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
+                    <button className={"button is-success is-medium"} onClick={updatePoll}>Update Poll</button>
                 </div> */}
+
+                <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
+                    <button className={"button is-success is-medium"} onClick={updatePoll}>Wyślij ankietę</button>
+                </div>
 
                 {profile.admin_id ? <div className={"column is-centered mx-5 is-5 mb-6"}>
                     <input className={"button is-danger is-medium"} type="button" value="Usuń ankietę" onClick={deleteUser} />
