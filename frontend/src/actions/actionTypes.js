@@ -5,5 +5,4 @@ export const REGISTER= 'REGISTER'
 export const FIND_USER= 'FIND_USER'
 export const DELETE_USER= 'DELETE_USER'
 export const GET_USERS= 'GET_USERS'
-
-
+export const SET_INFO= 'SET_INFO'

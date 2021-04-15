@@ -1,4 +1,4 @@
-import {LOG_IN, LOG_OUT, SEND_POLLS} from "../actions/actionTypes";
+import {LOG_IN, LOG_OUT, SEND_POLLS, SET_NATIONALITY, SET_DISABILITY, SET_DATE, SET_INFO} from "../actions/actionTypes";
 
 const initialState = {
     poll: {
@@ -94,6 +94,13 @@ const poll = (state = initialState, action) => {
                 ...state,
                 poll: {...state.poll, ...action.payload.poll},
                 read: false
+            }
+        case SET_INFO:
+            return {
+                poll: {
+                    ...state.poll,
+                    ...action.payload
+                }
             }
         default:
             return state;

@@ -61,6 +61,12 @@ export const logOut = () => {
     }
 }
 
+export const setInfo = (info) => {
+    return {
+        type: actions.SET_INFO,
+        payload: info
+    }
+}
 
 export const sendPolls = (poll) => {
     return (dispatch) => {

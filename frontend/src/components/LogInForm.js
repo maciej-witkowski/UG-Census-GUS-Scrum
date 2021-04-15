@@ -63,10 +63,12 @@ const LogInForm = ({profile, users, dispatch}) => {
                 const user = foundUser[0];
                 if (user.password === password.value && person === "user") {
                     dispatch(actions.logInUser(user));  // set redux profile
+                    alert("Zostałeś poprawnie zalogowany");
                     event.target.reset();  // accept form
                 }
                 else if (user.password === password.value && person === "admin") {
                     dispatch(actions.logInAdmin(user));  // set redux profile
+                    alert("Zostałeś poprawnie zalogowany");
                     event.target.reset();  // accept form
                 }
                 else {

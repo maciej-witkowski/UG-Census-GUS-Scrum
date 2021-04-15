@@ -160,13 +160,16 @@ const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
             <h1 className="title">Ankiety</h1>
             <div>
                 <form onSubmit={sendInfo}>
-                    <fieldset disabled={!read && !profile.admin_id ? "disabled" : ""}>
+                    {/* <fieldset disabled={!read && !profile.admin_id ? "disabled" : ""}> */}
                         {num === 0 && (<BasicForm user={input} profile={profile} nextPage={nextPage} setInput={setInput}/>)}
                         {num === 1 && (<HouseholdForm user={input}  nextPage={nextPage} previousPage={previousPage} setInput={setInput}/>)}
                         {num === 2 && (<AddressForm user={input} nextPage={nextPage} previousPage={previousPage} setInput={setInput}/>)}
                         {num === 3 && (<RegistrationAddressFrom user={input} nextPage={nextPage} previousPage={previousPage} setInput={setInput}/>)}
-                        {num === 4 && (<WorkplaceFrom user={input} previousPage={previousPage} profile={profile} deleteUser={deleteUser} setInput={setInput}/>)}
-                    </fieldset>
+                        {num === 4 && (<WorkplaceFrom user={input} previousPage={previousPage} profile={profile} deleteUser={deleteUser} setInput={setInput}/>) }
+                        {num === 4? (<div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
+                        <button className={"button is-success is-medium"} type='submit'>Wyślij ankietę</button>
+                        </div>): null}
+                    {/* </fieldset> */}
                 </form>
             </div>
         </div>

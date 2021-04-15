@@ -1,11 +1,58 @@
-import {React} from "react";
+import {React, useState, useEffect} from "react";
 import {connect} from "react-redux";
+import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile
+    profile: state.profile.profile,
+    poll: state.poll.poll
 });
 
-const WorkplaceForm = ({user, previousPage, profile, deleteUser}) => (
+
+const WorkplaceForm = ({user, previousPage, profile, poll, dispatch, deleteUser}) => {
+
+    const [type, setType] = useState(poll.workplace.type);
+    const [name, setName] = useState(poll.workplace.name);
+
+    const [voivodeship, setVoivodeship] = useState(poll.workplace.address.place.voivodeship);
+    const [district, setDistrict] = useState(poll.workplace.address.place.district);
+    const [community, setCommunity] = useState(poll.workplace.address.place.community);
+    const [city, setCity] = useState(poll.workplace.address.place.city);
+
+    const [street_name, setStreet] = useState(poll.workplace.address.street_name);
+    const [home_number, setHomeNum] = useState(poll.workplace.address.home_number);
+    const [apartment_number, setApartment] = useState(poll.workplace.address.apartment_number);
+    const [postal_code, setPostalCode] = useState(poll.workplace.address.postal_code);
+
+
+    useEffect(() => {
+        console.log(poll);
+    }, [poll]);
+
+    const updatePoll = () => {
+        const info = {
+            workplace: {
+                type: type,
+                name: name,
+                address: {
+                    place: {
+                        voivodeship: voivodeship,
+                        district: district,
+                        community: community,
+                        city: city
+                    },
+                    street_name: street_name,
+                    home_number: home_number,
+                    apartment_number: apartment_number,
+                    postal_code: postal_code
+                }
+            }
+        }
+        dispatch(actions.setInfo(info));
+    }
+
+
+    return (
+
             <div className={"field is-centered"}>
 
                 <div className={"column is-centered mx-5 mt-6"}>
@@ -23,14 +70,17 @@ const WorkplaceForm = ({user, previousPage, profile, deleteUser}) => (
                     <div>
                         <p className={"label"}>Na jakim stanowisku pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='jobTitle'  defaultValue={user.workplace.job_title} placeholder={"Stanowisko"}/>
+                    <input className={"input is-info"} type="text" name='type' value={type} placeholder={"Stanowisko"}
+                    onChange={(ev) => setType(ev.target.value)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Podaj nazwę firmy w której pracujesz</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='nameWorkplace' defaultValue={user.workplace.name} placeholder={"Nazwa firmy"}/>
+                    <input className={"input is-info"} type="text" name='nameWorkplace' value={name} placeholder={"Nazwa firmy"}
+                    onChange={(ev) => setName(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 mt-6"}>
@@ -41,56 +91,72 @@ const WorkplaceForm = ({user, previousPage, profile, deleteUser}) => (
                     <div>
                         <p className={"label"}>W jakim województwie pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='voivodeshipWorkplace' defaultValue={user.workplace.address.place.voivodeship} placeholder={"Województwo"}/>
+                    <input className={"input is-info"} type="text" name='voivodeshipWorkplace' value={voivodeship} placeholder={"Województwo"}
+                    onChange={(ev) => setVoivodeship(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakim powiacie pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='districtWorkplace' defaultValue={user.workplace.address.place.district} placeholder={"Powiat"}/>
+                    <input className={"input is-info"} type="text" name='districtWorkplace' value={district} placeholder={"Powiat"}
+                    onChange={(ev) => setDistrict(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakiej gminie pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='communityWorkplace' defaultValue={user.workplace.address.place.community} placeholder={"Gmina"}/>
+                    <input className={"input is-info"} type="text" name='communityWorkplace' value={community} placeholder={"Gmina"}
+                    onChange={(ev) => setCommunity(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakim mieście pracujesz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='cityWorkplace' defaultValue={user.workplace.address.place.city} placeholder={"Miasto"}/>
+                    <input className={"input is-info"} type="text" name='cityWorkplace' value={city} placeholder={"Miasto"}
+                    onChange={(ev) => setCity(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Podaj nazwę ulicy</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='streetWorkplace' defaultValue={user.workplace.address.street_name} placeholder={"Ulica"}/>
+                    <input className={"input is-info"} type="text" name='streetWorkplace' value={street_name} placeholder={"Ulica"}
+                    onChange={(ev) => setStreet(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr budynku</p>
                     </div>
-                    <input className={"input is-info"} type="number" name='homeNumberWorkplace' min="0" defaultValue={user.workplace.address.home_number} placeholder={"Numer budynku"}/>
+                    <input className={"input is-info"} type="number" name='homeNumberWorkplace' min="0" value={home_number} placeholder={"Numer budynku"}
+                    onChange={(ev) => setHomeNum(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr lokalu</p>
                     </div>
-                    <input className={"input is-info"} type="number" name='apartmentNumberWorkplace' min="0" defaultValue={user.workplace.address.apartment_number} placeholder={"Numer lokalu"}/>
+                    <input className={"input is-info"} type="number" name='apartmentNumberWorkplace' min="0" value={apartment_number} placeholder={"Numer lokalu"}
+                    onChange={(ev) => setApartment(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Kod pocztowy</p>
                     </div>
-                    <input className={"input is-info"} type="text" name="postCodeWorkplace" defaultValue={user.workplace.address.postal_code} placeholder={"Kod pocztowy"}/>
+                    <input className={"input is-info"} type="text" name="postCodeWorkplace" value={postal_code} placeholder={"Kod pocztowy"}
+                    onChange={(ev) => setPostalCode(ev.target.value)}
+                    />
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -127,15 +193,15 @@ const WorkplaceForm = ({user, previousPage, profile, deleteUser}) => (
                     <input type="button" onClick={previousPage} className={"button is-success is-medium"} value="Poprzednia strona"/>
                 </div>
 
-                <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
+                {/* <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <button className={"button is-success is-medium"} type='submit'>Wyślij ankietę</button>
-                </div>
+                </div> */}
 
                 {profile.admin_id ? <div className={"column is-centered mx-5 is-5 mb-6"}>
                     <input className={"button is-danger is-medium"} type="button" value="Usuń ankietę" onClick={deleteUser} />
                 </div> : null }
 
-            </div>
-)
+            </div>)
+}
 
 export default connect(mapStateToProps)(WorkplaceForm);
