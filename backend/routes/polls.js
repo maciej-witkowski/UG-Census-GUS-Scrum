@@ -4,7 +4,7 @@ const Poll = require('../Models/Poll');
 
 
 router.get('/:pesel', async (req, res) => {
-    Poll.find({pesel: req.params.pesel})
+    Poll.find({ pesel: req.params.pesel })
         .then((poll) => {
             res.json(poll)
         })
@@ -97,7 +97,7 @@ router.get('/ITfield', async (req, res) => {
     Poll.find().then(result => {
         const data = {}
         result.forEach(poll => {
-            if (poll.workplace.type === "IT") {
+            if (poll.workplace.type === "Internet i Komputer") {
                 let title = poll.workplace.job_title
                 if (data.hasOwnProperty(`${title}`)) {
                     data[title] += 1
