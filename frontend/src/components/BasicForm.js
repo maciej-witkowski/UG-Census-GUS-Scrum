@@ -36,7 +36,7 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
     }
 
     return (
-            <div className={"field is-centered"}>
+            <div className={"box m-6 field is-centered"}>
                 {Object.keys(profile).length === 0 ? (
                     <div>
                         <div className={"column is-centered mx-5 is-5"}>
@@ -190,7 +190,7 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
                 </div>
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
-                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Nastepna strona"/>
+                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Następna strona"/>
                 </div>
             </div>)
 }
