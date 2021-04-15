@@ -7,7 +7,9 @@ import {
     YAxis,
     Legend,
     CartesianGrid,
-    Bar
+    Bar,
+    PieChart,
+    Pie
 } from "recharts";
 
 
@@ -20,11 +22,16 @@ const Stats = () => {
     const [wyksztalceniepodstawowe,setwyksztalceniepodstawowe]= useState([]);
     const [wyksztalceniesrednie,setwyksztalceniesrednie]= useState([]);
     const [wyksztalceniewyzsze,setwyksztalceniewyzsze]= useState([]);
+    const [wyksztalceniezawodowe,setwyksztalceniezawodowe]= useState([]);
+    const [wyksztalceniegimnazjalne,setwyksztalceniegimnazjalne]= useState([]);
     const [ilemieszkazrodzicami,setilemieszkazrodzicami]= useState([]);
     const [ilemapartnerke,setilemapartnerke]= useState([]);
     const [sredniawieku,setsredniawieku]= useState([]);
-
+    const [wojewodztwo,setwojewodztwo]= useState({});
+    const [czydostalem,setczydostalem]= useState(false)
     const [workplace_type, setWorkplace_type] = useState([]);
+    const [ITfield,setITfield]= useState([]);
+    const [monthlyearnings,setmonthlyearnings]= useState([]);
     
     const plec = [
         { name: "Kobiety", users: ilekobiet },
@@ -35,11 +42,29 @@ const Stats = () => {
 
     const wyksztalcenie = [
         { name: "Podstawowe", users: wyksztalceniepodstawowe },
-        { name: "Średnie", users: wyksztalceniesrednie },
-        { name: "Wyższe", users:wyksztalceniewyzsze }
+        { name: "Srednie", users: wyksztalceniesrednie },
+        { name: "Wyzsze", users:wyksztalceniewyzsze },
+        { name: "Zawodowe", users: wyksztalceniezawodowe },
+        { name: "Gimnazjalne", users:wyksztalceniegimnazjalne }
     ];
 
+    const procentwyksztalcenia = [
+        { name: 'Podstawowe', value: wyksztalceniepodstawowe },
+        { name: 'Gimnazjalne', value: wyksztalceniegimnazjalne },
+        { name: 'Srednie', value: wyksztalceniesrednie },
+        { name: 'Zawodowe', value: wyksztalceniezawodowe },
+        { name: 'Wyzsze', value: wyksztalceniewyzsze }
+      ];
+
     useEffect(() => {
+        axios.get("http://localhost:3000/polls/communes")
+        .then(res=> {
+            console.log(res.data.data.voivodeships)
+            setwojewodztwo(res.data.data.voivodeships)
+            console.log(res.data.data.voivodeships)
+            setczydostalem(true)
+        });
+
         axios.get("http://localhost:3000/polls/ileankietwyslano")
             .then(res=> {
                 setankiety(res.data);
@@ -84,6 +109,12 @@ const Stats = () => {
             .then(res=> {
                 setsredniawieku(res.data);
             });
+            
+            axios.get("http://localhost:3000/polls/ITfield")
+            .then(res=> {
+                setITfield(res.data);
+                console.log(res.data.data)
+            });
 
         axios.get("http://localhost:3000/polls/workplace_type")
             .then(res=> {
@@ -98,6 +129,21 @@ const Stats = () => {
                     workplace.push(type);
                 }
                 setWorkplace_type(workplace);
+            });
+
+            axios.get("http://localhost:3000/polls/monthly_earnings")
+            .then(res=> {
+                setmonthlyearnings(res.data);
+            });
+
+            axios.get("http://localhost:3000/polls/wyksztalceniezawodowe")
+            .then(res=> {
+                setwyksztalceniezawodowe(res.data);
+            });
+
+            axios.get("http://localhost:3000/polls/wyksztalceniegimnazjalne")
+            .then(res=> {
+                setwyksztalceniegimnazjalne(res.data);
             });
 
         
@@ -144,7 +190,7 @@ const Stats = () => {
                     <h1 className={"subtitle"}>Wyksztalcenie ankietowanych</h1>
                     <div className="App columns is-centered mr-5 is-flex-mobile">
                         <BarChart
-                            width={350}
+                            width={500}
                             height={250}
                             data={wyksztalcenie}
                             barSize={20}
@@ -195,6 +241,64 @@ const Stats = () => {
                         </BarChart>
                     </div>
             </div>
+
+            <PieChart width={400} height={400}>
+          <Pie
+            dataKey="value"
+            isAnimationActive={false}
+            data={procentwyksztalcenia}
+            cx={200}
+            cy={200}
+            outerRadius={80}
+            fill="#8884d8"
+            label={(entry) => entry.name}
+          />
+          <Tooltip />
+        </PieChart>
+
+
+        {czydostalem ? 
+            <div>
+                {Object.keys(wojewodztwo).map(function(key, index) {
+         return <div id="wojewodztwo">
+             <div>{key}</div> <div>{wojewodztwo[key].working}</div>
+             <div id="powiat">
+             {Object.keys(wojewodztwo[key].districts).map(function(key2, index2) {
+                return <div>
+                <div>{key2}</div> <div>{wojewodztwo[key].districts[key2].working}</div>
+
+                {Object.keys(wojewodztwo[key].districts[key2].communes).map(function(key3, index3) {
+                return <div>
+                    <div>{key3}</div> <div>{wojewodztwo[key].districts[key2].communes[key3].working}</div>
+                </div>
+
+                })}
+                </div>
+             })}
+             </div>
+
+             </div>
+          })}
+
+            </div>
+            
+            : null }
+        <div className={"columns m-5"}>
+            <div className={"column box has-text-centered m-5"}>
+                    <p className={"title has-text-link is-2"}>{Math.round(monthlyearnings.brutto_avg)}<b className={"subtitle"}> Średnie zarobki brutto</b> </p>
+                </div>
+                <div className={"column box has-text-centered m-5"}>
+                    <p className={"title has-text-link is-2"}>{Math.round(monthlyearnings.netto_avg)}<b className={"subtitle"}> Średnie zarobki netto</b> </p>
+                </div>
+            </div>
+
+            <div className={"columns m-6"}>
+            <div className={"column box has-text-centered m-6"}>
+                    <p className={"title has-text-link is-1"}>{Math.round(ITfield)}<b className={"subtitle"}> Ilosc osob pracujacych w IT</b> </p>
+                </div>
+
+            </div>
+
         </div>
     )
 }

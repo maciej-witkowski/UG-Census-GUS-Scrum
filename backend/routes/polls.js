@@ -101,6 +101,51 @@ router.get('/ITfield', async (req, res) => {
     })
 })
 
+router.get('/wyksztalceniesrednie', async (req, res) => {
+    try {
+        const allpolls=await Poll.find()
+        const x=Object.keys(allpolls).length
+        let ilesrednie=0
+        for(let i=0;i<x;i++){
+            if(allpolls[i].education==="Wykształcenie średnie"){
+                ilesrednie=ilesrednie+1}
+        }
+        return res.json(ilesrednie);
+    } catch (err) {
+        return res.json({error: err.message});
+    }
+});
+
+router.get('/wyksztalceniepodstawowe', async (req, res) => {
+    try {
+        const allpolls=await Poll.find()
+        const x=Object.keys(allpolls).length
+        let ilepodstawowe=0
+        for(let i=0;i<x;i++){
+            if(allpolls[i].education==="Wykształcenie podstawowe"){
+                ilepodstawowe=ilepodstawowe+1}
+        }
+        return res.json(ilepodstawowe);
+    } catch (err) {
+        return res.json({error: err.message});
+    }
+});
+router.get('/wyksztalceniewyzsze', async (req, res) => {
+    try {
+        const allpolls=await Poll.find()
+        const x=Object.keys(allpolls).length
+        let ilewyzsze=0
+        for(let i=0;i<x;i++){
+            if(allpolls[i].education==="Wykształcenie wyższe"){
+                ilewyzsze=ilewyzsze+1}
+        }
+        return res.json(ilewyzsze);
+    } catch (err) {
+        return res.json({error: err.message});
+    }
+});
+
+
 router.get('/jobtitle', async (req, res) => {
     Poll.find().then(result => {
         const data = {}
@@ -328,45 +373,34 @@ router.get('/ilenieokreslonych', async (req, res) => {
     }
 });
 
-router.get('/wyksztalceniesrednie', async (req, res) => {
+
+
+router.get('/wyksztalceniezawodowe', async (req, res) => {
     try {
         const allpolls=await Poll.find()
         const x=Object.keys(allpolls).length
-        let ilesrednie=0
+        let ilezawodowe=0
         for(let i=0;i<x;i++){
-            if(allpolls[i].education==="średnie"){
-                ilesrednie=ilesrednie+1}
+            if(allpolls[i].education==="Wykształcenie zasadnicze zawodowe"){
+                ilezawodowe=ilezawodowe+1}
         }
-        return res.json(ilesrednie);
+        return res.json(ilezawodowe);
     } catch (err) {
         return res.json({error: err.message});
     }
 });
 
-router.get('/wyksztalceniepodstawowe', async (req, res) => {
+
+router.get('/wyksztalceniegimnazjalne', async (req, res) => {
     try {
         const allpolls=await Poll.find()
         const x=Object.keys(allpolls).length
-        let ilepodstawowe=0
+        let ilegimbaza=0
         for(let i=0;i<x;i++){
-            if(allpolls[i].education==="podstawowe"){
-                ilepodstawowe=ilepodstawowe+1}
+            if(allpolls[i].education==="Wykształcenie gimnazjalne"){
+                ilegimbaza=ilegimbaza+1}
         }
-        return res.json(ilepodstawowe);
-    } catch (err) {
-        return res.json({error: err.message});
-    }
-});
-router.get('/wyksztalceniewyzsze', async (req, res) => {
-    try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilewyzsze=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].education==="wyższe"){
-                ilewyzsze=ilewyzsze+1}
-        }
-        return res.json(ilewyzsze);
+        return res.json(ilegimbaza);
     } catch (err) {
         return res.json({error: err.message});
     }
@@ -467,5 +501,7 @@ router.get('/monthly_earnings', async (req, res) => {
     })
     console.log(data);
 })
+
+
 
 module.exports = router;
