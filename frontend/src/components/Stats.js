@@ -7,7 +7,7 @@ import {
     YAxis,
     Legend,
     CartesianGrid,
-    Bar,
+    Bar
 } from "recharts";
 
 
@@ -24,6 +24,8 @@ const Stats = () => {
     const [ilemapartnerke,setilemapartnerke]= useState([]);
     const [sredniawieku,setsredniawieku]= useState([]);
 
+    const [workplace_type, setWorkplace_type] = useState([]);
+    
     const plec = [
         { name: "Kobiety", users: ilekobiet },
         { name: "Mężczyźni", users: ilemezczyzn },
@@ -82,6 +84,23 @@ const Stats = () => {
             .then(res=> {
                 setsredniawieku(res.data);
             });
+
+        axios.get("http://localhost:3000/polls/workplace_type")
+            .then(res=> {
+                let workplace = [];
+                let type = {};
+                let sum =0;
+                for (const [key, value] of Object.entries(res.data.data)) {
+                    sum = sum + value;
+                }
+                for (const [key, value] of Object.entries(res.data.data)) {
+                    type = {name: key, percent: Math.round(((value/sum*100) + Number.EPSILON) * 100) / 100}
+                    workplace.push(type);
+                }
+                setWorkplace_type(workplace);
+            });
+
+        
     }, []);
 
     return(
@@ -153,6 +172,28 @@ const Stats = () => {
                 <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-primary is-2"}>{ilemapartnerke}<b className={"subtitle"}> osób ma partnera/partnerkę</b> </p>
                 </div>
+            </div>
+
+            <div style={{ textAlign: "center" }} className={"column box m-3"}>
+                <h1 className={"subtitle"}>Procent zatrudnionych osób ze względu na branżę.</h1>
+                    <div className="App columns is-centered mr-5 is-flex-mobile">
+                        <BarChart
+                            width={600}
+                            height={350}
+                            data={workplace_type}
+                            barSize={20}
+                        >
+                            <XAxis
+                                dataKey="name"
+                                scale="point"
+                                padding={{ left: 15, right: 15 }}
+                            />
+                            <YAxis />
+                            <Tooltip />
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <Bar dataKey="percent" fill="#48D1CC" background={{ fill: "#eee" }} />
+                        </BarChart>
+                    </div>
             </div>
         </div>
     )
