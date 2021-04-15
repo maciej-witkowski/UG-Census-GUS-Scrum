@@ -31,42 +31,42 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-    Poll.find({pesel: req.body.pesel})
-    .then(result => {
-        if (!result.length) {
+    Poll.find({ pesel: req.body.pesel })
+        .then(result => {
+            if (!result.length) {
 
-            const new_poll = new Poll({
-                ...req.body
-            });
-
-            new_poll.save()
-            .then((poll) => {
-                res.json({
-                    poll: poll,
-                    success: true
+                const new_poll = new Poll({
+                    ...req.body
                 });
-            })
-            .catch((error) => {
-                console.log(console.log(error))
+
+                new_poll.save()
+                    .then((poll) => {
+                        res.json({
+                            poll: poll,
+                            success: true
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(console.log(error))
+                        res.status(404).json({
+                            success: false
+                        });
+                    });
+            } else {
                 res.status(404).json({
-                    success: false
-                });
-            });
-        } else {
+                    success: false,
+                    msg: "PESEL already in use!"
+                })
+            }
+        })
+        .catch(err => {
+            console.log(console.log(err))
             res.status(404).json({
                 success: false,
-                msg: "PESEL already in use!"
+                err: err
             })
-        }
-    })
-    .catch(err => {
-        console.log(console.log(err))
-        res.status(404).json({
-            success: false,
-            err: err
         })
-    })
-    
+
 });
 
 
@@ -111,52 +111,55 @@ router.get('/ITfield', async (req, res) => {
             data: data
         })
     })
-    .catch(err => {
-        res.status(404).json({success: false, err: err})
-    })
+        .catch(err => {
+            res.status(404).json({ success: false, err: err })
+        })
 })
 
 router.get('/wyksztalceniesrednie', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilesrednie=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].education==="Wykształcenie średnie"){
-                ilesrednie=ilesrednie+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilesrednie = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].education === "Wykształcenie średnie") {
+                ilesrednie = ilesrednie + 1
+            }
         }
         return res.json(ilesrednie);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
 router.get('/wyksztalceniepodstawowe', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilepodstawowe=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].education==="Wykształcenie podstawowe"){
-                ilepodstawowe=ilepodstawowe+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilepodstawowe = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].education === "Wykształcenie podstawowe") {
+                ilepodstawowe = ilepodstawowe + 1
+            }
         }
         return res.json(ilepodstawowe);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 router.get('/wyksztalceniewyzsze', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilewyzsze=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].education==="Wykształcenie wyższe"){
-                ilewyzsze=ilewyzsze+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilewyzsze = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].education === "Wykształcenie wyższe") {
+                ilewyzsze = ilewyzsze + 1
+            }
         }
         return res.json(ilewyzsze);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
@@ -179,9 +182,9 @@ router.get('/jobtitle', async (req, res) => {
             data: data
         })
     })
-    .catch(err => {
-        res.status(404).json({success: false, err: err})
-    })
+        .catch(err => {
+            res.status(404).json({ success: false, err: err })
+        })
 })
 
 router.get('/contract_type', async (req, res) => {
@@ -202,9 +205,9 @@ router.get('/contract_type', async (req, res) => {
             data: data
         })
     })
-    .catch(err => {
-        res.status(404).json({success: false, err: err})
-    })
+        .catch(err => {
+            res.status(404).json({ success: false, err: err })
+        })
 })
 
 router.get('/workplace_type', async (req, res) => {
@@ -235,9 +238,41 @@ router.get('/workplace_type', async (req, res) => {
             data: data
         })
     })
-    .catch(err => {
-        res.status(404).json({success: false, err: err})
-    })
+        .catch(err => {
+            res.status(404).json({ success: false, err: err })
+        })
+})
+
+router.get('/education_percentage', async (req, res) => {
+    const grouped = await Poll.aggregate([
+        { $group: { _id: { "education": "$education" }, "level": { "$sum": 1 } } },
+    ]);
+
+    const num = await Poll.count({});
+    const result = {}
+
+    for (const education in grouped) {
+        console.log(num)
+        let name = grouped[education]["_id"]["education"]
+        result[`${name}`] = parseFloat(grouped[education]["level"] / num * 100).toFixed(2)
+    }
+
+    return res.send(result);
+})
+
+router.get('/education_num', async (req, res) => {
+    const grouped = await Poll.aggregate([
+        { $group: { _id: { "education": "$education" }, "level": { "$sum": 1 } } },
+    ]);
+
+    const result = {}
+
+    for (const education in grouped) {
+        let name = grouped[education]["_id"]["education"]
+        result[`${name}`] = grouped[education]["level"]
+    }
+
+    return res.send(result);
 })
 
 router.get('/communes', async (req, res) => {
@@ -295,7 +330,7 @@ router.get('/communes', async (req, res) => {
                     data.voivodeships[voivodeship].working += 1
                 }
             }
-          
+
             let district = poll.workplace.address.place.district
             if (data.voivodeships[voivodeship].districts.hasOwnProperty(`${district}`)) {
                 if (poll.workplace === "bezrobotny") {
@@ -340,9 +375,9 @@ router.get('/communes', async (req, res) => {
             data: data
         })
     })
-    .catch(err => {
-        res.status(404).json({success: false, err: err})
-    })
+        .catch(err => {
+            res.status(404).json({ success: false, err: err })
+        })
 })
 
 router.get('/ileankietwyslano', async (req, res) => {
@@ -351,7 +386,7 @@ router.get('/ileankietwyslano', async (req, res) => {
         const x = Object.keys(allpolls).length
         return res.json(x);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
@@ -360,43 +395,46 @@ router.get('/ilekobiet', async (req, res) => {
         const allpolls = await Poll.find()
         const x = Object.keys(allpolls).length
         let ilekobiet = 0
-        for(let i=0; i < x; i++){
-            if (allpolls[i].sex === "Kobieta"){
-                ilekobiet=ilekobiet+1}
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].sex === "Kobieta") {
+                ilekobiet = ilekobiet + 1
+            }
         }
         return res.json(ilekobiet);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
 router.get('/ilemezczyzn', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilemezczyzn=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].sex==="Mężczyzna"){
-                ilemezczyzn=ilemezczyzn+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilemezczyzn = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].sex === "Mężczyzna") {
+                ilemezczyzn = ilemezczyzn + 1
+            }
         }
         return res.json(ilemezczyzn);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
 router.get('/ilenieokreslonych', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilemezczyzn=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].sex === "Wole nie odpowiadać"){
-                ilemezczyzn=ilemezczyzn+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilemezczyzn = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].sex === "Wole nie odpowiadać") {
+                ilemezczyzn = ilemezczyzn + 1
+            }
         }
         return res.json(ilemezczyzn);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
@@ -404,81 +442,85 @@ router.get('/ilenieokreslonych', async (req, res) => {
 
 router.get('/wyksztalceniezawodowe', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilezawodowe=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].education==="Wykształcenie zasadnicze zawodowe"){
-                ilezawodowe=ilezawodowe+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilezawodowe = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].education === "Wykształcenie zasadnicze zawodowe") {
+                ilezawodowe = ilezawodowe + 1
+            }
         }
         return res.json(ilezawodowe);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
 
 router.get('/wyksztalceniegimnazjalne', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilegimbaza=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].education==="Wykształcenie gimnazjalne"){
-                ilegimbaza=ilegimbaza+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilegimbaza = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].education === "Wykształcenie gimnazjalne") {
+                ilegimbaza = ilegimbaza + 1
+            }
         }
         return res.json(ilegimbaza);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
 router.get('/ilemieszkazrodzicami', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilezrodzicami=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].household.living_with_parents===true){
-                ilezrodzicami=ilezrodzicami+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilezrodzicami = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].household.living_with_parents === true) {
+                ilezrodzicami = ilezrodzicami + 1
+            }
         }
         return res.json(ilezrodzicami);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
 router.get('/ilemapartnerke', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let ilepartnerka=0
-        for(let i=0;i<x;i++){
-            if(allpolls[i].household.partner===true){
-                ilezrodzicami=ilepartnerka+1}
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let ilepartnerka = 0
+        for (let i = 0; i < x; i++) {
+            if (allpolls[i].household.partner === true) {
+                ilezrodzicami = ilepartnerka + 1
+            }
         }
         return res.json(ilepartnerka);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
 router.get('/sredniawieku', async (req, res) => {
     try {
-        const allpolls=await Poll.find()
-        const x=Object.keys(allpolls).length
-        let sumalat=0
-        let currentTime= new Date().getFullYear()
-        for(let i=0;i<x;i++){
-            let datebirth= allpolls[i].date_of_birth
-            let x=new Date(datebirth).getFullYear()
-            let wiek=currentTime-x
-            sumalat=sumalat+wiek
+        const allpolls = await Poll.find()
+        const x = Object.keys(allpolls).length
+        let sumalat = 0
+        let currentTime = new Date().getFullYear()
+        for (let i = 0; i < x; i++) {
+            let datebirth = allpolls[i].date_of_birth
+            let x = new Date(datebirth).getFullYear()
+            let wiek = currentTime - x
+            sumalat = sumalat + wiek
         }
-        sumalat=sumalat/x
+        sumalat = sumalat / x
         return res.json(sumalat);
     } catch (err) {
-        return res.json({error: err.message});
+        return res.json({ error: err.message });
     }
 });
 
@@ -502,30 +544,30 @@ router.delete('/delete', async (req, res) => {
 
 router.get('/monthly_earnings', async (req, res) => {
     const data = await Poll.find()
-    .then(result => {
-        return result.map(poll => poll.workplace.monthly_earnings)
-    })
-    .then(list => {
-        const count = list.length;
-        let brutto_sum = 0;
-        let netto_sum = 0;
-        list.forEach(el => {
-            brutto_sum += el.brutto;
-            netto_sum += el.netto;
+        .then(result => {
+            return result.map(poll => poll.workplace.monthly_earnings)
         })
-        const brutto_avg = brutto_sum / count;
-        const netto_avg = netto_sum / count;
-        res.json({
-            all: list,
-            brutto_avg: brutto_avg,
-            netto_avg: netto_avg
+        .then(list => {
+            const count = list.length;
+            let brutto_sum = 0;
+            let netto_sum = 0;
+            list.forEach(el => {
+                brutto_sum += el.brutto;
+                netto_sum += el.netto;
+            })
+            const brutto_avg = brutto_sum / count;
+            const netto_avg = netto_sum / count;
+            res.json({
+                all: list,
+                brutto_avg: brutto_avg,
+                netto_avg: netto_avg
+            })
+            return list
         })
-        return list
-    })
-    .catch(err=>{
-        console.log(err);
-        res.json(err)
-    })
+        .catch(err => {
+            console.log(err);
+            res.json(err)
+        })
 })
 
 
