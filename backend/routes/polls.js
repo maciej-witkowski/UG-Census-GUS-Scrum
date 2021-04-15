@@ -82,11 +82,80 @@ router.get('/ITfield', async (req, res) => {
     Poll.find().then(result => {
         const data = {}
         result.forEach(poll => {
-            let title = poll.workplace.job_title
-            if (data.hasOwnProperty(`${title}`)) {
-                data[title] += 1
+            if (poll.workplace.type === "IT") {
+                let title = poll.workplace.job_title
+                if (data.hasOwnProperty(`${title}`)) {
+                    data[title] += 1
+                } else {
+                    data[title] = 1
+                }
+            }
+        })
+        res.json({
+            success: true,
+            data: data
+        })
+    })
+    .catch(err => {
+        res.status(404).json({success: false, err: err})
+    })
+})
+
+router.get('/jobtitle', async (req, res) => {
+    Poll.find().then(result => {
+        const data = {}
+        result.forEach(poll => {
+            if (poll.workplace.type !== "bezrobotny") {
+                let title = poll.workplace.job_title
+                if (data.hasOwnProperty(`${title}`)) {
+                    data[title] += 1
+                } else {
+                    data[title] = 1
+                }
+            }
+        })
+        res.json({
+            success: true,
+            data: data
+        })
+    })
+    .catch(err => {
+        res.status(404).json({success: false, err: err})
+    })
+})
+
+router.get('/contract_type', async (req, res) => {
+    Poll.find().then(result => {
+        const data = {}
+        result.forEach(poll => {
+            if (poll.workplace.type !== "bezrobotny") {
+                let contract_type = poll.workplace.contract
+                if (data.hasOwnProperty(`${contract_type}`)) {
+                    data[contract_type] += 1
+                } else {
+                    data[contract_type] = 1
+                }
+            }
+        })
+        res.json({
+            success: true,
+            data: data
+        })
+    })
+    .catch(err => {
+        res.status(404).json({success: false, err: err})
+    })
+})
+
+router.get('/workplace_type', async (req, res) => {
+    Poll.find().then(result => {
+        const data = {}
+        result.forEach(poll => {
+            let workplace_type = poll.workplace.type
+            if (data.hasOwnProperty(`${workplace_type}`)) {
+                data[workplace_type] += 1
             } else {
-                data[title] = 0
+                data[workplace_type] = 1
             }
         })
         res.json({
@@ -101,14 +170,59 @@ router.get('/ITfield', async (req, res) => {
 
 router.get('/communes', async (req, res) => {
     Poll.find().then(result => {
-        const data = {}
+        const data = {
+            working: {
+                polish: 0,
+                other: 0
+            },
+            not_working: {
+                polish: 0,
+                other: 0
+            },
+            nationalities: {},
+            voivodeships: {}
+        }
         result.forEach(poll => {
+            if (poll.workplace !== "bezrobotny") {
+                if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                    data.not_working.polish += 1
+                } else {
+                    data.not_working.other += 1
+                }
+            } else {
+                if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                    data.working.polish += 1
+                } else {
+                    data.working.other += 1
+                }
+            }
+
             let nationality = poll.nationality
             if (data.hasOwnProperty(`${nationality}`)) {
-                data[nationality].push(poll.registeres_address.place)
+                data.nationalities[nationality] += 1
             } else {
-                data[nationality] = []
+                data.nationalities[nationality] = 1
             }
+
+            let voivodeship = poll.workplace.address.place.voivodeship
+            if (data.voivodeships.hasOwnProperty(`${voivodeship}`)) {
+                if (poll.workplace === "bezrobotny") {
+                    data.voivodeships[voivodeship].not_working += 1
+                } else {
+                    data.voivodeships[voivodeship].working += 1
+                }
+            } else {
+                data.voivodeships[voivodeship] = {
+                    working: 0,
+                    not_working: 0
+                }
+                if (poll.workplace === "bezrobotny") {
+                    data.voivodeships[voivodeship].not_working += 1
+                } else {
+                    data.voivodeships[voivodeship].working += 1
+                }
+            }
+
         })
         res.json({
             success: true,
