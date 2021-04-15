@@ -499,7 +499,6 @@ router.get('/monthly_earnings', async (req, res) => {
         console.log(err);
         res.json(err)
     })
-    console.log(data);
 })
 
 
