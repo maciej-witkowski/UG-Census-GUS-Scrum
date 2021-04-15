@@ -100,21 +100,9 @@ router.get('/ITfield', async (req, res) => {
             if (poll.workplace.type === "IT") {
                 let title = poll.workplace.job_title
                 if (data.hasOwnProperty(`${title}`)) {
-                    if (poll.nationality === "polish" || poll.nationality === "Polish") {
-                        data[title].polish += 1
-                    } else {
-                        data[title].other += 1
-                    }
+                    data[title] += 1
                 } else {
-                    data[title] = {
-                        polish: 0,
-                        other: 0
-                    }
-                    if (poll.nationality === "polish" || poll.nationality === "Polish") {
-                        data[title].polish += 1
-                    } else {
-                        data[title].other += 1
-                    }
+                    data[title] = 1
                 }
             }
         })
@@ -225,9 +213,21 @@ router.get('/workplace_type', async (req, res) => {
         result.forEach(poll => {
             let workplace_type = poll.workplace.type
             if (data.hasOwnProperty(`${workplace_type}`)) {
-                data[workplace_type] += 1
+                if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                    data[workplace_type].polish += 1
+                } else {
+                    data[workplace_type].other += 1
+                }
             } else {
-                data[workplace_type] = 1
+                data[workplace_type] = {
+                    polish: 0,
+                    other: 0
+                }
+                if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                    data[workplace_type].polish += 1
+                } else {
+                    data[workplace_type].other += 1
+                }
             }
         })
         res.json({
