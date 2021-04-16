@@ -399,8 +399,8 @@ const Stats = () => {
                     <h1 className={"subtitle"}>Procent osób zamieszkujących dane województwo</h1>
                         <div className="App columns is-centered mr-5 is-flex-mobile">
                         <BarChart
-                            width={800}
-                            height={300}
+                            width={1500}
+                            height={600}
                             data={wojewodztwa}
                             margin={{
                                 top: 5,
