@@ -60,6 +60,26 @@ const Stats = () => {
         { name: 'Wyzsze', value: wyksztalceniewyzsze }
       ];
 
+
+      const wojewodztwa = [
+        {name: "pomorskie", polish: 72, others: 28},
+        {name: "dolnośląskie", polish: 88, others: 12},
+        {name: "łódzkie", polish: 66, others: 34},
+        {name: "mazowieckie", polish: 46, others: 54},
+        {name: "podkarpackie", polish: 70, others: 30},
+        {name: "lubelskie", polish: 68, others: 32},
+        {name: "lubuskie", polish: 91, others: 9},
+        {name: "kujawsko-pomorskie", polish: 74, others: 26},
+        {name: "opolskie", polish: 55, others: 45},
+        {name: "małopolskie", polish: 68, others: 32},
+        {name: "wielkopolskie", polish: 23, others: 77},
+        {name: "warmińsko-mazurskie", polish: 35, others: 65},
+        {name: "śląskie", polish: 85, others: 15},
+        {name: "podlaskie", polish: 88, others: 12},
+        {name: "zachodniopomorskie", polish: 43, others: 57},
+        {name: "świętokrzyskie", polish: 60, others: 40}
+    ];
+
     useEffect(() => {
         axios.get("http://localhost:3000/polls/communes")
         .then(res=> {
@@ -371,6 +391,33 @@ const Stats = () => {
 
                 <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-primary is-2"}>{mandate}<b className={"subtitle"}> osób na umowie zleceniu</b> </p>
+                </div>
+            </div>
+
+            <div style={{ textAlign: "center" }} className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Procent osób zamieszkujących dane województwo</h1>
+                        <div className="App columns is-centered mr-5 is-flex-mobile">
+                        <BarChart
+                            width={800}
+                            height={300}
+                            data={wojewodztwa}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                            }}
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="polish" fill="#8884d8" />
+                            <Bar dataKey="others" fill="#82ca9d" />
+                        </BarChart>
+                        </div>
                 </div>
             </div>
 
