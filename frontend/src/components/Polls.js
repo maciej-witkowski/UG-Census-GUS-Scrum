@@ -27,7 +27,7 @@ const Polls = ({deleteUser, read, dispatch}) => {
 
     const resetNum = () => {
         setNum(0)
-        // window.location.reload()
+        window.location.reload()
     }
 
     return(

@@ -30,17 +30,24 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
     const [postal_code, setPostalCode] = useState(poll.workplace.address.postal_code);
 
     const [buttonClicked, setButtonClicked] = useState(false);
-
+    const [readyToReset, setReadyToReset] = useState(false);
 
     const sendInfo = () => {
-        resetNum();
+        // resetNum();
         const readyInfo = {
             ...poll,
             complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
             last_modified_date: new Date(),
         }
         dispatch(actions.sendPolls(readyInfo));
+        setReadyToReset(true);
     }
+
+    useEffect (() => {
+        if (readyToReset) {
+            resetNum();
+        }
+    }, [readyToReset])
 
     const checkIfPollsExistsAndDisplayAlerts = () => {
         axios.get(`http://localhost:3000/polls/${poll.pesel}`).then(res => {

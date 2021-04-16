@@ -21,7 +21,6 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
     const [surname, setSurname] = useState(poll.surname);
     const [pesel, setPesel] = useState(poll.pesel);
 
-
     useEffect(() => {
         // console.log(poll);
     }, [poll]);

@@ -98,9 +98,10 @@ const poll = (state = initialState, action) => {
                     read: false
                 }
             } else {
+                console.log(initialState.poll);
                 return {
                     ...state,
-                    poll: initialState.poll,
+                    poll: {...initialState.poll}
                 }
             }
         case SET_INFO:
