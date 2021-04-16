@@ -104,6 +104,40 @@ export const sendPolls = (poll) => {
     };
 }
 
+export const getPollByPesel = (pesel) => {
+    return (dispatch) => {
+        return axios.get(`http://localhost:3000/polls/${pesel}`)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                console.log(data);
+                if (data.length!==0) {
+                    console.log("setting to true")
+                    dispatch({
+                        type: actions.SUCCESS,
+                        payload: {}
+                    })
+                }
+                else {
+                    console.log("setting to false")
+                dispatch({
+                    type: actions.FAILURE,
+                    payload: {}
+                })
+            }
+            })
+            .catch(error => {
+                console.log('error was catched in backend');
+                dispatch({
+                    type: actions.FAILURE,
+                    payload: {}
+                })
+                // throw (error);
+            });
+    };
+}
+
 export const register = (info) => {
     return () => {
         return axios.post("http://localhost:3000/users/registration", {...info})

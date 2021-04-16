@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from "react";
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
+import axios from 'axios';
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
@@ -29,8 +30,9 @@ const WorkplaceForm = ({polls, previousPage, profile, poll, dispatch, deleteUser
     const [apartment_number, setApartment] = useState(poll.workplace.address.apartment_number);
     const [postal_code, setPostalCode] = useState(poll.workplace.address.postal_code);
 
-    const [readyToGetPollByPesel, setReadyToGetPollByPesel] = useState(false);
-    const [readyToCheckIfSuccess, setReadyToCheckIfSuccess] = useState(false);
+    const [updated, setUpdated] = useState(false);
+    const [checked, setChecked] = useState(false);
+
 
     useEffect(() => {
         dispatch(actions.getPolls());
@@ -42,39 +44,32 @@ const WorkplaceForm = ({polls, previousPage, profile, poll, dispatch, deleteUser
             complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
             last_modified_date: new Date(),
         }
-
         dispatch(actions.sendPolls(readyInfo));
+    }
+
+    const checkIfPollsExistsAndDisplayAlerts = () => {
+        setChecked(true);
+        axios.get(`http://localhost:3000/polls/${poll.pesel}`).then(res => {
+            console.log(res.data);
+            if (res.data.length===0) { // if there is no poll for this pesel
+                sendInfo();
+                alert(`Ankieta wysłana poprawnie`);
+            }
+            else {
+                alert(`Ankieta na podany pesel już istnieje`);
+            }
+        }).catch(err => console.log(err))
     }
 
 
     useEffect(() => {
-        // console.log(poll);
-    }, [poll]);
-
-
-    useEffect(() => {
-        if (readyToGetPollByPesel) {
-            let foundUser;
-            foundUser = polls.filter(user => user.pesel === poll.pesel);
-            if (!foundUser[0]) {
-                setReadyToCheckIfSuccess(true);
-            } else {
-                setReadyToCheckIfSuccess(false);
-                setReadyToGetPollByPesel(false);
-                alert(`Poll for this pesel already exists!`);
-            }
+        console.log(poll);
+        console.log('poll was updated');
+        if (updated && !checked) {
+            checkIfPollsExistsAndDisplayAlerts();
         }
-    }, [readyToGetPollByPesel]);
+    }, [poll, updated, checked]);
 
-    useEffect(() => {
-        if (readyToCheckIfSuccess) {
-            sendInfo();
-            setReadyToCheckIfSuccess(false);
-            setReadyToGetPollByPesel(false);
-            alert(`Poll successfully sent!`)
-            resetNum()
-        }
-    }, [readyToCheckIfSuccess]);
 
     const updatePoll = () => {
         const info = {
@@ -101,38 +96,9 @@ const WorkplaceForm = ({polls, previousPage, profile, poll, dispatch, deleteUser
                 }
             }
         }
-        dispatch(actions.getPolls());
-        dispatch(actions.setInfo(info));
-        setReadyToGetPollByPesel(true);
-    }
-
-    const changePage = () => {
-        const info = {
-            workplace: {
-                type: type,
-                name: name,
-                contract: contract,
-                job_title: jobTitle,
-                address: {
-                    place: {
-                        voivodeship: voivodeship,
-                        district: district,
-                        community: community,
-                        city: city
-                    },
-                    street_name: street_name,
-                    home_number: home_number,
-                    apartment_number: apartment_number,
-                    postal_code: postal_code
-                },
-                monthly_earnings: {
-                    brutto: brutto,
-                    netto: netto
-                }
-            }
-        }
-        dispatch(actions.setInfo(info));
-        previousPage()
+        
+         dispatch(actions.setInfo(info)); // update redux poll 
+         setUpdated(true);
     }
 
 
