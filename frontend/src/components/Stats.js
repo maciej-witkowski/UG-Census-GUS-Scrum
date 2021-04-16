@@ -265,7 +265,7 @@ const Stats = () => {
             <div style={{ textAlign: "center" }} className={"columns m-3"}>
                 <div className={"column box has-text-centered m-3"}>
                     <h1 className={"subtitle"}>Procent zatrudnionych osób ze względu na branżę</h1>
-                    <div className="App columns is-centered mr-5 is-flex-mobile">
+                    <div className="App columns is-centered mr-5 is-flex-mobile mt-6">
                     <BarChart
                         width={500}
                         height={300}
@@ -276,6 +276,7 @@ const Stats = () => {
                             left: 20,
                             bottom: 5,
                         }}
+                        className={"mt-4"}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
@@ -298,7 +299,7 @@ const Stats = () => {
                                 cx={200}
                                 cy={200}
                                 outerRadius={80}
-                                fill="#8884d8"
+                                fill="#8B4513"
                                 label={(entry) => entry.name}
                             />
                             <Tooltip />
@@ -307,10 +308,10 @@ const Stats = () => {
                 </div>
             </div>
 
-            <div tyle={{ textAlign: "center" }} className={"columns m-3"}>
+            <div style={{ textAlign: "center" }} className={"columns m-3"}>
                 <div className={"column box has-text-centered m-3"}>
                     <h1 className={"subtitle"}>Typy umów dot. zatrudnienia - %</h1>
-                        <div className="App columns is-centered is-flex-mobile mr-5">
+                        <div className="App columns is-centered mr-5 is-flex-mobile">
                             <PieChart width={400} height={400}>
                                 <Pie
                                     dataKey="umowa"
@@ -319,36 +320,36 @@ const Stats = () => {
                                     cx={200}
                                     cy={200}
                                     outerRadius={80}
-                                    fill="#8884d8"
+                                    fill="#DC143C"
                                     label={(entry) => entry.name}
                                 />
                                 <Tooltip />
                             </PieChart>
                         </div>
                 </div>
-                <div style={{ textAlign: "center" }} className={"column box m-3"}>
+                <div className={"column box has-text-centered m-3"}>
                     <h1 className={"subtitle"}>Typy umów dot. zatrudnienia z samozatrudnieniem</h1>
-                    <div className="App columns is-centered is-flex-mobile mr-5">
-                        <BarChart
-                            width={350}
-                            height={250}
-                            data={contract}
-                            barSize={20}
-                        >
-                            <XAxis
-                                dataKey="name"
-                                scale="point"
-                                padding={{ left: 10, right: 10 }}
-                            />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar dataKey="umowa" fill="#48D1CC" background={{ fill: "#eee" }} />
-                        </BarChart>
-                    </div>
+                        <div className="App columns is-centered is-flex-mobile mr-5 mt-6">
+                            <BarChart
+                                width={350}
+                                height={250}
+                                data={contract}
+                                barSize={20}
+                                className={"mt-6"}
+                            >
+                                <XAxis
+                                    dataKey="name"
+                                    scale="point"
+                                    padding={{ left: 10, right: 10 }}
+                                />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Bar dataKey="umowa" fill="#808000" background={{ fill: "#eee" }} />
+                            </BarChart>
+                        </div>
                 </div>
-                
             </div>
 
             <div className={"columns m-3"}>
