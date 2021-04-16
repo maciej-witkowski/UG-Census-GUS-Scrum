@@ -19,6 +19,24 @@ export const getUsers = () => {
     };
 };
 
+export const getPolls = () => {
+    return (dispatch) => {
+        return axios.get("http://localhost:3000/polls/")
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: actions.GET_POLLS,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+
 export const logInUser = (user) => {
     return (dispatch) => {
         return axios.post("http://localhost:3000/users/login/user", {pesel: user.pesel})
@@ -75,7 +93,6 @@ export const sendPolls = (poll) => {
                 return response.data
             })
             .then(data => {
-                console.log(data);
                 dispatch({
                     type: actions.SEND_POLLS,
                     payload: data

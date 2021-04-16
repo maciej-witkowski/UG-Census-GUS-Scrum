@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
     poll: state.poll.poll
 });
 
-const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
+const BasicForm = ({nextPage, profile, poll, dispatch}) => {
 
     const [nationality, setNationality] = useState(poll.nationality);
     const [disability, setDisability] = useState(poll.disability);
@@ -17,14 +17,21 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
     const [marital_status, setMaritalStatus] = useState(poll.marital_status);
     const [education, setEducation] = useState(poll.education);
     const [residence, setResidence] = useState(poll.residence);
+    const [name, setName] = useState(poll.name);
+    const [surname, setSurname] = useState(poll.surname);
+    const [pesel, setPesel] = useState(poll.pesel);
 
 
     useEffect(() => {
-        console.log(poll);
+        // console.log(poll);
     }, [poll]);
 
     const updatePoll = () => {
+        const patternPesel = /^[0-9]{11}$/
         const info = {
+            name: name,
+            surname: surname,
+            pesel: pesel,
             nationality: nationality,
             disability: disability,
             date_of_birth: date,
@@ -34,59 +41,44 @@ const BasicForm = ({user, nextPage, profile, poll, dispatch, setInput}) => {
             education: education,
             residence: residence
         }
-
-        dispatch(actions.setInfo(info));
-        nextPage();
+        if(patternPesel.test(pesel)){
+            dispatch(actions.setInfo(info));
+            nextPage();
+        } else {
+            alert("Pesel jest wymagany!")
+        }
     }
 
     return (
             <div className={"box m-6 field is-centered"}>
-                {Object.keys(profile).length === 0 ? (
+                <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <div className={"column is-centered mx-5 is-5"}>
-                            <div>
-                                <p className="label">Twoje imie:</p>
-                            </div>
-                            <input className={"input is-info"} type="text" name="name" value={user.name} onChange={(ev) => setInput({...user, name: ev.target.value})} placeholder={"Imie"} />
-                        </div>
+                        <p className="label">Twoje imie:</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name="name" value={name} onChange={(ev) => setName(ev.target.value)} placeholder={"Imie"} />
+                </div>
 
-                        <div className={"column is-centered mx-5 is-5"}>
-                            <div>
-                                <p className="label">Twoje nazwisko:</p>
-                            </div>
-                            <input className={"input is-info"} type="text" name="surname" value={user.surname} onChange={(ev) => setInput({...user, surname: ev.target.value})} placeholder={"Nazwisko"} />
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className="label">Twoje nazwisko:</p>
+                    </div>
+                    <input className={"input is-info"} type="text" name="surname" value={surname} onChange={(ev) => setSurname(ev.target.value)} placeholder={"Nazwisko"} />
+                </div>
+                {Object.keys(profile).length === 0 ? (
+                    <div className={"column is-centered mx-5 is-5"}>
+                        <div>
+                            <p className={"label"}>Twój PESEL:</p>
                         </div>
-
-                        <div className={"column is-centered mx-5 is-5"}>
-                            <div>
-                                <p className={"label"}>Twój PESEL:</p>
-                            </div>
-                            <input className={"input is-info"} type="text" name="pesel" value={user.pesel} onChange={(ev) => setInput({...user, pesel: ev.target.value})} placeholder={"PESEL"} />
-                        </div>
-                    </div>)
+                        <input className={"input is-info"} type="text" name="pesel" value={pesel} onChange={(ev) => setPesel(ev.target.value)} placeholder={"PESEL"}/>
+                    </div>
+                )
                 :
                 (
-                    <div>
-                        <div className={"column is-centered mx-5 is-5"}>
-                            <div>
-                                <p className="label">Twoje imie:</p>
-                            </div>
-                            <input className={"input is-info"} type="text" name="name" value={poll.name} placeholder={"Imie"} readOnly/>
+                    <div className={"column is-centered mx-5 is-5"}>
+                        <div>
+                            <p className={"label"}>Twój PESEL:</p>
                         </div>
-
-                        <div className={"column is-centered mx-5 is-5"}>
-                            <div>
-                                <p className="label">Twoje nazwisko:</p>
-                            </div>
-                            <input className={"input is-info"} type="text" name="surname" value={poll.surname} placeholder={"Nazwisko"} readOnly/>
-                        </div>
-
-                        <div className={"column is-centered mx-5 is-5"}>
-                            <div>
-                                <p className={"label"}>Twój PESEL:</p>
-                            </div>
-                            <input className={"input is-info"} type="text" name="pesel" value={poll.pesel} placeholder={"PESEL"} readOnly/>
-                        </div>
+                        <input className={"input is-info"} type="text" name="pesel" value={pesel} onChange={(ev) => setPesel(ev.target.value)} placeholder={"PESEL"} readOnly/>
                     </div>
                 )}
 

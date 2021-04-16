@@ -7,14 +7,14 @@ const mapStateToProps = state => ({
     poll: state.poll.poll
 });
 
-const HouseholdForm = ({user, previousPage, poll, dispatch, nextPage}) => {
+const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 
     const [children, setChildren] = useState(poll.household.children);
     const [living_with_parents, setLiving] = useState(poll.household.living_with_parents);
     const [partner, setPartner] = useState(poll.household.partner);
 
     useEffect(() => {
-        console.log(poll);
+        // console.log(poll);
     }, [poll]);
 
 
