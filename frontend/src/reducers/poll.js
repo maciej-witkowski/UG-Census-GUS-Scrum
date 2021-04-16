@@ -81,7 +81,8 @@ const poll = (state = initialState, action) => {
                     ...action.payload.poll,
                     name: action.payload.profile.firstName,
                     surname: action.payload.profile.lastName,
-                    pesel: action.payload.profile.pesel
+                    pesel: action.payload.profile.pesel,
+                    role: action.payload.profile.role
                 },
                 read: action.payload.poll !== null ? false : true
             }
@@ -90,10 +91,17 @@ const poll = (state = initialState, action) => {
                 ...state, ...initialState
             }
         case SEND_POLLS:
-            return {
-                ...state,
-                poll: {...state.poll, ...action.payload.poll},
-                read: false
+            if(state.poll.role){
+                return {
+                    ...state,
+                    poll: {...state.poll, ...action.payload.poll},
+                    read: false
+                }
+            } else {
+                return {
+                    ...state,
+                    poll: initialState.poll,
+                }
             }
         case SET_INFO:
             return {

@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
     poll: state.poll.poll
 });
 
-const AddressForm = ({user, previousPage, nextPage, dispatch, poll}) => {
+const AddressForm = ({previousPage, nextPage, dispatch, poll}) => {
 
     const [voivodeship, setVoivodeship] = useState(poll.address.place.voivodeship);
     const [district, setDistrict] = useState(poll.address.place.district);
@@ -19,7 +19,7 @@ const AddressForm = ({user, previousPage, nextPage, dispatch, poll}) => {
     const [postal_code, setPostalCode] = useState(poll.address.postal_code);
 
     useEffect(() => {
-        console.log(poll);
+        // console.log(poll);
     }, [poll]);
 
     const updatePoll = () => {

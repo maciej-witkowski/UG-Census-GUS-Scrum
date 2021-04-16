@@ -3,14 +3,15 @@ import profile from "./profile";
 import users from "./users";
 import poll from './poll';
 import user from './user';
-import alerts from './alerts';
+import polls from './polls';
+
 
 const rootReducer = combineReducers({
     profile,
     users,
     poll,
     user,
-    alerts
+    polls
 })
 
 export default rootReducer;

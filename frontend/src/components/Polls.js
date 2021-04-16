@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import * as actions from "../actions/actionCreators";
 import {connect} from "react-redux";
 import BasicForm from './BasicForm'
@@ -11,12 +11,10 @@ import WorkplaceFrom from './WorkplaceFrom'
 const mapStateToProps = state => ({
     poll: state.poll.poll,
     read: state.poll.read,
-    profile: state.profile.profile
 })
 
 
-const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
-    const [input, setInput] = useState(poll)
+const Polls = ({deleteUser, read, dispatch}) => {
     const [num, setNum] = useState(0)
     
     const nextPage = () => {
@@ -27,17 +25,22 @@ const Polls = ({poll, profile, deleteUser, read, dispatch}) => {
         setNum(num - 1)
     }
 
+    const resetNum = () => {
+        setNum(0)
+        window.location.reload()
+    }
+
     return(
         <div>
             <h1 className="title">Ankiety</h1>
             <div>
                 {/* <form onSubmit={sendInfo}> */}
                     {/* <fieldset disabled={!read && !profile.admin_id ? "disabled" : ""}> */}
-                        {num === 0 && (<BasicForm user={input} profile={profile} nextPage={nextPage} setInput={setInput}/>)}
-                        {num === 1 && (<HouseholdForm user={input}  nextPage={nextPage} previousPage={previousPage} setInput={setInput}/>)}
-                        {num === 2 && (<AddressForm user={input} nextPage={nextPage} previousPage={previousPage} setInput={setInput}/>)}
-                        {num === 3 && (<RegistrationAddressFrom user={input} nextPage={nextPage} previousPage={previousPage} setInput={setInput}/>)}
-                        {num === 4 && (<WorkplaceFrom user={input} previousPage={previousPage} profile={profile} deleteUser={deleteUser} setInput={setInput}/>) }
+                        {num === 0 && (<BasicForm nextPage={nextPage} />)}
+                        {num === 1 && (<HouseholdForm   nextPage={nextPage} previousPage={previousPage} />)}
+                        {num === 2 && (<AddressForm nextPage={nextPage} previousPage={previousPage} />)}
+                        {num === 3 && (<RegistrationAddressFrom nextPage={nextPage} previousPage={previousPage} />)}
+                        {num === 4 && (<WorkplaceFrom previousPage={previousPage} deleteUser={deleteUser} resetNum={resetNum} />) }
                     {/* </fieldset> */}
                 {/* </form> */}
             </div>
