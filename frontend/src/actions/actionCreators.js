@@ -111,6 +111,7 @@ export const getPollByPesel = (pesel) => {
             }
             })
             .catch(error => {
+                console.log('error was catched in backend');
                 dispatch({
                     type: actions.FAILURE,
                     payload: {}

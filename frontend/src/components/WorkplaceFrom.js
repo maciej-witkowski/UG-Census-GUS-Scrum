@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from "react";
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
+import axios from 'axios';
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
@@ -29,54 +30,43 @@ const WorkplaceForm = ({user, previousPage, profile, poll, alerts, dispatch, del
     const [apartment_number, setApartment] = useState(poll.workplace.address.apartment_number);
     const [postal_code, setPostalCode] = useState(poll.workplace.address.postal_code);
 
-    const [readyToGetPollByPesel, setReadyToGetPollByPesel] = useState(false);
-    const [readyToCheckIfSuccess, setReadyToCheckIfSuccess] = useState(false);
+    const [updated, setUpdated] = useState(false);
+    const [checked, setChecked] = useState(false);
+
 
     const sendInfo = () => {
-        // const patternPesel = /^[0-9]{11}$/
-        // event.preventDefault()
         const readyInfo = {
             ...poll,
-            // residence: residence.checked === true ? "Tymczasowy meldunek" : "Stały meldunek",
             complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
             last_modified_date: new Date(),
         }
-
         dispatch(actions.sendPolls(readyInfo));
+    }
 
-        // if(name.value !== "" && surname.value !== "" && patternPesel.test(pesel.value)){
-        //     dispatch(actions.sendPolls(readyInfo))
-        // } else {
-        //     name.style.border = '2px solid #ff9999'
-        //     surname.style.border = '2px solid #ff9999'
-        //     pesel.style.border = '2px solid #ff9999'
-        // }
+    const checkIfPollsExistsAndDisplayAlerts = () => {
+        setChecked(true);
+        axios.get(`http://localhost:3000/polls/${poll.pesel}`).then(res => {
+            console.log(res.data);
+            if (res.data.length===0) { // if there is no poll for this pesel
+                sendInfo();
+                alert(`Ankieta wysłana poprawnie`);
+            }
+            else {
+                alert(`Ankieta na podany pesel już istnieje`);
+            }
+        }).catch(err => console.log(err))
     }
 
 
     useEffect(() => {
         console.log(poll);
-    }, [poll]);
-
-
-    useEffect(() => {
-        if (readyToGetPollByPesel) {
-            dispatch(actions.getPollByPesel(poll.pesel));
-            setReadyToCheckIfSuccess(true);
+        console.log('poll was updated');
+        if (updated && !checked) {
+            checkIfPollsExistsAndDisplayAlerts();
         }
-    }, [readyToGetPollByPesel]);
 
-    useEffect(() => {
-        if (readyToCheckIfSuccess) {
-            if (alerts.success) {  // if pesel already exists - was successfully found by getPollByPesel
-                alert(`Poll for this pesel already exists!`);
-            }
-            else {
-                sendInfo();
-                alert(`Poll successfully sent!`)
-            }
-        }
-    }, [readyToCheckIfSuccess]);
+    }, [poll, updated, checked]);
+
 
     const updatePoll = () => {
         const info = {
@@ -103,8 +93,8 @@ const WorkplaceForm = ({user, previousPage, profile, poll, alerts, dispatch, del
                 }
             }
         }
-         dispatch(actions.setInfo(info));
-         setReadyToGetPollByPesel(true);
+         dispatch(actions.setInfo(info)); // update redux poll 
+         setUpdated(true);
     }
 
 

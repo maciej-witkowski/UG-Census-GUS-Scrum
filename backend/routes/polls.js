@@ -1,4 +1,5 @@
 const express = require('express');
+const { NativeError } = require('mongoose');
 const router = express.Router();
 const Poll = require('../Models/Poll');
 
@@ -17,43 +18,66 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-    Poll.find({ pesel: req.body.pesel })
-        .then(result => {
-            if (!result.length) {
+    const new_poll = new Poll({
+        ...req.body
+    });
 
-                const new_poll = new Poll({
-                    ...req.body
-                });
-
-                new_poll.save()
-                    .then((poll) => {
-                        res.json({
-                            poll: poll,
-                            success: true
-                        });
-                    })
-                    .catch((error) => {
-                        console.log(console.log(error))
-                        res.status(404).json({
-                            success: false
-                        });
-                    });
-            } else {
-                res.status(404).json({
-                    success: false,
-                    msg: "PESEL already in use!"
-                })
-            }
+    new_poll.save()
+        .then((poll) => {
+            res.json({
+                poll: poll,
+                success: true
+            });
         })
-        .catch(err => {
-            console.log(console.log(err))
+        .catch((error) => {
+            console.log(error);
+            console.log("poll couldnt be saved")
             res.status(404).json({
-                success: false,
-                err: err
-            })
-        })
+                success: false
+            });
+        });
 
 });
+
+// router.post('/', async (req, res) => {
+
+//     Poll.find({ pesel: req.body.pesel })
+//         .then(result => {
+//             if (!result.length) {
+
+//                 const new_poll = new Poll({
+//                     ...req.body
+//                 });
+
+//                 new_poll.save()
+//                     .then((poll) => {
+//                         res.json({
+//                             poll: poll,
+//                             success: true
+//                         });
+//                     })
+//                     .catch((error) => {
+//                         console.log(console.log(error))
+//                         res.status(404).json({
+//                             success: false
+//                         });
+//                     });
+//             } else {
+//                 res.status(404).json({
+//                     success: false,
+//                     msg: "PESEL already in use!"
+//                 })
+//             }
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             res.status(404).json({
+//                 success: false,
+//                 err: err
+//             })
+//         })
+
+// });
 
 
 router.patch('/patch', async (req, res) => {
