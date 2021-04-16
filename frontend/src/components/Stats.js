@@ -32,7 +32,11 @@ const Stats = () => {
     const [workplace_type, setWorkplace_type] = useState([]);
     const [ITfield,setITfield]= useState([]);
     const [monthlyearnings,setmonthlyearnings]= useState([]);
-    
+    const [contract, setContract] = useState([]);
+    const [contractOnly, setContractOnly] = useState([]);
+    const [selfEmp, setSelfEmp] = useState(0);
+    const [mandate, setMandate] = useState(0);
+
     const plec = [
         { name: "Kobiety", users: ilekobiet },
         { name: "Mężczyźni", users: ilemezczyzn },
@@ -110,19 +114,20 @@ const Stats = () => {
             
             axios.get("http://localhost:3000/polls/ITfield")
             .then(res=> {
-                setITfield(res.data);
+                let sum_IT = 0;
+                for (const [key, value] of Object.entries(res.data.data)) {
+                    sum_IT = sum_IT + value;
+                }
+                setITfield(sum_IT);
             });
 
         axios.get("http://localhost:3000/polls/workplace_type")
             .then(res=> {
                 let workplace = [];
                 let type = {};
-                let sum =0;
+                
                 for (const [key, value] of Object.entries(res.data.data)) {
-                    sum = sum + value;
-                }
-                for (const [key, value] of Object.entries(res.data.data)) {
-                    type = {name: key, percent: Math.round(((value/sum*100) + Number.EPSILON) * 100) / 100}
+                    type = {name: key, polish: value.polish, others: value.other}
                     workplace.push(type);
                 }
                 setWorkplace_type(workplace);
@@ -142,6 +147,46 @@ const Stats = () => {
             .then(res=> {
                 setwyksztalceniegimnazjalne(res.data);
             });
+            axios.get("http://localhost:3000/polls/contract_type")
+                .then(res=> {
+                    let typeOfContract = [];
+                    let typeOfContractOnly = [];
+                    let type1 = {};
+                    let type2 = {};
+                    let sum = 0;
+                    let self_sum = 0;
+                    let sum_mandate = 0;
+                    for (const [key, value] of Object.entries(res.data.data)) {
+                        if(key !== "Samozatrudnienie"){
+                            sum = sum + value;
+                            if(key === "Umowa zlecenie"){
+                                sum_mandate = value;
+                            }
+                        }
+                        else {
+                            self_sum = value;
+                        }
+                    }
+
+                    for (const [key, value] of Object.entries(res.data.data)) {
+                        if(key !== "Samozatrudnienie"){
+                            type1 = {name: key, umowa: Math.round((value/sum*100) + Number.EPSILON)*100 / 100}
+                            type2 = {name: key, umowa: value}
+                            typeOfContract.push(type2);
+                            typeOfContractOnly.push(type1);
+                        }
+                        else {
+                            type2 = {name: key, umowa: value}
+                            typeOfContract.push(type2);
+                        }
+
+                    }
+                    setContract(typeOfContract);
+                    setContractOnly(typeOfContractOnly);
+                    setSelfEmp(Math.round((self_sum/(sum+self_sum)*100) + Number.EPSILON)*100 / 100);
+                    setMandate(sum_mandate);
+            });
+            
 
         
     }, []);
@@ -187,7 +232,7 @@ const Stats = () => {
                     <h1 className={"subtitle"}>Wyksztalcenie ankietowanych</h1>
                     <div className="App columns is-centered mr-5 is-flex-mobile">
                         <BarChart
-                            width={500}
+                            width={400}
                             height={250}
                             data={wyksztalcenie}
                             barSize={20}
@@ -219,24 +264,27 @@ const Stats = () => {
 
             <div style={{ textAlign: "center" }} className={"columns m-3"}>
                 <div className={"column box has-text-centered m-3"}>
-                    <h1 className={"subtitle"}>Procent zatrudnionych osób ze względu na branżę.</h1>
+                    <h1 className={"subtitle"}>Procent zatrudnionych osób ze względu na branżę</h1>
                     <div className="App columns is-centered mr-5 is-flex-mobile">
-                        <BarChart
-                            width={600}
-                            height={350}
-                            data={workplace_type}
-                            barSize={20}
+                    <BarChart
+                        width={500}
+                        height={300}
+                        data={workplace_type}
+                        margin={{
+                            top: 20,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}
                         >
-                            <XAxis
-                                dataKey="name"
-                                scale="point"
-                                padding={{ left: 15, right: 15 }}
-                            />
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
                             <YAxis />
                             <Tooltip />
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar dataKey="percent" fill="#48D1CC" background={{ fill: "#eee" }} />
-                        </BarChart>
+                            <Legend />
+                            <Bar dataKey="polish" stackId="a" fill="#8884d8" />
+                            <Bar dataKey="others" stackId="a" fill="#48D1CC" />
+                    </BarChart>
                     </div>
                 </div>
                 <div className={"column box has-text-centered m-3"}>
@@ -259,6 +307,50 @@ const Stats = () => {
                 </div>
             </div>
 
+            <div tyle={{ textAlign: "center" }} className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Typy umów dot. zatrudnienia - %</h1>
+                        <div className="App columns is-centered is-flex-mobile mr-5">
+                            <PieChart width={400} height={400}>
+                                <Pie
+                                    dataKey="umowa"
+                                    isAnimationActive={false}
+                                    data={contractOnly}
+                                    cx={200}
+                                    cy={200}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    label={(entry) => entry.name}
+                                />
+                                <Tooltip />
+                            </PieChart>
+                        </div>
+                </div>
+                <div style={{ textAlign: "center" }} className={"column box m-3"}>
+                    <h1 className={"subtitle"}>Typy umów dot. zatrudnienia z samozatrudnieniem</h1>
+                    <div className="App columns is-centered is-flex-mobile mr-5">
+                        <BarChart
+                            width={350}
+                            height={250}
+                            data={contract}
+                            barSize={20}
+                        >
+                            <XAxis
+                                dataKey="name"
+                                scale="point"
+                                padding={{ left: 10, right: 10 }}
+                            />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <Bar dataKey="umowa" fill="#48D1CC" background={{ fill: "#eee" }} />
+                        </BarChart>
+                    </div>
+                </div>
+                
+            </div>
+
             <div className={"columns m-3"}>
                 <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-link is-2"}>{Math.round(monthlyearnings.brutto_avg)}<b className={"subtitle"}> Średnie zarobki brutto</b> </p>
@@ -268,6 +360,16 @@ const Stats = () => {
                 </div>
                 <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-link is-2"}>{Math.round(ITfield)}<b className={"subtitle"}> Ilosc osob pracujacych w IT</b> </p>
+                </div>
+            </div>
+
+            <div className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
+                    <p className={"title has-text-primary is-2"}>{selfEmp + "%"} <b className={"subtitle"}>osób samozatrudnionych</b></p>
+                </div>
+
+                <div className={"column box has-text-centered m-3"}>
+                    <p className={"title has-text-primary is-2"}>{mandate}<b className={"subtitle"}> osób na umowie zleceniu</b> </p>
                 </div>
             </div>
 
