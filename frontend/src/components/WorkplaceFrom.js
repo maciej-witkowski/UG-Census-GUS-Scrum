@@ -105,7 +105,7 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
 
 
     return (
-
+        <div className={"box m-6 field is-centered"}>
             <div className={"field is-centered"}>
 
                 <div className={"column is-centered mx-5 mt-6"}>
@@ -272,7 +272,8 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
                     <input className={"button is-danger is-medium"} type="button" value="Usuń ankietę" onClick={deleteUser} />
                 </div> : null }
 
-            </div>)
+            </div>
+        </div>)
 }
 
 export default connect(mapStateToProps)(WorkplaceForm);
