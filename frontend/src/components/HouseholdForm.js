@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from "react";
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
+import ChildForm from './ChildForm';
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
@@ -9,21 +10,62 @@ const mapStateToProps = state => ({
 
 const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 
-    const [children, setChildren] = useState(poll.household.children);
-    const [living_with_parents, setLiving] = useState(poll.household.living_with_parents);
-    const [partner, setPartner] = useState(poll.household.partner);
+    const [childrenExists, setChildrenExists] = useState(poll.household.children.exists);
+    const [childrenNumber, setChildrenNumber] = useState(poll.household.children.number);
+    const [livingWith, setLivingWith] = useState(poll.household.living_with);
+
+    const [children, setChildren] = useState(poll.household.children.children);  // set children when next page 
+
+    const addChild = (c) => {
+   
+        const kids = children.map((child, index) => {
+            if (c.index === index) {
+                return c;
+            }
+            else {
+                return child;
+            }
+        })
+        setChildren(kids);
+    }
+
+    const createEmptyChildObjects = () => {
+
+        const child = {
+            name: "",
+            surname: "",
+            pesel: "",
+        }
+
+        let kids = [];
+
+        for (let i = 0; i < parseInt(childrenNumber); i++) {
+            kids = [...kids, child]
+          }
+        setChildren(kids);
+    }
+   
+    useEffect(() => {
+        console.log(poll);
+    }, [poll]);
 
     useEffect(() => {
-        // console.log(poll);
-    }, [poll]);
+        if (parseInt(childrenNumber) > 0 ) {
+            createEmptyChildObjects();
+        }
+    }, [childrenNumber]);
 
 
     const updatePoll = () => {
+
+        console.log(children);
         const info = {
             household: {
-                children: children,
-                living_with_parents: living_with_parents,
-                partner: partner
+                children: {
+                    exists: childrenExists,
+                    number: childrenNumber,
+                    children: children
+                }
             }
         }
         dispatch(actions.setInfo(info));
@@ -44,7 +86,7 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                         <div className="field-body">
                             <div className="field is-narrow">
                                 <div className="select">
-                                    <select name='children' value={children === true ? 'Tak' : 'Nie'} onChange={(ev) => ev.target.value === "Tak"? setChildren(true): setChildren(false)}>
+                                    <select name='children' value={childrenExists === true ? 'Tak' : 'Nie'} onChange={(ev) => ev.target.value === "Tak"? setChildrenExists(true): setChildrenExists(false)}>
                                         <option value="Tak">Tak</option>
                                         <option value="Nie">Nie</option>
                                     </select>
@@ -54,36 +96,35 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                     </div>
                 </div>
 
-                <div className={"column is-centered mx-5 is-5"}>
-                    <div>
-                        <p className={"label"}>Czy mieszkasz z rodzicami?</p>
-                    </div>
-                    <div className={"control is-5"}>
-                        <div className="field-body">
-                            <div className="field is-narrow">
-                                <div className="select">
-                                    <select name='livingWithParents' value={living_with_parents === true ? 'Tak' : 'Nie'} onChange={(ev) => ev.target.value === "Tak"? setLiving(true): setLiving(false)}>
-                                        <option value="Tak">Tak</option>
-                                        <option value="Nie">Nie</option>
-                                    </select>
-                                </div>
-                            </div>
+                {childrenExists? (<div className={"column is-centered mx-5 is-5"}>
+                        <div>
+                            <p className={"label"}>Ile?</p>
                         </div>
-                    </div>
-                </div>
+                        <input className={"input is-info"} type="number" name='childrenNumber' defaultValue={childrenNumber} min="0" max="15" placeholder={"Ilość dzieci"}
+                        onChange={(ev) => setChildrenNumber(ev.target.value)}
+                        />
+                    </div>): null}
 
+                {childrenNumber? (<div>
+                    {Array(parseInt(childrenNumber)).fill(null).map((value, index) => (
+                        <ChildForm key={index} passChild={addChild} index={index}> </ChildForm>
+                    ))}
+                </div>) : console.log(childrenNumber)}
+                
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Czy masz partnera/partnerkę?</p>
+                        <p className={"label"}>Z kim mieszkasz?</p>
                     </div>
                     <div className={"control is-5"}>
                         <div className="field-body">
                             <div className="field is-narrow">
                                 <div className="select">
-                                    <select name='partner' value={partner === true ? 'Tak' : 'Nie'} onChange={(ev) => ev.target.value === "Tak"? setPartner(true): setPartner(false)}>
-                                        <option value="Tak">Tak</option>
-                                        <option value="Nie">Nie</option>
+                                    <select name='livingWithParents' value={livingWith} onChange={(ev) => setLivingWith(ev.target.value)}>
+                                        <option value="sam">Sam</option>
+                                        <option value="partner">Z partnerem</option>
+                                        <option value="rodzice">Z rodzicami</option>
+                                        <option value="współlokator">Ze wspólokatorem</option>
                                     </select>
                                 </div>
                             </div>

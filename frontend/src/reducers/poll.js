@@ -15,7 +15,7 @@ const initialState = {
         },
         disability: {
             exists: false,
-            degree: "" // lekki, umiarkowany i znaczny
+            degree: "" // lekki, umiarkowany, znaczny
         },
         date_of_birth: "",
         sex: "",
@@ -24,9 +24,12 @@ const initialState = {
         marital_status: "",
         education: "",
         household: {
-            children: false,
-            living_with_parents: false,
-            partner: false
+            children: {
+                exists: false,
+                number: 0,
+                children: [] // list of objects
+            },
+            living_with: "" // z rodzice, współlokator, sam, partner
         },
         address: {
             place: {
