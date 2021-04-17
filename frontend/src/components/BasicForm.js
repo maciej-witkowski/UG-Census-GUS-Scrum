@@ -32,6 +32,12 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
         console.log(poll);
     }, [poll]);
 
+    useEffect(() => {
+        if (disabilityExists) {
+            setDisabilityDegree('Lekki');  // set default value
+        }
+    }, [disabilityExists]);
+
 
     const updatePoll = () => {
         const patternPesel = /^[0-9]{11}$/

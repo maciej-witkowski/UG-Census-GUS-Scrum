@@ -50,6 +50,12 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
     }, [poll]);
 
     useEffect(() => {
+        if (!childrenExists) {
+            setChildrenNumber(0);
+        }
+    }, [childrenExists]);
+
+    useEffect(() => {
         if (parseInt(childrenNumber) > 0 ) {
             createEmptyChildObjects();
         }
@@ -65,7 +71,8 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                     exists: childrenExists,
                     number: childrenNumber,
                     children: children
-                }
+                },
+                living_with: livingWith
             }
         }
         dispatch(actions.setInfo(info));
@@ -105,7 +112,7 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                         />
                     </div>): null}
 
-                {childrenNumber? (<div>
+                {parseInt(childrenNumber) > 0? (<div>
                     {Array(parseInt(childrenNumber)).fill(null).map((value, index) => (
                         <ChildForm key={index} passChild={addChild} index={index}> </ChildForm>
                     ))}
@@ -121,10 +128,10 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                             <div className="field is-narrow">
                                 <div className="select">
                                     <select name='livingWithParents' value={livingWith} onChange={(ev) => setLivingWith(ev.target.value)}>
-                                        <option value="sam">Sam</option>
-                                        <option value="partner">Z partnerem</option>
-                                        <option value="rodzice">Z rodzicami</option>
-                                        <option value="współlokator">Ze wspólokatorem</option>
+                                        <option value="Sam">Sam</option>
+                                        <option value="Z partnerem">Z partnerem</option>
+                                        <option value="Z rodzicami">Z rodzicami</option>
+                                        <option value="Ze wspólokatorem">Ze wspólokatorem</option>
                                     </select>
                                 </div>
                             </div>
