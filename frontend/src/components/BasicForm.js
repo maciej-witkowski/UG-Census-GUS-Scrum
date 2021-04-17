@@ -10,23 +10,69 @@ const mapStateToProps = state => ({
 const BasicForm = ({nextPage, profile, poll, dispatch}) => {
 
     const [nationality, setNationality] = useState(poll.nationality);
-    const [disability, setDisability] = useState(poll.disability);
     const [date, setDate] = useState(poll.date_of_birth);
     const [sex, setSex] = useState(poll.sex);
     const [confession, setConfession] = useState(poll.confession);
     const [marital_status, setMaritalStatus] = useState(poll.marital_status);
     const [education, setEducation] = useState(poll.education);
-    const [residence, setResidence] = useState(poll.residence);
+
+    const [residenceType, setResidenceType] = useState(poll.residence.type);
+    const [residenceFrom, setResidenceFrom] = useState(poll.residence.period.from);
+    const [residenceTill, setResidenceTill] = useState(poll.residence.period.till);
+
+    const [disabilityExists, setDisabilityExists] = useState(poll.disability.exists);
+    const [disabilityDegree, setDisabilityDegree] = useState(poll.disability.degree);
+
+
     const [name, setName] = useState(poll.name);
     const [surname, setSurname] = useState(poll.surname);
     const [pesel, setPesel] = useState(poll.pesel);
 
     useEffect(() => {
-        // console.log(poll);
+        console.log(poll);
     }, [poll]);
+
 
     const updatePoll = () => {
         const patternPesel = /^[0-9]{11}$/
+
+        let res;
+
+        if (residenceType === "Tymczasowy meldunek") {
+            res =  {
+                type: residenceType,
+                period: {
+                    from: residenceFrom,
+                    till: residenceTill
+                }
+            }
+        }
+
+        else {
+            res =  {
+                type: residenceType,
+                period: {
+                    from: "",
+                    till: ""
+                }
+            }
+        }
+
+        let disability; 
+
+        if (disabilityExists) {
+            disability  = {
+                exists: disabilityExists,
+                degree: disabilityDegree
+            }
+        }
+        else {
+            disability  = {
+                exists: false,
+                degree: ""
+            }
+        }
+
         const info = {
             name: name,
             surname: surname,
@@ -38,7 +84,7 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
             confession: confession,
             marital_status: marital_status,
             education: education,
-            residence: residence
+            residence: res
         }
         if(patternPesel.test(pesel)){
             dispatch(actions.setInfo(info));
@@ -93,18 +139,49 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                         <p className={"label"}>Czy mieszkasz w polsce tymczasowo?</p>
                     </div>
                     <div className={"checkbox"}>
-                        <input className={"checkbox is-primary"} type="checkbox" name='residence' checked={residence === "Tymczasowy meldunek" ? true : false} onChange={(ev) => setResidence(ev.target.checked === true ? "Tymczasowy meldunek" : "Stały meldunek")}/> Tak
+                        <input className={"checkbox is-primary"} type="checkbox" name='residenceType' checked={residenceType === "Tymczasowy meldunek" ? true : false} onChange={(ev) => setResidenceType(ev.target.checked === true ? "Tymczasowy meldunek" : "Stały meldunek")}/> Tak
                     </div>
                 </div>
+
+                {residenceType === "Tymczasowy meldunek" ? (<div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>Od kiedy?</p>
+                    </div>
+                    <input className={"input is-info"} type="date" name='residenceFrom' value={residenceFrom} onChange={(ev) => setResidenceFrom(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
+                    <div>
+                        <p className={"label"}>Do kiedy?</p>
+                    </div>
+                    <input className={"input is-info"} type="date" name='residenceTill' value={residenceTill} onChange={(ev) => setResidenceTill(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
+                </div>): null}
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Czy jesteś niepełnosprawny?</p>
                     </div>
                     <div className={"checkbox"}>
-                        <input className={"checkbox is-primary"} type="checkbox" name='disability' checked={disability} onChange={() => setDisability(!disability)}/> Tak
+                        <input className={"checkbox is-primary"} type="checkbox" name='disabilityExists' checked={disabilityExists} onChange={() => setDisabilityExists(!disabilityExists)}/> Tak
                     </div>
                 </div>
+
+
+                {disabilityExists? (<div className={"column is-centered mx-5 is-5"}> 
+                    <div>
+                        <p className={"label"}>Stopień: </p>
+                    </div>
+                <div className={"control is-5"}>
+                        <div className="field-body">
+                            <div className="field is-narrow">
+                                <div className="select">
+                                    <select name='disabilityDegree' value={disabilityDegree} onChange={(ev) => setDisabilityDegree(ev.target.value)}>
+                                        <option value='Lekki'>Lekki</option>
+                                        <option value='Umiarkowany'>Umiarkowany</option>
+                                        <option value='Znaczny'>Znaczny</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>): null}
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>

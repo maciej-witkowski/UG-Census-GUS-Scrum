@@ -6,8 +6,17 @@ const initialState = {
         pesel: "",
         name: "",
         nationality: "",
-        residence: "Stały meldunek",
-        disability: false,
+        residence: {
+            type: "Stały meldunek",
+            period: {
+                from: "",
+                till: ""
+            }
+        },
+        disability: {
+            exists: false,
+            degree: "" // lekki, umiarkowany i znaczny
+        },
         date_of_birth: "",
         sex: "",
         confession: "",
