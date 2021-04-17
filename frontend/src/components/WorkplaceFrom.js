@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 });
 
 
-const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, resetNum}) => {
+const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, nextPage, resetNum}) => {
 
     const [type, setType] = useState(poll.workplace.type);
     const [name, setName] = useState(poll.workplace.name);
@@ -29,56 +29,11 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
     const [apartment_number, setApartment] = useState(poll.workplace.address.apartment_number);
     const [postal_code, setPostalCode] = useState(poll.workplace.address.postal_code);
 
-    const [buttonClicked, setButtonClicked] = useState(false);
-    const [readyToReset, setReadyToReset] = useState(false);
-
-    const sendInfo = () => {
-        // resetNum();
-        const readyInfo = {
-            ...poll,
-            complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
-            last_modified_date: new Date(),
-        }
-        dispatch(actions.sendPolls(readyInfo));
-        setReadyToReset(true);
-    }
-
-    useEffect (() => {
-        if (readyToReset) {
-            resetNum();
-        }
-    }, [readyToReset])
-
-    const checkIfPollsExistsAndDisplayAlerts = () => {
-        axios.get(`http://localhost:3000/polls/${poll.pesel}`).then(res => {
-            console.log(res.data);
-            if (res.data.length===0) { // if there is no poll for this pesel
-                sendInfo();
-                alert(`Ankieta wysłana poprawnie`);
-                setButtonClicked(false);
-            }
-            else {
-                alert(`Ankieta na podany pesel już istnieje`);
-                setButtonClicked(false);
-            }
-        }).catch(err => console.log(err))
-    }
-
-
     useEffect(() => {
         console.log(poll);
         console.log('poll was updated');
 
     }, [poll]);
-
-
-    useEffect(() => {
-        if (buttonClicked) {
-            checkIfPollsExistsAndDisplayAlerts();
-        }
-
-    }, [buttonClicked])
-
 
     const updatePoll = () => {
         const info = {
@@ -107,7 +62,7 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
         }
         
          dispatch(actions.setInfo(info)); // update redux poll 
-         setButtonClicked(true);
+         nextPage();
     }
 
 
@@ -210,7 +165,7 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
                         <div>
                             <p className={"label"}>Nr budynku</p>
                         </div>
-                        <input className={"input is-info"} type="number" name='homeNumberWorkplace' min="0" value={home_number} placeholder={"Numer budynku"}
+                        <input className={"input is-info"} type="text" name='homeNumberWorkplace' value={home_number} placeholder={"Numer budynku"}
                         onChange={(ev) => setHomeNum(ev.target.value)}
                         />
                     </div>
@@ -243,8 +198,8 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
                                     <div className="select">
                                         <select name='contract' value={contract} onChange={(ev) => setContract(ev.target.value)}>
                                             <option value='B2B'>B2B</option>
-                                            <option value='employment_contract'>Umowa o pracę</option>
-                                            <option value='contract_of_mandate'>Umowa zlecenie</option>
+                                            <option value='Umowa o pracę'>Umowa o pracę</option>
+                                            <option value='Umowa zlecenie'>Umowa zlecenie</option>
                                         </select>
                                     </div>
                                 </div>
@@ -272,7 +227,7 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, reset
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <input type="button" onClick={previousPage} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
-                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Wyślij ankietę"/>
+                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Następna strona"/>
                 </div>
 
                 {profile.admin_id ? <div className={"column is-centered mx-5 is-5 mb-6"}>

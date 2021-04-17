@@ -18,18 +18,18 @@ const initialState = {
             degree: "" // lekki, umiarkowany, znaczny
         },
         date_of_birth: "",
-        sex: "",
+        sex: "Kobieta",
         confession: "",
         surname: "",
-        marital_status: "",
-        education: "",
+        marital_status: "Żonaty",
+        education: "Wykształcenie podstawowe",
         household: {
             children: {
                 exists: false,
                 number: 0,
                 children: [] // list of objects
             },
-            living_with: "" // z rodzice, współlokator, sam, partner
+            living_with: "Sam" // z rodzice, współlokator, sam, partner
         },
         address: {
             place: {
@@ -66,7 +66,7 @@ const initialState = {
                     city: ""
                 },
                 street_name: "",
-                home_number: 0,
+                home_number: "",
                 apartment_number: 0,
                 postal_code: ""
             },
