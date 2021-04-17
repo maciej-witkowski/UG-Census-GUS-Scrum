@@ -39,7 +39,7 @@ const initialState = {
                 city: ""
             },
             street_name: "",
-            home_number: 0,
+            home_number: "",
             apartment_number: 0,
             postal_code: ""
         },

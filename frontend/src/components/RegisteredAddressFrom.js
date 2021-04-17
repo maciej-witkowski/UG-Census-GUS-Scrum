@@ -18,9 +18,34 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
     const [apartment_number, setApartment] = useState(poll.registered_address.apartment_number);
     const [postal_code, setPostalCode] = useState(poll.registered_address.postal_code);
 
+    const [same, setSame] = useState(false);
+
     useEffect(() => {
-        // console.log(poll);
+        console.log(poll);
     }, [poll]);
+
+    useEffect(() => {
+        if (same) {
+            setVoivodeship(poll.address.place.voivodeship);
+            setDistrict(poll.address.place.district);
+            setCommunity(poll.address.place.community);
+            setCity(poll.address.place.city);
+            setStreet(poll.address.street_name);
+            setHomeNum(poll.address.home_number);
+            setApartment(poll.address.apartment_number);
+            setPostalCode(poll.address.postal_code);
+        }
+        else {
+            setVoivodeship("");
+            setDistrict("");
+            setCommunity("");
+            setCity("");
+            setStreet("");
+            setHomeNum("");
+            setApartment(0);
+            setPostalCode("");
+        }
+    }, [same]);
 
     const updatePoll = () => {
         const info = {
@@ -44,9 +69,19 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
 
     return (
             <div className={"box m-6 field is-centered"}>
+
                 
                 <div className={"column is-centered mx-5 mt-6"}>
                     <p className={"subtitle has-text-danger-dark"}>Informacje o twoim obecnym adresie zamieszkania:</p>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>Taki sam jak adres z dzieciństwa</p>
+                    </div>
+                    <div className={"checkbox"}>
+                        <input className={"checkbox is-primary"} type="checkbox" name='same' checked={same} onChange={() => setSame(!same)}/>
+                    </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
@@ -98,7 +133,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
                     <div>
                         <p className={"label"}>Nr domu</p>
                     </div>
-                    <input  className={"input is-info"} type="number" name='homeNumberHousehold' min="0" value={home_number} placeholder={"Numer domu"}
+                    <input  className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"}
                     onChange={(ev) => setHomeNum(ev.target.value)}
                     />
                 </div>

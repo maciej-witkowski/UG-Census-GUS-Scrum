@@ -97,7 +97,7 @@ const AddressForm = ({previousPage, nextPage, dispatch, poll}) => {
                     <div>
                         <p className={"label"}>Nr domu</p>
                     </div>
-                    <input  className={"input is-info"} type="number" name='homeNumberHousehold' min="0" value={home_number} placeholder={"Numer domu"}
+                    <input  className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"}
                     onChange={(ev) => setHomeNum(ev.target.value)}
                     />
                 </div>
