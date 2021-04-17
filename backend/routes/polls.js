@@ -286,7 +286,7 @@ router.get('/education_num', async (req, res) => {
 })
 
 router.get('/nationality_voivodeships', async (req, res) => {
-    const grouped = await Poll.aggregate([
+    const result = await Poll.aggregate([
         {
             $group: {
                 _id: "$workplace.address.place.voivodeship",
@@ -298,11 +298,11 @@ router.get('/nationality_voivodeships', async (req, res) => {
         { $match: { name: { $ne: "" } } }
     ]);
 
-    return res.send(grouped);
+    return res.send(result);
 })
 
 router.get('/nationality_communes', async (req, res) => {
-    const grouped = await Poll.aggregate([
+    const result = await Poll.aggregate([
         {
             $group: {
                 _id: "$workplace.address.place.community",
@@ -314,7 +314,23 @@ router.get('/nationality_communes', async (req, res) => {
         { $match: { name: { $ne: "" } } }
     ]);
 
-    return res.send(grouped);
+    return res.send(result);
+})
+
+router.get('/nationality_districts', async (req, res) => {
+    const result = await Poll.aggregate([
+        {
+            $group: {
+                _id: "$workplace.address.place.district",
+                polish: { $sum: { $cond: [{ $eq: ["$nationality", "Polska"] }, 1, 0] } },
+                others: { $sum: { $cond: [{ $eq: ["$nationality", "Polska"] }, 0, 1] } }
+            }
+        },
+        { $project: { _id: 0, name: "$_id", polish: 1, others: 1 } },
+        { $match: { name: { $ne: "" } } }
+    ]);
+
+    return res.send(result);
 })
 
 router.get('/communes', async (req, res) => {
