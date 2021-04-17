@@ -7,12 +7,14 @@ require('dotenv').config()
 
 const users = require('./routes/users');
 const polls = require('./routes/polls');
+const pesel = require('./routes/pesel');
 
 app.use(express.json());
 app.use(cors());
 
 app.use('/users', users);
 app.use('/polls', polls);
+app.use('/pesel', pesel);
 
 const dbConnData = {
   username: process.env.MONGO_USERNAME_ADMIN,
