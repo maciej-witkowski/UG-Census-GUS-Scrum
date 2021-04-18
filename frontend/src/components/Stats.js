@@ -36,20 +36,25 @@ const Stats = () => {
     const [contractOnly, setContractOnly] = useState([]);
     const [selfEmp, setSelfEmp] = useState(0);
     const [mandate, setMandate] = useState(0);
+    const [wojewodztwa, setWojewodztwa] = useState([]);
+    const [communesTop, setCommunesTop] = useState([]);
+    const [communesTopOthers, setCommunesTopOthers] = useState([]);
+    const [districtsTop, setDistrictsTop] = useState([]); 
+    const [districtsTopOthers, setDistrictsTopOthers] = useState([]);
 
     const plec = [
-        { name: "Kobiety", users: ilekobiet },
-        { name: "Mężczyźni", users: ilemezczyzn },
-        { name: "Nieokreśleni", users: ilenieokreslonych },
+        { name: "Kobiety", "ilość osób": ilekobiet },
+        { name: "Mężczyźni", "ilość osób": ilemezczyzn },
+        { name: "Nieokreśleni", "ilość osób": ilenieokreslonych },
 
     ];
 
     const wyksztalcenie = [
-        { name: "Podstawowe", users: wyksztalceniepodstawowe },
-        { name: "Srednie", users: wyksztalceniesrednie },
-        { name: "Wyzsze", users:wyksztalceniewyzsze },
-        { name: "Zawodowe", users: wyksztalceniezawodowe },
-        { name: "Gimnazjalne", users:wyksztalceniegimnazjalne }
+        { name: "Podstawowe", "ilość osób": wyksztalceniepodstawowe },
+        { name: "Srednie", "ilość osób": wyksztalceniesrednie },
+        { name: "Wyzsze", "ilość osób":wyksztalceniewyzsze },
+        { name: "Zawodowe", "ilość osób": wyksztalceniezawodowe },
+        { name: "Gimnazjalne", "ilość osób":wyksztalceniegimnazjalne }
     ];
 
     const procentwyksztalcenia = [
@@ -60,25 +65,6 @@ const Stats = () => {
         { name: 'Wyzsze', value: wyksztalceniewyzsze }
       ];
 
-
-      const wojewodztwa = [
-        {name: "pomorskie", polish: 72, others: 28},
-        {name: "dolnośląskie", polish: 88, others: 12},
-        {name: "łódzkie", polish: 66, others: 34},
-        {name: "mazowieckie", polish: 46, others: 54},
-        {name: "podkarpackie", polish: 70, others: 30},
-        {name: "lubelskie", polish: 68, others: 32},
-        {name: "lubuskie", polish: 91, others: 9},
-        {name: "kujawsko-pomorskie", polish: 74, others: 26},
-        {name: "opolskie", polish: 55, others: 45},
-        {name: "małopolskie", polish: 68, others: 32},
-        {name: "wielkopolskie", polish: 23, others: 77},
-        {name: "warmińsko-mazurskie", polish: 35, others: 65},
-        {name: "śląskie", polish: 85, others: 15},
-        {name: "podlaskie", polish: 88, others: 12},
-        {name: "zachodniopomorskie", polish: 43, others: 57},
-        {name: "świętokrzyskie", polish: 60, others: 40}
-    ];
 
     useEffect(() => {
         axios.get("http://localhost:3000/polls/communes")
@@ -147,7 +133,7 @@ const Stats = () => {
                 let type = {};
                 
                 for (const [key, value] of Object.entries(res.data.data)) {
-                    type = {name: key, polish: value.polish, others: value.other}
+                    type = {name: key, Polacy: value.polish, "Inne narodowości": value.other}
                     workplace.push(type);
                 }
                 setWorkplace_type(workplace);
@@ -190,13 +176,13 @@ const Stats = () => {
 
                     for (const [key, value] of Object.entries(res.data.data)) {
                         if(key !== "Samozatrudnienie"){
-                            type1 = {name: key, umowa: Math.round((value/sum*100) + Number.EPSILON)*100 / 100}
-                            type2 = {name: key, umowa: value}
+                            type1 = {name: key, ilość: Math.round((value/sum*100) + Number.EPSILON)*100 / 100}
+                            type2 = {name: key, ilość: value}
                             typeOfContract.push(type2);
                             typeOfContractOnly.push(type1);
                         }
                         else {
-                            type2 = {name: key, umowa: value}
+                            type2 = {name: key, ilość: value}
                             typeOfContract.push(type2);
                         }
 
@@ -207,6 +193,79 @@ const Stats = () => {
                     setMandate(sum_mandate);
             });
             
+            axios.get("http://localhost:3000/polls/nationality_voivodeships")
+            .then(res=> {
+                let list = [];
+                let type = {};
+                
+                for (const [key, value] of Object.entries(res.data)) {
+                    type = {name: value.name, Polacy: value.polish, "Inne narodowości": value.others}
+                    list.push(type);
+                }
+                setWojewodztwa(list);
+            });
+
+            axios.get("http://localhost:3000/polls/nationality_communes")
+            .then(res=> {
+                let list = [];
+                let type = {};
+                
+                for (const [key, value] of Object.entries(res.data)) {
+                    type = {name: value.name, Polacy: value.polish, "Inne narodowości": value.others}
+                    list.push(type);
+                }
+                list.sort(function(first, second) {
+                    return second.Polacy - first.Polacy;
+                   });
+                setCommunesTop(list.slice(0, 5));
+            });
+
+            axios.get("http://localhost:3000/polls/nationality_communes")
+            .then(res=> {
+                let list = [];
+                let type = {};
+                
+                for (const [key, value] of Object.entries(res.data)) {
+                    type = {name: value.name, Polacy: value.polish, "Inne narodowości": value.others}
+                    list.push(type);
+                }
+                list.sort(function(first, second) {
+                    return second["Inne narodowości"] - first["Inne narodowości"];
+                   });
+                
+                setCommunesTopOthers(list.slice(0, 5));
+            });
+
+            axios.get("http://localhost:3000/polls/nationality_districts")
+            .then(res=> {
+                let list = [];
+                let type = {};
+                
+                for (const [key, value] of Object.entries(res.data)) {
+                    type = {name: value.name, Polacy: value.polish, "Inne narodowości": value.others}
+                    list.push(type);
+                }
+                list.sort(function(first, second) {
+                    return second.Polacy - first.Polacy;
+                   });
+                setDistrictsTop(list.slice(0, 5));
+            });
+            
+            axios.get("http://localhost:3000/polls/nationality_districts")
+            .then(res=> {
+                let list = [];
+                let type = {};
+                
+                for (const [key, value] of Object.entries(res.data)) {
+                    type = {name: value.name, Polacy: value.polish, "Inne narodowości": value.others}
+                    list.push(type);
+                }
+                list.sort(function(first, second) {
+                    return second["Inne narodowości"] - first["Inne narodowości"];
+                   });
+                
+                setDistrictsTopOthers(list.slice(0, 5));
+            });
 
         
     }, []);
@@ -243,13 +302,13 @@ const Stats = () => {
                             <Tooltip />
                             <Legend />
                             <CartesianGrid strokeDasharray="3 3" />
-                            <Bar dataKey="users" fill="#808000" background={{ fill: "#eee" }} />
+                            <Bar dataKey="ilość osób" fill="#808000" background={{ fill: "#eee" }} />
                         </BarChart>
                     </div>
                 </div>
 
                 <div style={{ textAlign: "center" }} className={"column box m-3"}>
-                    <h1 className={"subtitle"}>Wyksztalcenie ankietowanych</h1>
+                    <h1 className={"subtitle"}>Wykształcenie ankietowanych</h1>
                     <div className="App columns is-centered mr-5 is-flex-mobile">
                         <BarChart
                             width={400}
@@ -266,7 +325,7 @@ const Stats = () => {
                             <Tooltip />
                             <Legend />
                             <CartesianGrid strokeDasharray="3 3" />
-                            <Bar dataKey="users" fill="#8884d8" background={{ fill: "#eee" }} />
+                            <Bar dataKey="ilość osób" fill="#8884d8" background={{ fill: "#eee" }} />
                         </BarChart>
                     </div>
                 </div>
@@ -303,8 +362,8 @@ const Stats = () => {
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="polish" stackId="a" fill="#8884d8" />
-                            <Bar dataKey="others" stackId="a" fill="#48D1CC" />
+                            <Bar dataKey="Polacy" stackId="a" fill="#8884d8" />
+                            <Bar dataKey="Inne narodowości" stackId="a" fill="#48D1CC" />
                     </BarChart>
                     </div>
                 </div>
@@ -334,7 +393,7 @@ const Stats = () => {
                         <div className="App columns is-centered mr-5 is-flex-mobile">
                             <PieChart width={400} height={400}>
                                 <Pie
-                                    dataKey="umowa"
+                                    dataKey="ilość"
                                     isAnimationActive={false}
                                     data={contractOnly}
                                     cx={200}
@@ -366,7 +425,7 @@ const Stats = () => {
                                 <Tooltip />
                                 <Legend />
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <Bar dataKey="umowa" fill="#808000" background={{ fill: "#eee" }} />
+                                <Bar dataKey="ilość" fill="#808000" background={{ fill: "#eee" }} />
                             </BarChart>
                         </div>
                 </div>
@@ -396,11 +455,11 @@ const Stats = () => {
 
             <div style={{ textAlign: "center" }} className={"columns m-3"}>
                 <div className={"column box has-text-centered m-3"}>
-                    <h1 className={"subtitle"}>Procent osób zamieszkujących dane województwo</h1>
+                    <h1 className={"subtitle"}>Ilość osób zamieszkujących dane województwo</h1>
                         <div className="App columns is-centered mr-5 is-flex-mobile">
                         <BarChart
-                            width={1500}
-                            height={600}
+                            width={900}
+                            height={400}
                             data={wojewodztwa}
                             margin={{
                                 top: 5,
@@ -414,12 +473,113 @@ const Stats = () => {
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="polish" fill="#8884d8" />
-                            <Bar dataKey="others" fill="#82ca9d" />
+                            <Bar dataKey="Polacy" fill="#8884d8" />
+                            <Bar dataKey="Inne narodowości" fill="#82ca9d" />
                         </BarChart>
                         </div>
                 </div>
             </div>
+
+            <div style={{ textAlign: "center" }} className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Gminy, w których jest najwięcej zatrudnionych Polaków</h1>
+                    <div className="App columns is-centered mr-5 is-flex-mobile mt-6">
+                    <BarChart
+                        width={350}
+                        height={250}
+                        data={communesTop}
+                        barSize={20}
+                        className={"mt-6"}
+                    >
+                        <XAxis
+                            dataKey="name"
+                            scale="point"
+                            padding={{ left: 10, right: 10 }}
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Bar dataKey="Polacy" name="ilość osób"  fill="#8884d8" background={{ fill: "#eee" }} />
+                    </BarChart>
+                    </div>
+                </div>
+
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Gminy, w których jest najwięcej zatrudnionych osób innej narodowości</h1>
+                        <div className="App columns is-centered is-flex-mobile mr-5 mt-6">
+                            <BarChart
+                                width={350}
+                                height={250}
+                                data={communesTopOthers}
+                                barSize={20}
+                                className={"mt-6"}
+                            >
+                                <XAxis
+                                    dataKey="name"
+                                    scale="point"
+                                    padding={{ left: 10, right: 10 }}
+                                />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Bar dataKey="Inne narodowości" name="ilość osób" fill="#82ca9d" background={{ fill: "#eee" }} />
+                            </BarChart>
+                        </div>
+                </div>
+            </div>
+
+            <div style={{ textAlign: "center" }} className={"columns m-3"}>
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Powiaty, w których jest najwięcej zatrudnionych Polaków</h1>
+                    <div className="App columns is-centered mr-5 is-flex-mobile mt-6">
+                    <BarChart
+                        width={350}
+                        height={250}
+                        data={districtsTop}
+                        barSize={20}
+                        className={"mt-6"}
+                    >
+                        <XAxis
+                            dataKey="name"
+                            scale="point"
+                            padding={{ left: 10, right: 10 }}
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Bar dataKey="Polacy" name="ilość osób" fill="#82ca9d" background={{ fill: "#eee" }} />
+                    </BarChart>
+                    </div>
+                </div>
+
+                <div className={"column box has-text-centered m-3"}>
+                    <h1 className={"subtitle"}>Powiaty, w których jest najwięcej zatrudnionych osób innej narodowości</h1>
+                        <div className="App columns is-centered is-flex-mobile mr-5 mt-6">
+                            <BarChart
+                                width={350}
+                                height={250}
+                                data={districtsTopOthers}
+                                barSize={20}
+                                className={"mt-6"}
+                            >
+                                <XAxis
+                                    dataKey="name"
+                                    scale="point"
+                                    padding={{ left: 10, right: 10 }}
+                                />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Bar dataKey="Inne narodowości" name="ilość osób" fill="#8884d8" background={{ fill: "#eee" }} />
+                            </BarChart>
+                        </div>
+                </div>
+            </div>
+
 
         {czydostalem ?
             <div>
