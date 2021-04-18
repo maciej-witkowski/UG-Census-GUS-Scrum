@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CreateInput from './CreateInput'
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
-
+import { Redirect } from "react-router-dom"; 
 
 const data = [
     ['name', 'Imię *'],
@@ -19,8 +19,8 @@ const mapStateToProps = state => ({
 })
 
 const RegisterForm = ({poll, profile, users, dispatch}) => {
-    const [warning, setWarning] = useState("")
-    // const [person, setPerson] = useState("user")
+    const [warning, setWarning] = useState("");
+    const [redirctTo, setRedirctTo] = useState(false);
 
     useEffect(() => {
         dispatch(actions.getUsers());
@@ -30,7 +30,6 @@ const RegisterForm = ({poll, profile, users, dispatch}) => {
     const sendInfo = (event) => {
         event.preventDefault()
         const {name, surname, pesel, password, repeatPassword} = event.target
-        // const {name, surname, pesel, password, repeatPassword, admin_id} = event.target
         const patternPesel = /^[0-9]{11}$/
         const patternPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/
         let check = false
@@ -77,41 +76,17 @@ const RegisterForm = ({poll, profile, users, dispatch}) => {
             name.style.border = 'none'
             name.style.borderBottom = '1px solid #333'
         }
-
-        // if (person === 'admin'){
-        //     if (admin_id.value === ""){
-        //         admin_id.style.border = '2px solid #ff9999'
-        //         setWarning("* ID jest wymagane")
-        //         check = true
-        //     } else {
-        //         admin_id.style.border = 'none'
-        //         admin_id.style.borderBottom = '1px solid #333'
-        //     }
-        // }
         
         if (!check){
             let info;
-            // if(person === 'admin'){
-            //     info = {
-            //         firstName: name.value,
-            //         lastName: surname.value,
-            //         pesel: pesel.value,
-            //         password: password.value,
-            //         admin_id: admin_id.value,
-            //         role: 'admin'
-            //     }
-            // }
-            // else{
-                info = {
-                    firstName: name.value,
-                    lastName: surname.value,
-                    pesel: pesel.value,
-                    password: password.value,
-                    role: 'user'
-                }
-            // }
+            info = {
+                firstName: name.value,
+                lastName: surname.value,
+                pesel: pesel.value,
+                password: password.value,
+                role: 'user'
+            }
 
-            // check if user with this pesel already exists
             const duplicateUser = users.filter(user => user.pesel === pesel.value)[0];
 
             if (duplicateUser) {
@@ -119,43 +94,29 @@ const RegisterForm = ({poll, profile, users, dispatch}) => {
             }
 
             else {  // if there is no duplicate 
-                dispatch(actions.register(info))
-                alert(`Rejestracja przebiegła poprawnie. Witaj ${name.value}!`)
-            }
-            
-//             dispatch(actions.register(info))
+                dispatch(actions.register(info));
+                setRedirctTo(true);
+                alert(`Rejestracja przebiegła poprawnie. Witaj ${name.value}!`);
+            }       
     
             setWarning("")
             event.target.reset();
         }
     }
 
-    // const switchPerson = (event) => {
-    //     setPerson(event)
-    // }
-
-
+    if(redirctTo){
+        return <Redirect to="/login" />
+      } 
+    else {
     return(
+        
         <div>
             <h1 className="title">Rejestracja</h1>
             <div className={"box"}>
                 <form className={"field"}onSubmit={sendInfo}>
                     <div className={"columns is-centered is-flex-mobile"}>
-                        {/* <input
-                            className={"button is-medium is-warning mt-6 mr-7 ml-6 mb-3"}
-                            type="button"
-                            value="Administrator"
-                            onClick={() => switchPerson("admin")}/> */}
-                        {/* <input
-                            className={"button is-medium is-info mt-6 mr-6 ml-6 mb-4"}
-                            type="button"
-                            value="Użytkownik"
-                            onClick={() => switchPerson("user")}/> */}
                     </div>
                     <div className={"reg-input has-text-centered"}>
-                        {/* {person === "admin" && (
-                            <CreateInput key='admin_id' info={['admin_id', 'ID Admin *']} />
-                        )} */}
                         {data.map(item => (
                             <CreateInput key={item[0]} info={item} />
                         ))}
@@ -170,6 +131,7 @@ const RegisterForm = ({poll, profile, users, dispatch}) => {
                 </div>
             </div>
         </div>)
+    }
 }
 
 export default connect(mapStateToProps)(RegisterForm);
