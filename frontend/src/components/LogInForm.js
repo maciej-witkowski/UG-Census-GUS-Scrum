@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import CreateInput from './CreateInput'
 import * as actions from "../actions/actionCreators";
 import {connect} from "react-redux";
-
+import { Redirect } from "react-router-dom"; 
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
@@ -10,16 +10,21 @@ const mapStateToProps = state => ({
 })
 
 const LogInForm = ({profile, users, dispatch}) => {
-    const [warning, setWarning] = useState("")
-    const [person, setPerson] = useState("user")
+    const [warning, setWarning] = useState("");
+    const [person, setPerson] = useState("user");
+    const [redirctTo, setRedirctTo] = useState(false);
 
     useEffect(() => {
         dispatch(actions.getUsers());
-        // as page loads - get all users from database - update redux memory
-        // - to compare and allow logging in
-        // check if user exists in the database - find user in db
-        // compare password from database with the one typed when logging in
     }, []);
+
+    useEffect(() => {
+        if (Object.keys(profile).length !== 0) {
+          setRedirctTo(true);
+        }
+    }, [profile])
+    
+
 
     const sendInfo = (event) => {
         event.preventDefault()
@@ -87,7 +92,11 @@ const LogInForm = ({profile, users, dispatch}) => {
         ['password', 'Hasło']
     ]
 
-    return (
+    if(redirctTo){
+        return <Redirect to="/profile" />
+      } 
+    else {
+        return (
         <div>
             <h1 className="title">Logowanie</h1>
             <div className={"box"}>
@@ -117,6 +126,6 @@ const LogInForm = ({profile, users, dispatch}) => {
             </div>
         </div>
     )
-
+                        }
 }
 export default connect(mapStateToProps)(LogInForm);

@@ -3,6 +3,10 @@ import {connect} from "react-redux";
 import userIcon from '../userIcon.png';
 import adminIcon from '../adminIcon.png';
 
+const mapStateToProps = state => ({
+    profile: state.profile.profile
+});
+
 const Profile = ({profile}) => (
     <div>
         <h1 className="title">Profil</h1>
@@ -47,8 +51,5 @@ const Profile = ({profile}) => (
     </div>
 );
 
-const mapStateToProps = state => ({
-    profile: state.profile.profile
-});
 
 export default connect(mapStateToProps)(Profile);
