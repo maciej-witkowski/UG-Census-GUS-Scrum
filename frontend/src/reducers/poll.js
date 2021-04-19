@@ -29,7 +29,11 @@ const initialState = {
                 number: 0,
                 children: [] // list of objects
             },
-            living_with: "Sam" // z rodzice, współlokator, sam, partner
+            living_with: {
+                type: "Sam",  // Sam, Z rodzicami, Z małżonkiem, Z partnerem, Ze wspólokatorem
+                people: [],
+                saved: false
+            }
         },
         address: {
             place: {
@@ -44,6 +48,7 @@ const initialState = {
             postal_code: ""
         },
         registered_address: {
+            same: false,
             place: {
                 voivodeship: "",
                 district: "",

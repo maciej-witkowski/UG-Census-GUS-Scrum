@@ -31,6 +31,7 @@ const Polls = ({deleteUser, read, dispatch}) => {
         window.location.reload()
     }
 
+
     return(
         <div>
             {num === 5?(<h1 className="title">Podsumowanie</h1>):null}

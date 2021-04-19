@@ -18,7 +18,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
     const [apartment_number, setApartment] = useState(poll.registered_address.apartment_number);
     const [postal_code, setPostalCode] = useState(poll.registered_address.postal_code);
 
-    const [same, setSame] = useState(false);
+    const [same, setSame] = useState(poll.registered_address.same);
 
     useEffect(() => {
         console.log(poll);
@@ -50,6 +50,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
     const updatePoll = () => {
         const info = {
             registered_address: {
+                same: same,
                 place: {
                     voivodeship: voivodeship,
                     district: district,

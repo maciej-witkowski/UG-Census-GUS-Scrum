@@ -12,7 +12,37 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 
     const [childrenExists, setChildrenExists] = useState(poll.household.children.exists);
     const [childrenNumber, setChildrenNumber] = useState(poll.household.children.number);
-    const [livingWith, setLivingWith] = useState(poll.household.living_with);
+    const [livingWithType, setLivingWithType] = useState(poll.household.living_with.type);
+    const [people, setPeople] = useState(poll.household.living_with.people);
+
+    // spouse
+
+    const [spouseName, setSpouseName] = useState("");
+    const [spouseSurname, setSpouseSurname] = useState("");
+    const [spousePesel, setSpousePesel] = useState("");
+
+    // roomate
+
+    const [roomMateName, setRoomMateName] = useState("");
+    const [roomMateSurname, setRoomMateSurname] = useState("");
+
+    // partner
+
+    const [partnerName, setPartnerName] = useState("");
+    const [partnerSurname, setPartnerSurname] = useState("");
+
+    // rodzice
+
+    const [motherName, setMotherName] = useState("");
+    const [motherSurname, setMotherSurname] = useState("");
+
+    const [fatherName, setFatherName] = useState("");
+    const [fatherSurname, setFatherSurname] = useState("");
+
+
+    const [readyToRenderChild, setReadyToRenderChild] = useState(false);
+
+    const [saved, setSaved] = useState(poll.household.living_with.saved);
 
     const [children, setChildren] = useState(poll.household.children.children);  // set children when next page 
 
@@ -28,41 +58,171 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
         })
         setChildren(kids);
     }
-
-    const createEmptyChildObjects = () => {
-
-        const child = {
-            name: "",
-            surname: "",
-            pesel: "",
-        }
-
-        let kids = [];
-
-        for (let i = 0; i < parseInt(childrenNumber); i++) {
-            kids = [...kids, child]
-          }
-        setChildren(kids);
-    }
    
     useEffect(() => {
         console.log(poll);
     }, [poll]);
 
     useEffect(() => {
-        if (!childrenExists) {
+        if (childrenExists === false) {
             setChildrenNumber(0);
         }
     }, [childrenExists]);
 
+
+    const prepareChildrenArray = () => {
+        const emptyChild = {
+            name: "",
+            surname: "",
+            pesel: "",
+        }
+
+        const emptyChildren = new Array(parseInt(childrenNumber)).fill(0).map(() => ({...emptyChild}));
+        setChildren(emptyChildren);
+
+    }
+
+    const preparePartnerRoommate = () => {
+        const emptyPerson = [{
+            name: "",
+            surname: "",
+        }]
+        setPeople(emptyPerson);
+    }
+
+    const prepareSpouse = () => {
+        const emptyPerson = [{
+            name: "",
+            surname: "",
+            pesel: ""
+        }]
+        setPeople(emptyPerson);
+    }
+
+    const prepareParents = () => {
+        const emptyMother = {
+            name: "",
+            surname: "",
+        }
+        const emptyFather = {
+            name: "",
+            surname: "",
+        }
+        setPeople([emptyMother, emptyFather]);
+    }
+
+    useEffect(() => {
+        // if (people.length === 0) { // if we chose it for the very first time - prepare people array
+        console.log('type has changed')
+            if (livingWithType === "Z małżonkiem") {
+                prepareSpouse();
+            
+            }
+            if (livingWithType === "Ze współlokatorem") {
+                preparePartnerRoommate();
+               
+            }
+            if (livingWithType === "Z partnerem") {
+                preparePartnerRoommate();
+               
+            }
+            if (livingWithType === "Z rodzicami") {
+                prepareParents();
+                
+            }
+        // }
+    }, [livingWithType]);
+
     useEffect(() => {
         if (parseInt(childrenNumber) > 0 ) {
-            createEmptyChildObjects();
+            prepareChildrenArray();
         }
     }, [childrenNumber]);
 
+    useEffect(() => {
+        if(children.length > 0) {
+            setReadyToRenderChild(true);
+            console.log(children);
+        }
+    }, [children]);
+
+
+    useEffect(() => {
+        if (childrenExists && children.length === 0) {
+           setChildrenNumber(1);
+        }
+
+    }, [childrenExists]);
+
+    
+    useEffect (() => {
+        console.log(saved);
+        if(saved) {
+            console.log(livingWithType);
+            if (livingWithType === "Z małżonkiem") {
+                setSpouseName(people[0].name);
+                setSpouseSurname(people[0].surname);
+                setSpousePesel(people[0].pesel);
+            }
+            if (livingWithType === "Ze współlokatorem") {
+                setRoomMateName(people[0].name);
+                setRoomMateSurname(people[0].surname);
+            }
+            if (livingWithType === "Z partnerem") {
+                console.log("here")
+                console.log(people[0].name);
+                setPartnerName(people[0].name);
+                setPartnerSurname(people[0].surname);
+            }
+            if (livingWithType === "Z rodzicami") {
+                setMotherName(people[0].name);
+                setMotherSurname(people[0].surname);
+    
+                setFatherName(people[1].name);
+                setFatherSurname(people[1].surname);
+            }
+        }
+    }, [saved])
 
     const updatePoll = () => {
+
+        if (childrenExists === false) {
+            setChildren([]);
+            setChildrenNumber(0);
+        }
+
+        let p = [];
+
+        if (livingWithType === "Z małżonkiem") {
+            p = [{
+                name: spouseName,
+                surname: spouseSurname,
+                pesel: spousePesel
+            }]
+        }
+        if (livingWithType === "Ze współlokatorem") {
+            p = [{
+                name: roomMateName,
+                surname: roomMateSurname,
+            }]
+        }
+        if (livingWithType === "Z partnerem") {
+            p = [{
+                name: partnerName,
+                surname: partnerSurname,
+            }]
+        }
+        if (livingWithType === "Z rodzicami") {
+            p = [{
+                name: motherName,
+                surname: motherSurname,
+            },
+            {
+                name: fatherName,
+                surname: fatherSurname,
+            }
+        ]
+        }
 
         console.log(children);
         const info = {
@@ -72,7 +232,11 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                     number: childrenNumber,
                     children: children
                 },
-                living_with: livingWith
+                living_with: {
+                    type: livingWithType,
+                    people: p,
+                    saved: true
+                }
             }
         }
         dispatch(actions.setInfo(info));
@@ -107,37 +271,155 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                         <div>
                             <p className={"label"}>Ile?</p>
                         </div>
-                        <input className={"input is-info"} type="number" name='childrenNumber' defaultValue={childrenNumber} min="0" max="15" placeholder={"Ilość dzieci"}
+                        <input className={"input is-info"} type="number" name='childrenNumber' value={childrenNumber} min="1" max="15" placeholder={"Ilość dzieci"}
                         onChange={(ev) => setChildrenNumber(ev.target.value)}
                         />
                     </div>): null}
 
-                {parseInt(childrenNumber) > 0? (<div>
-                    {Array(parseInt(childrenNumber)).fill(null).map((value, index) => (
-                        <ChildForm key={index} passChild={addChild} index={index}> </ChildForm>
-                    ))}
+                {parseInt(childrenNumber) > 0 && readyToRenderChild? (<div>
+                    {Array(parseInt(childrenNumber)).fill(null).map((value, index) => {
+                        console.log(childrenNumber);
+                        console.log(index);
+                        return (<ChildForm key={index} passChild={addChild} index={index}> </ChildForm>)
+                        })}
                 </div>) : console.log(childrenNumber)}
                 
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Z kim mieszkasz?</p>
-                    </div>
+                    </div> 
                     <div className={"control is-5"}>
                         <div className="field-body">
                             <div className="field is-narrow">
                                 <div className="select">
-                                    <select name='livingWithParents' value={livingWith} onChange={(ev) => setLivingWith(ev.target.value)}>
+                                    <select name='livingWithParents' value={livingWithType} onChange={(ev) => setLivingWithType(ev.target.value)}>
                                         <option value="Sam">Sam</option>
+                                        <option value="Z małżonkiem">Z małżonkiem</option>
+                                        <option value="Ze współlokatorem">Ze współlokatorem</option>
                                         <option value="Z partnerem">Z partnerem</option>
                                         <option value="Z rodzicami">Z rodzicami</option>
-                                        <option value="Ze wspólokatorem">Ze wspólokatorem</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+{livingWithType === "Z małżonkiem"?
+                ( <div className={"box m-6 field is-centered"}>
+                <div>
+                    <p className="label">Dane małżonka: </p>
+                </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Imię: </p>
+                </div>
+                <input className={"input is-info"} type="text" name="spouseName" value={spouseName} onChange={(ev) => setSpouseName(ev.target.value)} placeholder={"Imie"} />
+            </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Nazwisko:</p>
+                </div>
+                <input className={"input is-info"} type="text" name="spouseSurname" value={spouseSurname} onChange={(ev) => setSpouseSurname(ev.target.value)} placeholder={"Nazwisko"} />
+            </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className={"label"}>PESEL:</p>
+                </div>
+                <input className={"input is-info"} type="text" name="spousePesel" value={spousePesel} onChange={(ev) => setSpousePesel(ev.target.value)} placeholder={"PESEL"}/>
+            </div>
+            </div>
+            ):null}
+
+{livingWithType === "Ze współlokatorem"?
+                ( <div className={"box m-6 field is-centered"}>
+                <div>
+                    <p className="label">Dane współlokatora: </p>
+                </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Imię: </p>
+                </div>
+                <input className={"input is-info"} type="text" name="roomMateName" value={roomMateName} onChange={(ev) => setRoomMateName(ev.target.value)} placeholder={"Imie"} />
+            </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Nazwisko:</p>
+                </div>
+                <input className={"input is-info"} type="text" name="roomMateSurname" value={roomMateSurname} onChange={(ev) => setRoomMateSurname(ev.target.value)} placeholder={"Nazwisko"} />
+            </div>
+            </div>
+            ):null} 
+
+{livingWithType === "Z partnerem"?
+                ( <div className={"box m-6 field is-centered"}>
+                <div>
+                    <p className="label">Dane partnera: </p>
+                </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Imię: </p>
+                </div>
+                <input className={"input is-info"} type="text" name="partnerName" value={partnerName} onChange={(ev) => setPartnerName(ev.target.value)} placeholder={"Imie"} />
+            </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Nazwisko:</p>
+                </div>
+                <input className={"input is-info"} type="text" name="partnerSurname" value={partnerSurname} onChange={(ev) => setPartnerSurname(ev.target.value)} placeholder={"Nazwisko"} />
+            </div>
+            </div>
+            ):null} 
+
+{livingWithType === "Z rodzicami"?
+                ( <div className={"box m-6 field is-centered"}>
+
+                <div>
+                    <p className="label">Dane Matki: </p>
+                </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Imię: </p>
+                </div>
+                <input className={"input is-info"} type="text" name="motherName" value={motherName} onChange={(ev) => setMotherName(ev.target.value)} placeholder={"Imie"} />
+            </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Nazwisko:</p>
+                </div>
+                <input className={"input is-info"} type="text" name="motherSurname" value={motherSurname} onChange={(ev) => setMotherSurname(ev.target.value)} placeholder={"Nazwisko"} />
+            </div>
+
+            <div>
+                    <p className="label">Dane Ojca: </p>
+                </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Imię: </p>
+                </div>
+                <input className={"input is-info"} type="text" name="fatherName" value={fatherName} onChange={(ev) => setFatherName(ev.target.value)} placeholder={"Imie"} />
+            </div>
+        
+            <div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className="label">Nazwisko:</p>
+                </div>
+                <input className={"input is-info"} type="text" name="fatherSurname" value={fatherSurname} onChange={(ev) => setFatherSurname(ev.target.value)} placeholder={"Nazwisko"} />
+            </div>
+            </div>
+            ):null} 
+
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <input type="button" onClick={previousPage} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
                     <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Następna strona"/>

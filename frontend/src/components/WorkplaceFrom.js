@@ -227,7 +227,7 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, nextP
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <input type="button" onClick={previousPage} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
-                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Następna strona"/>
+                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Podsumowanie"/>
                 </div>
 
                 {profile.admin_id ? <div className={"column is-centered mx-5 is-5 mb-6"}>
