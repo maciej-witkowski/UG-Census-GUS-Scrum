@@ -7,11 +7,11 @@ import HouseholdForm from './HouseholdForm'
 import AddressForm from './AddressForm.js'
 import RegistrationAddressFrom from './RegisteredAddressFrom'
 import WorkplaceFrom from './WorkplaceFrom'
+import PollSummary from './PollSummary'
 
 
 const mapStateToProps = state => ({
     user: state.user.user,
-    profile: state.profile.profile
 })
 
 const data = [
@@ -20,7 +20,7 @@ const data = [
     ['surname', 'Nazwisko']
 ]
 
-const Database = ({user, dispatch, profile, read}) => {
+const Database = ({user, dispatch, read}) => {
     const [find, setFind] = useState(false)
     const [num, setNum] = useState(0)
     
@@ -32,6 +32,11 @@ const Database = ({user, dispatch, profile, read}) => {
         setNum(num - 1)
     }
 
+    const resetNum = () => {
+        setNum(0)
+        window.location.reload()
+    }
+
     const sendFind = (event) => {
         const userTmp = {
             pesel: event.target.pesel.value
@@ -39,134 +44,6 @@ const Database = ({user, dispatch, profile, read}) => {
         dispatch(actions.findUser(userTmp))
         setFind(true)
         event.preventDefault()
-    }
-
-    const sendUpdate = (event) => {
-        const patternPesel = /^[0-9]{11}$/
-
-        const {
-            name,
-            pesel,
-            nationality,
-            residence,
-            disability,
-            date,
-            sex,
-            confession,
-            surname,
-            marital,
-            education,
-            children,
-            livingWithParents,
-            partner,
-            voivodeshipHousehold,
-            districtHousehold,
-            communityHousehold,
-            cityHousehold,
-            streetHousehold,
-            homeNumberHousehold,
-            apartmentNumberHousehold,
-            postCodeHousehold,
-            voivodeship,
-            district,
-            community,
-            city,
-            street,
-            homeNumber,
-            apartmentNumber,
-            postCode,
-            type,
-            nameWorkplace,
-            voivodeshipWorkplace,
-            districtWorkplace,
-            communityWorkplace,
-            cityWorkplace,
-            streetWorkplace,
-            homeNumberWorkplace,
-            apartmentNumberWorkplace,
-            postCodeWorkplace,
-            jobTitle,
-            contract,
-            brutto,
-            netto
-        } = event.target
-
-        const readyInfo = {
-            type: "",
-            name: name.value,
-            pesel: pesel.value,
-            nationality: nationality.value,
-            residence: residence.checked === true ? "Tymczasowy meldunek" : "Stały meldunek",
-            disability: disability.checked,
-            date_of_birth: date.value,
-            sex: sex.value,
-            confession: confession.value,
-            surname: surname.value,
-            marital_status: marital.value,
-            education: education.value,
-            household: {
-                children: children.value === "Tak" ? true : false,
-                living_with_parents: livingWithParents.value === "Tak" ? true : false,
-                partner: partner.value === "Tak" ? true : false
-            },
-            address: {
-                place: {
-                    voivodeship: voivodeshipHousehold.value,
-                    district: districtHousehold.value,
-                    community: communityHousehold.value,
-                    city: cityHousehold.value
-                },
-                street_name: streetHousehold.value,
-                home_number: homeNumberHousehold.value,
-                apartment_number: apartmentNumberHousehold.value,
-                postal_code: postCodeHousehold.value
-            },
-            registered_address: {
-                place: {
-                    voivodeship: voivodeship.value,
-                    district: district.value,
-                    community: community.value,
-                    city: city.value,
-                },
-                street_name: street.value,
-                home_number: homeNumber.value,
-                apartment_number: apartmentNumber.value,
-                postal_code: postCode.value
-            },
-            workplace: {
-                type: type.value,
-                name: nameWorkplace.value,
-                address: {
-                    place: {
-                        voivodeship: voivodeshipWorkplace.value,
-                        district: districtWorkplace.value,
-                        community: communityWorkplace.value,
-                        city: cityWorkplace.value,
-                    },
-                    street_name: streetWorkplace.value,
-                    home_number: homeNumberWorkplace.value,
-                    apartment_number: apartmentNumberWorkplace.value,
-                    postal_code: postCodeWorkplace.value
-                },
-                job_title: jobTitle.value,
-                contract: contract.value,
-                monthly_earnings: {
-                    brutto: brutto.value,
-                    netto: netto.value
-                }
-            },
-            complition_date: user.complition_date,
-            last_modified_date: new Date(),
-        }
-
-        if(name.value !== "" && surname.value !== "" && patternPesel.test(pesel.value)){
-            dispatch(actions.updateUser(readyInfo))
-            setFind(false)
-        } else {
-            name.style.border = '2px solid #ff9999'
-            surname.style.border = '2px solid #ff9999'
-            pesel.style.border = '2px solid #ff9999'
-        }
     }
 
     const deleteUser = () => {
@@ -194,15 +71,19 @@ const Database = ({user, dispatch, profile, read}) => {
             :
             (
                 <div>
-                    <form onSubmit={sendUpdate}>
-                        <fieldset disabled={!read && !profile.admin_id ? "disabled" : ""}>
-                            {num === 0 && (<BasicForm user={user} profile={profile} nextPage={nextPage}/>)}
-                            {num === 1 && (<HouseholdForm user={user}  nextPage={nextPage} previousPage={previousPage}/>)}
-                            {num === 2 && (<AddressForm user={user} nextPage={nextPage} previousPage={previousPage}/>)}
-                            {num === 3 && (<RegistrationAddressFrom user={user} nextPage={nextPage} previousPage={previousPage}/>)}
-                            {num === 4 && (<WorkplaceFrom user={user} previousPage={previousPage} profile={profile} deleteUser={deleteUser}/>)}
-                        </fieldset>
-                    </form>
+                    {num === 5?(<h1 className="title">Podsumowanie</h1>):null}
+                    <div>
+                        {/* <form onSubmit={sendInfo}> */}
+                            {/* <fieldset disabled={!read && !profile.admin_id ? "disabled" : ""}> */}
+                                {num === 0 && (<BasicForm nextPage={nextPage} />)}
+                                {num === 1 && (<HouseholdForm   nextPage={nextPage} previousPage={previousPage} />)}
+                                {num === 2 && (<AddressForm nextPage={nextPage} previousPage={previousPage} />)}
+                                {num === 3 && (<RegistrationAddressFrom nextPage={nextPage} previousPage={previousPage} />)}
+                                {num === 4 && (<WorkplaceFrom nextPage={nextPage} previousPage={previousPage} deleteUser={deleteUser} resetNum={resetNum} />) }
+                                {num === 5 && (<PollSummary previousPage={previousPage} resetNum={resetNum} />) }
+                            {/* </fieldset> */}
+                        {/* </form> */}
+                    </div>
                 </div>
             )}
         </div>

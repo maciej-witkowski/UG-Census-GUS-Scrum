@@ -6,18 +6,34 @@ const initialState = {
         pesel: "",
         name: "",
         nationality: "",
-        residence: "Stały meldunek",
-        disability: false,
+        residence: {
+            type: "Stały meldunek",
+            period: {
+                from: "",
+                till: ""
+            }
+        },
+        disability: {
+            exists: false,
+            degree: "" // lekki, umiarkowany, znaczny
+        },
         date_of_birth: "",
-        sex: "",
+        sex: "Kobieta",
         confession: "",
         surname: "",
-        marital_status: "",
-        education: "",
+        marital_status: "Żonaty",
+        education: "Wykształcenie podstawowe",
         household: {
-            children: false,
-            living_with_parents: false,
-            partner: false
+            saved: false,
+            children: {
+                exists: false,
+                number: 0,
+                children: [] // list of objects
+            },
+            living_with: {
+                type: "Sam",  // Sam, Z rodzicami, Z małżonkiem, Z partnerem, Ze wspólokatorem
+                people: []
+            }
         },
         address: {
             place: {
@@ -27,11 +43,12 @@ const initialState = {
                 city: ""
             },
             street_name: "",
-            home_number: 0,
+            home_number: "",
             apartment_number: 0,
             postal_code: ""
         },
         registered_address: {
+            same: false,
             place: {
                 voivodeship: "",
                 district: "",
@@ -54,7 +71,7 @@ const initialState = {
                     city: ""
                 },
                 street_name: "",
-                home_number: 0,
+                home_number: "",
                 apartment_number: 0,
                 postal_code: ""
             },

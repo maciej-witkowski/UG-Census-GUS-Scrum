@@ -1,6 +1,8 @@
 import {React, useEffect, useState} from "react";
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
+import axios from 'axios';
+
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
@@ -28,6 +30,8 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
     const [surname, setSurname] = useState(poll.surname);
     const [pesel, setPesel] = useState(poll.pesel);
 
+    const [buttonClicked, setButtonClicked] = useState(false);
+
     useEffect(() => {
         console.log(poll);
     }, [poll]);
@@ -41,7 +45,6 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
 
     const updatePoll = () => {
         const patternPesel = /^[0-9]{11}$/
-
         let res;
 
         if (residenceType === "Tymczasowy meldunek") {
@@ -92,13 +95,35 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
             education: education,
             residence: res
         }
+        dispatch(actions.setInfo(info));
+
         if(patternPesel.test(pesel)){
-            dispatch(actions.setInfo(info));
-            nextPage();
+            setButtonClicked(true);
         } else {
             alert("Pesel jest wymagany!")
         }
     }
+
+    const checkPeselValidAndDisplayAlerts = () => {
+        axios.post(`http://localhost:3000/polls/pesel`, {pesel: pesel, date_of_birth: date, sex: sex}).then(res => {
+            console.log(res.data);
+            if (res.data.success===true) { 
+                nextPage();
+                setButtonClicked(false);
+            }
+            else {
+                alert(`Podany pesel jest niezgodny z płcią lub datą urodzenia`);
+                setButtonClicked(false);
+            }
+        }).catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        if (buttonClicked) {
+            checkPeselValidAndDisplayAlerts();
+        }
+
+    }, [buttonClicked])
 
     return (
             <div className={"box m-6 field is-centered"}>
