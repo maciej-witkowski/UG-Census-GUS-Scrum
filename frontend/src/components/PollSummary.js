@@ -194,11 +194,116 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
                 </div>
                 </div>) }
 
-                <div className={"column is-centered mx-5 is-5"}>
+                {poll.household.living_with.type === "Sam"?
+
+                (<div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Mieszkasz: {poll.household.living_with}</p>
+                        <p className={"label"}>Mieszkasz: {poll.household.living_with.type}</p>
                     </div>
+                </div>):null}
+
+                {poll.household.living_with.type === "Z małżonkiem"?
+
+                (<div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>Mieszkasz: {poll.household.living_with.type}</p>
+                    </div>
+
+        
+            
+                <div>
+                    <p className="label">Imię: {poll.household.living_with.people[0].name}</p>
                 </div>
+            
+        
+            
+                <div>
+                    <p className="label">Nazwisko: {poll.household.living_with.people[0].surname}</p>
+                </div>
+           
+        
+                <div>
+                    <p className={"label"}>PESEL: {poll.household.living_with.people[0].pesel}</p>
+                </div>
+          
+                </div>)
+                
+                :null}
+
+            {poll.household.living_with.type === "Z partnerem"?
+
+            (<div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className={"label"}>Mieszkasz: {poll.household.living_with.type}</p>
+                </div>
+
+           
+            <div>
+                <p className="label">Imię: {poll.household.living_with.people[0].name}</p>
+            </div>
+            
+
+            <div>
+                <p className="label">Nazwisko: {poll.household.living_with.people[0].surname}</p>
+            </div>
+            
+            </div>)
+            :null}
+
+
+            {poll.household.living_with.type === "Ze współlokatorem"?
+
+            (<div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className={"label"}>Mieszkasz: {poll.household.living_with.type}</p>
+                </div>
+            
+            <div>
+                <p className="label">Imię: {poll.household.living_with.people[0].name}</p>
+            </div>
+            
+
+            
+            <div>
+                <p className="label">Nazwisko: {poll.household.living_with.people[0].surname}</p>
+            </div>
+            
+            </div>)
+            :null}
+
+
+            {poll.household.living_with.type === "Z rodzicami"?
+
+            (<div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className={"label"}>Mieszkasz: {poll.household.living_with.type}</p>
+                </div>
+
+            <div>
+                <p className="label">Imię matki: {poll.household.living_with.people[0].name}</p>
+            </div>
+         
+
+            
+            <div>
+                <p className="label">Nazwisko matki: {poll.household.living_with.people[0].surname}</p>
+            </div>
+           
+
+           
+            <div>
+                <p className="label">Imię ojca: {poll.household.living_with.people[1].name}</p>
+            </div>
+            
+
+            
+            <div>
+                <p className="label">Nazwisko ojca: {poll.household.living_with.people[1].surname}</p>
+            </div>
+            
+
+            </div>)
+            :null}
 
                 <div className={"column is-centered mx-5 mt-6"}>
                     <div>
