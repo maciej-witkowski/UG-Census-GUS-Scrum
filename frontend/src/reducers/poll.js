@@ -24,6 +24,7 @@ const initialState = {
         marital_status: "Żonaty",
         education: "Wykształcenie podstawowe",
         household: {
+            saved: false,
             children: {
                 exists: false,
                 number: 0,
@@ -31,8 +32,7 @@ const initialState = {
             },
             living_with: {
                 type: "Sam",  // Sam, Z rodzicami, Z małżonkiem, Z partnerem, Ze wspólokatorem
-                people: [],
-                saved: false
+                people: []
             }
         },
         address: {

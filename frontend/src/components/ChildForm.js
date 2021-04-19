@@ -10,26 +10,23 @@ const mapStateToProps = state => ({
 const ChildForm = ({profile, poll, passChild, index}) => {
 
 
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [pesel, setPesel] = useState("");
+
+
     const [children, setChildren] = useState(poll.household.children.children);  // set children when next page 
 
+    const [saved, setSaved] = useState(poll.household.saved);
 
-    let foundChild = {
-        name: "",
-        surname: "",
-        pesel: "",
-    }
-
-    if (children.length > 0) {
-        foundChild = children.filter((child, i) => i === index)[0];
-    }
-    else {
-        console.log("children length 0")
-    }
-
-    const [name, setName] = useState(foundChild.name);
-    const [surname, setSurname] = useState(foundChild.surname);
-    const [pesel, setPesel] = useState(foundChild.pesel);
-
+    useEffect (() => {
+        if(saved) {
+            const found = children.filter((child, i) => i === index)[0];
+            setName(found.name);
+            setSurname(found.surname);
+            setPesel(found.pesel)
+        }
+    }, [saved])
 
 
     const child = {
