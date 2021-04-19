@@ -42,7 +42,7 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 
     const [readyToRenderChild, setReadyToRenderChild] = useState(false);
 
-    const [saved, setSaved] = useState(poll.household.living_with.saved);
+    const [saved, setSaved] = useState(poll.household.saved);
 
     const [children, setChildren] = useState(poll.household.children.children);  // set children when next page 
 
@@ -63,12 +63,6 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
         console.log(poll);
     }, [poll]);
 
-    useEffect(() => {
-        if (childrenExists === false) {
-            setChildrenNumber(0);
-        }
-    }, [childrenExists]);
-
 
     const prepareChildrenArray = () => {
         const emptyChild = {
@@ -79,7 +73,6 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 
         const emptyChildren = new Array(parseInt(childrenNumber)).fill(0).map(() => ({...emptyChild}));
         setChildren(emptyChildren);
-
     }
 
     const preparePartnerRoommate = () => {
@@ -112,8 +105,6 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
     }
 
     useEffect(() => {
-        // if (people.length === 0) { // if we chose it for the very first time - prepare people array
-        console.log('type has changed')
             if (livingWithType === "Z małżonkiem") {
                 prepareSpouse();
             
@@ -130,25 +121,24 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                 prepareParents();
                 
             }
-        // }
     }, [livingWithType]);
 
-    useEffect(() => {
-        if (parseInt(childrenNumber) > 0 ) {
-            prepareChildrenArray();
-        }
-    }, [childrenNumber]);
 
     useEffect(() => {
         if(children.length > 0) {
             setReadyToRenderChild(true);
-            console.log(children);
         }
     }, [children]);
 
+    useEffect(() => {
+        if (parseInt(childrenNumber) > 0 && !saved) {
+            prepareChildrenArray();
+        }
+    }, [childrenNumber]);
+
 
     useEffect(() => {
-        if (childrenExists && children.length === 0) {
+        if (childrenExists && !saved) {
            setChildrenNumber(1);
         }
 
@@ -156,9 +146,7 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 
     
     useEffect (() => {
-        console.log(saved);
         if(saved) {
-            console.log(livingWithType);
             if (livingWithType === "Z małżonkiem") {
                 setSpouseName(people[0].name);
                 setSpouseSurname(people[0].surname);
@@ -223,10 +211,9 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
             }
         ]
         }
-
-        console.log(children);
         const info = {
             household: {
+                saved: true,
                 children: {
                     exists: childrenExists,
                     number: childrenNumber,
@@ -234,8 +221,7 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                 },
                 living_with: {
                     type: livingWithType,
-                    people: p,
-                    saved: true
+                    people: p
                 }
             }
         }
@@ -276,7 +262,7 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                         />
                     </div>): null}
 
-                {parseInt(childrenNumber) > 0 && readyToRenderChild? (<div>
+                {childrenExists && parseInt(childrenNumber) > 0  && readyToRenderChild? (<div>
                     {Array(parseInt(childrenNumber)).fill(null).map((value, index) => {
                         console.log(childrenNumber);
                         console.log(index);
