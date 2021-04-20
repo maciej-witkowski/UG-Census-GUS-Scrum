@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const { NativeError } = require('mongoose');
 const router = express.Router();
@@ -39,46 +40,56 @@ router.post('/', async (req, res) => {
 
 });
 
-// router.post('/', async (req, res) => {
+router.post('/pesel', async (req, res) => {
+    const pesel = req.body.pesel;
+    const date_of_birth = req.body.date_of_birth;
+    const sex = req.body.sex;
 
-//     Poll.find({ pesel: req.body.pesel })
-//         .then(result => {
-//             if (!result.length) {
+    const weight = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
+    const controlNumber = parseInt(pesel.substring(10, 11));
+    let sum = 0;
 
-//                 const new_poll = new Poll({
-//                     ...req.body
-//                 });
+    for (let i = 0; i < weight.length; i++) {
+        sum += (parseInt(pesel.substring(i, i + 1)) * weight[i]);
+    }
 
-//                 new_poll.save()
-//                     .then((poll) => {
-//                         res.json({
-//                             poll: poll,
-//                             success: true
-//                         });
-//                     })
-//                     .catch((error) => {
-//                         console.log(console.log(error))
-//                         res.status(404).json({
-//                             success: false
-//                         });
-//                     });
-//             } else {
-//                 res.status(404).json({
-//                     success: false,
-//                     msg: "PESEL already in use!"
-//                 })
-//             }
-//         })
-//         .catch(err => {
-//             console.log(err)
-//             res.status(404).json({
-//                 success: false,
-//                 err: err
-//             })
-//         })
+    sum = sum % 10;
 
-// });
+    if ((10 - sum) % 10 === controlNumber) {
+        let rr = pesel[0] + pesel[1];
+        let mm = pesel[2] + pesel[3];
+        let dd = pesel[4] + pesel[5];
+        let sex_from_PESEL = ""
 
+        if (parseInt(mm) > 12) {
+            rr = "20" + rr;
+            if (parseInt(mm) < 30) {
+                mm = "0" + mm[1]
+            } else {
+                mm = "1" + mm[1]
+            }
+        } else {
+            rr = "19" + rr
+        }
+
+        if (parseInt(pesel[9]) % 2 == 0) {
+            sex_from_PESEL = "Kobieta"
+        } else {
+            sex_from_PESEL = "Mężczyzna"
+        }
+
+        const date_of_birth_from_PESEL = rr + "-" + mm + "-" + dd;
+
+        if (date_of_birth == date_of_birth_from_PESEL && sex == sex_from_PESEL) {
+            res.json({ success: true })
+        } else {
+            res.json({ success: false })
+        }
+    } else {
+        res.json({ success: false })
+    }
+
+});
 
 router.patch('/patch', async (req, res) => {
     const pesel = req.body.pesel;
@@ -101,6 +112,24 @@ router.patch('/patch', async (req, res) => {
             poll: {}
         });
     }
+});
+
+router.delete('/delete', async (req, res) => {
+    const pesel = req.body.pesel;
+
+    await Poll.findOneAndDelete({ pesel: pesel })
+        .then((poll) => {
+            res.json({
+                poll: poll,
+                success: true
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(404).json({
+                success: false
+            });
+        })
 });
 
 router.get('/ITfield', async (req, res) => {
@@ -580,24 +609,6 @@ router.get('/sredniawieku', async (req, res) => {
     } catch (err) {
         return res.json({ error: err.message });
     }
-});
-
-router.delete('/delete', async (req, res) => {
-    const pesel = req.body.pesel;
-
-    await Poll.findOneAndDelete({ pesel: pesel })
-        .then((poll) => {
-            res.json({
-                poll: poll,
-                success: true
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(404).json({
-                success: false
-            });
-        })
 });
 
 router.get('/monthly_earnings', async (req, res) => {
