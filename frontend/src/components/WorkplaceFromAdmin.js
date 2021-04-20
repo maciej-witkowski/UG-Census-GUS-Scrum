@@ -5,35 +5,35 @@ import axios from 'axios';
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
-    poll: state.poll.poll,
+    user: state.user.user,
 });
 
 
-const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, nextPage, resetNum}) => {
+const WorkplaceFormAdmin = ({previousPage, profile, user, dispatch, deleteUser, nextPage, resetNum}) => {
 
-    const [type, setType] = useState(poll.workplace.type);
-    const [name, setName] = useState(poll.workplace.name);
-    const [jobTitle, setJobTitle] = useState(poll.workplace.job_title);
-    const [contract, setContract] = useState(poll.workplace.contract);
-    const [brutto, setBrutto] = useState(poll.workplace.monthly_earnings.brutto);
-    const [netto, setNetto] = useState(poll.workplace.monthly_earnings.netto);
+    const [type, setType] = useState(user.workplace.type);
+    const [name, setName] = useState(user.workplace.name);
+    const [jobTitle, setJobTitle] = useState(user.workplace.job_title);
+    const [contract, setContract] = useState(user.workplace.contract);
+    const [brutto, setBrutto] = useState(user.workplace.monthly_earnings.brutto);
+    const [netto, setNetto] = useState(user.workplace.monthly_earnings.netto);
     
 
-    const [voivodeship, setVoivodeship] = useState(poll.workplace.address.place.voivodeship);
-    const [district, setDistrict] = useState(poll.workplace.address.place.district);
-    const [community, setCommunity] = useState(poll.workplace.address.place.community);
-    const [city, setCity] = useState(poll.workplace.address.place.city);
+    const [voivodeship, setVoivodeship] = useState(user.workplace.address.place.voivodeship);
+    const [district, setDistrict] = useState(user.workplace.address.place.district);
+    const [community, setCommunity] = useState(user.workplace.address.place.community);
+    const [city, setCity] = useState(user.workplace.address.place.city);
 
-    const [street_name, setStreet] = useState(poll.workplace.address.street_name);
-    const [home_number, setHomeNum] = useState(poll.workplace.address.home_number);
-    const [apartment_number, setApartment] = useState(poll.workplace.address.apartment_number);
-    const [postal_code, setPostalCode] = useState(poll.workplace.address.postal_code);
+    const [street_name, setStreet] = useState(user.workplace.address.street_name);
+    const [home_number, setHomeNum] = useState(user.workplace.address.home_number);
+    const [apartment_number, setApartment] = useState(user.workplace.address.apartment_number);
+    const [postal_code, setPostalCode] = useState(user.workplace.address.postal_code);
 
     useEffect(() => {
-        console.log(poll);
-        console.log('poll was updated');
+        console.log(user);
+        console.log('user was updated');
 
-    }, [poll]);
+    }, [user]);
 
     const updatePoll = () => {
         const info = {
@@ -61,7 +61,7 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, nextP
             }
         }
         
-         dispatch(actions.setInfo(info)); // update redux poll 
+         dispatch(actions.setInfoAdmin(info)); // update redux poll 
     }
 
     const previous = () => {
@@ -73,7 +73,6 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, nextP
         updatePoll();
         nextPage();
     }
-
 
     return (
         <div className={"box m-6 field is-centered"}>
@@ -232,10 +231,14 @@ const WorkplaceForm = ({previousPage, profile, poll, dispatch, deleteUser, nextP
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <input type="button" onClick={previous} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
+                    {profile.admin_id ? 
+                    <input className={"button is-danger is-medium"} type="button" value="Usuń ankietę" onClick={deleteUser} />
+                    : null }
                     <input type="button" onClick={next} className={"button is-success is-medium"} value="Podsumowanie"/>
                 </div>
+
             </div>
         </div>)
 }
 
-export default connect(mapStateToProps)(WorkplaceForm);
+export default connect(mapStateToProps)(WorkplaceFormAdmin);

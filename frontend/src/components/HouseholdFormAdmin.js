@@ -5,15 +5,15 @@ import ChildForm from './ChildForm';
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
-    poll: state.poll.poll
+    user: state.user.user
 });
 
-const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
+const HouseholdFormAdmin = ({previousPage, user, dispatch, nextPage}) => {
 
-    const [childrenExists, setChildrenExists] = useState(poll.household.children.exists);
-    const [childrenNumber, setChildrenNumber] = useState(poll.household.children.number);
-    const [livingWithType, setLivingWithType] = useState(poll.household.living_with_parents.type);
-    const [people, setPeople] = useState(poll.household.living_with_parents.people);
+    const [childrenExists, setChildrenExists] = useState(user.household.children.exists);
+    const [childrenNumber, setChildrenNumber] = useState(user.household.children.number);
+    const [livingWithType, setLivingWithType] = useState(user.household.living_with_parents.type);
+    const [people, setPeople] = useState(user.household.living_with_parents.people);
 
     // spouse
 
@@ -42,9 +42,9 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 
     const [readyToRenderChild, setReadyToRenderChild] = useState(false);
 
-    const [saved, setSaved] = useState(poll.household.saved);
+    const [saved, setSaved] = useState(user.household.saved);
 
-    const [children, setChildren] = useState(poll.household.children.children);  // set children when next page 
+    const [children, setChildren] = useState(user.household.children.children);  // set children when next page 
 
     const addChild = (c) => {
    
@@ -60,8 +60,8 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
     }
    
     useEffect(() => {
-        console.log(poll);
-    }, [poll]);
+        console.log(user);
+    }, [user]);
 
 
     const prepareChildrenArray = () => {
@@ -225,7 +225,7 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
                 }
             }
         }
-        dispatch(actions.setInfo(info));
+        dispatch(actions.setInfoAdmin(info));
     }
 
     const previous = () => {
@@ -423,4 +423,4 @@ const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
 )
     }
 
-export default connect(mapStateToProps)(HouseholdForm);
+export default connect(mapStateToProps)(HouseholdFormAdmin);

@@ -4,36 +4,36 @@ import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
-    poll: state.poll.poll
+    user: state.user.user
 });
 
-const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
+const RegistrationAddressFormAdmin = ({previousPage, user, dispatch, nextPage}) => {
 
-    const [voivodeship, setVoivodeship] = useState(poll.registered_address.place.voivodeship);
-    const [district, setDistrict] = useState(poll.registered_address.place.district);
-    const [community, setCommunity] = useState(poll.registered_address.place.community);
-    const [city, setCity] = useState(poll.registered_address.place.city);
-    const [street_name, setStreet] = useState(poll.registered_address.street_name);
-    const [home_number, setHomeNum] = useState(poll.registered_address.home_number);
-    const [apartment_number, setApartment] = useState(poll.registered_address.apartment_number);
-    const [postal_code, setPostalCode] = useState(poll.registered_address.postal_code);
+    const [voivodeship, setVoivodeship] = useState(user.registered_address.place.voivodeship);
+    const [district, setDistrict] = useState(user.registered_address.place.district);
+    const [community, setCommunity] = useState(user.registered_address.place.community);
+    const [city, setCity] = useState(user.registered_address.place.city);
+    const [street_name, setStreet] = useState(user.registered_address.street_name);
+    const [home_number, setHomeNum] = useState(user.registered_address.home_number);
+    const [apartment_number, setApartment] = useState(user.registered_address.apartment_number);
+    const [postal_code, setPostalCode] = useState(user.registered_address.postal_code);
 
-    const [same, setSame] = useState(poll.registered_address.same);
+    const [same, setSame] = useState(user.registered_address.same);
 
     useEffect(() => {
-        console.log(poll);
-    }, [poll]);
+        console.log(user);
+    }, [user]);
 
     useEffect(() => {
         if (same) {
-            setVoivodeship(poll.address.place.voivodeship);
-            setDistrict(poll.address.place.district);
-            setCommunity(poll.address.place.community);
-            setCity(poll.address.place.city);
-            setStreet(poll.address.street_name);
-            setHomeNum(poll.address.home_number);
-            setApartment(poll.address.apartment_number);
-            setPostalCode(poll.address.postal_code);
+            setVoivodeship(user.address.place.voivodeship);
+            setDistrict(user.address.place.district);
+            setCommunity(user.address.place.community);
+            setCity(user.address.place.city);
+            setStreet(user.address.street_name);
+            setHomeNum(user.address.home_number);
+            setApartment(user.address.apartment_number);
+            setPostalCode(user.address.postal_code);
         }
         else {
             setVoivodeship("");
@@ -63,7 +63,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
                 postal_code: postal_code
             }
         }
-        dispatch(actions.setInfo(info));
+        dispatch(actions.setInfoAdmin(info));
     }
 
     const previous = () => {
@@ -172,4 +172,4 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
             </div>
 )
     }
-export default connect(mapStateToProps)(RegistrationAddressForm);
+export default connect(mapStateToProps)(RegistrationAddressFormAdmin);

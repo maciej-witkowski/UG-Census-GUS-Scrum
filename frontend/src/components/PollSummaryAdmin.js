@@ -1,27 +1,24 @@
 import {React, useState, useEffect} from "react";
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
-import axios from 'axios';
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile,
-    poll: state.poll.poll,
+    user: state.user.user,
 });
 
-const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
+const PollSummaryAdmin = ({previousPage, user, dispatch, resetNum}) => {
 
-    const [buttonClicked, setButtonClicked] = useState(false);
     const [readyToReset, setReadyToReset] = useState(false);
 
 
-    const sendInfo = () => {
-        // resetNum();
+    const sendPolls = () => {
         const readyInfo = {
-            ...poll,
-            complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
+            ...user,
+            complition_date: user.complition_date === "" ? new Date() : user.complition_date,
             last_modified_date: new Date(),
         }
-        dispatch(actions.sendPolls(readyInfo));
+        alert(`Ankieta wysłana poprawnie`);
+        dispatch(actions.updateUser(readyInfo));
         setReadyToReset(true);
     }
 
@@ -32,37 +29,9 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
     }, [readyToReset])
 
     useEffect(() => {
-        console.log(poll);
+        console.log(user);
 
-    }, [poll])
-
-
-    const checkIfPollsExistsAndDisplayAlerts = () => {
-        axios.get(`http://localhost:3000/polls/${poll.pesel}`).then(res => {
-            console.log(res.data);
-            if (res.data.length===0) { // if there is no poll for this pesel
-                sendInfo();
-                alert(`Ankieta wysłana poprawnie`);
-                setButtonClicked(false);
-            }
-            else {
-                alert(`Ankieta na podany pesel już istnieje`);
-                setButtonClicked(false);
-            }
-        }).catch(err => console.log(err))
-    }
-
-    useEffect(() => {
-        if (buttonClicked) {
-            checkIfPollsExistsAndDisplayAlerts();
-        }
-
-    }, [buttonClicked])
-
-
-    const sendPoll = () => {
-        setButtonClicked(true);
-    }
+    }, [user])
 
     return (
         <div className={"box m-6 field is-centered"}>
@@ -73,48 +42,48 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
                 </div>
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Imię: {poll.name}</p>
+                        <p className={"label"}>Imię: {user.name}</p>
                     </div>
                 </div>
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Nazwisko: {poll.surname}</p>
+                        <p className={"label"}>Nazwisko: {user.surname}</p>
                     </div>
                 </div>
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Pesel: {poll.pesel}</p>
+                        <p className={"label"}>Pesel: {user.pesel}</p>
                     </div>
                 </div>
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Kraj pochodzenia: {poll.nationality}</p>
+                        <p className={"label"}>Kraj pochodzenia: {user.nationality}</p>
                     </div>
                 </div>
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Zamieszkanie w Polsce: {poll.residence.type}</p>
+                        <p className={"label"}>Zamieszkanie w Polsce: {user.residence.type}</p>
                     </div>
                 </div>
-                {poll.residence.type === "Tymczasowy meldunek"? (
+                {user.residence.type === "Tymczasowy meldunek"? (
                     <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Od kiedy: {poll.residence.period.from}</p>
+                        <p className={"label"}>Od kiedy: {user.residence.period.from}</p>
                     </div>
                     <div>
-                        <p className={"label"}>Do kiedy: {poll.residence.period.till}</p>
+                        <p className={"label"}>Do kiedy: {user.residence.period.till}</p>
                     </div>
                 </div>
                 )
                 : null
                 }
-                {poll.disability.exists? (
+                {user.disability.exists? (
                     <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Niepełnosprawność: Tak</p>
                     </div>
                     <div>
-                        <p className={"label"}>Stopień: {poll.disability.degree}</p>
+                        <p className={"label"}>Stopień: {user.disability.degree}</p>
                     </div>
                 </div>
                 )
@@ -127,30 +96,30 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Data urodzenia: {poll.date_of_birth}</p>
+                        <p className={"label"}>Data urodzenia: {user.date_of_birth}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Płeć: {poll.sex}</p>
+                        <p className={"label"}>Płeć: {user.sex}</p>
                     </div>
                 </div>
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Wyznanie: {poll.confession}</p>
-                    </div>
-                </div>
-
-                <div className={"column is-centered mx-5 is-5"}>
-                    <div>
-                        <p className={"label"}>Stan cywilny: {poll.marital_status}</p>
+                        <p className={"label"}>Wyznanie: {user.confession}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Wykształcenie: {poll.education}</p>
+                        <p className={"label"}>Stan cywilny: {user.marital_status}</p>
+                    </div>
+                </div>
+
+                <div className={"column is-centered mx-5 is-5"}>
+                    <div>
+                        <p className={"label"}>Wykształcenie: {user.education}</p>
                     </div>
                 </div>
 
@@ -160,13 +129,13 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
                     </div>
                 </div>
 
-                {poll.household.children.exists? (
+                {user.household.children.exists? (
                     <div className={"column is-centered mx-5 is-5"}>
                         <div>
-                            <p className={"label"}>Dzieci: {poll.household.children.number}</p>
+                            <p className={"label"}>Dzieci: {user.household.children.number}</p>
                         </div>
                     <div>
-                    {poll.household.children.children.map((child, index) => 
+                    {user.household.children.children.map((child, index) => 
                             (<div key={index}>
                             <div>
                             <p className={"label"}>Dziecko {index+1}:</p>
@@ -189,116 +158,116 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
                 : 
                 
                 (<div className={"column is-centered mx-5 is-5"}>
-                <div>
-                    <p className={"label"}>Dzieci: Brak</p>
-                </div>
+                    <div>
+                        <p className={"label"}>Dzieci: Brak</p>
+                    </div>
                 </div>) }
 
-                {poll.household.living_with_parents.type === "Sam"?
+                {user.household.living_with_parents.type === "Sam"?
 
                 (<div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Mieszkasz: {poll.household.living_with_parents.type}</p>
+                        <p className={"label"}>Mieszkasz: {user.household.living_with_parents.type}</p>
                     </div>
                 </div>):null}
 
-                {poll.household.living_with_parents.type === "Z małżonkiem"?
+                {user.household.living_with_parents.type === "Z małżonkiem"?
 
                 (<div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Mieszkasz: {poll.household.living_with_parents.type}</p>
+                        <p className={"label"}>Mieszkasz: {user.household.living_with_parents.type}</p>
                     </div>
 
         
             
                 <div>
-                    <p className="label">Imię: {poll.household.living_with_parents.people[0].name}</p>
+                    <p className="label">Imię: {user.household.living_with_parents.people[0].name}</p>
                 </div>
             
         
             
                 <div>
-                    <p className="label">Nazwisko: {poll.household.living_with_parents.people[0].surname}</p>
+                    <p className="label">Nazwisko: {user.household.living_with_parents.people[0].surname}</p>
                 </div>
            
         
                 <div>
-                    <p className={"label"}>PESEL: {poll.household.living_with_parents.people[0].pesel}</p>
+                    <p className={"label"}>PESEL: {user.household.living_with_parents.people[0].pesel}</p>
                 </div>
           
                 </div>)
                 
                 :null}
 
-            {poll.household.living_with_parents.type === "Z partnerem"?
+            {user.household.living_with_parents.type === "Z partnerem"?
 
             (<div className={"column is-centered mx-5 is-5"}>
                 <div>
-                    <p className={"label"}>Mieszkasz: {poll.household.living_with_parents.type}</p>
+                    <p className={"label"}>Mieszkasz: {user.household.living_with_parents.type}</p>
                 </div>
 
            
             <div>
-                <p className="label">Imię: {poll.household.living_with_parents.people[0].name}</p>
+                <p className="label">Imię: {user.household.living_with_parents.people[0].name}</p>
             </div>
             
 
             <div>
-                <p className="label">Nazwisko: {poll.household.living_with_parents.people[0].surname}</p>
-            </div>
-            
-            </div>)
-            :null}
-
-
-            {poll.household.living_with_parents.type === "Ze współlokatorem"?
-
-            (<div className={"column is-centered mx-5 is-5"}>
-                <div>
-                    <p className={"label"}>Mieszkasz: {poll.household.living_with_parents.type}</p>
-                </div>
-            
-            <div>
-                <p className="label">Imię: {poll.household.living_with_parents.people[0].name}</p>
-            </div>
-            
-
-            
-            <div>
-                <p className="label">Nazwisko: {poll.household.living_with_parents.people[0].surname}</p>
+                <p className="label">Nazwisko: {user.household.living_with_parents.people[0].surname}</p>
             </div>
             
             </div>)
             :null}
 
 
-            {poll.household.living_with_parents.type === "Z rodzicami"?
+            {user.household.living_with_parents.type === "Ze współlokatorem"?
 
             (<div className={"column is-centered mx-5 is-5"}>
                 <div>
-                    <p className={"label"}>Mieszkasz: {poll.household.living_with_parents.type}</p>
+                    <p className={"label"}>Mieszkasz: {user.household.living_with_parents.type}</p>
+                </div>
+            
+            <div>
+                <p className="label">Imię: {user.household.living_with_parents.people[0].name}</p>
+            </div>
+            
+
+            
+            <div>
+                <p className="label">Nazwisko: {user.household.living_with_parents.people[0].surname}</p>
+            </div>
+            
+            </div>)
+            :null}
+
+
+            {user.household.living_with_parents.type === "Z rodzicami"?
+
+            (<div className={"column is-centered mx-5 is-5"}>
+                <div>
+                    <p className={"label"}>Mieszkasz: {user.household.living_with_parents.type}</p>
                 </div>
 
             <div>
-                <p className="label">Imię matki: {poll.household.living_with_parents.people[0].name}</p>
+                <p className="label">Imię matki: {user.household.living_with_parents.people[0].name}</p>
             </div>
          
 
             
             <div>
-                <p className="label">Nazwisko matki: {poll.household.living_with_parents.people[0].surname}</p>
+                <p className="label">Nazwisko matki: {user.household.living_with_parents.people[0].surname}</p>
             </div>
            
 
            
             <div>
-                <p className="label">Imię ojca: {poll.household.living_with_parents.people[1].name}</p>
+                <p className="label">Imię ojca: {user.household.living_with_parents.people[1].name}</p>
             </div>
             
 
             
             <div>
-                <p className="label">Nazwisko ojca: {poll.household.living_with_parents.people[1].surname}</p>
+                <p className="label">Nazwisko ojca: {user.household.living_with_parents.people[1].surname}</p>
             </div>
             
 
@@ -313,37 +282,37 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Województwo: {poll.address.place.voivodeship}</p>
+                        <p className={"label"}>Województwo: {user.address.place.voivodeship}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Powiat: {poll.address.place.district}</p>
+                        <p className={"label"}>Powiat: {user.address.place.district}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Gmina: {poll.address.place.community}</p>
+                        <p className={"label"}>Gmina: {user.address.place.community}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Miasto: {poll.address.place.city}</p>
+                        <p className={"label"}>Miasto: {user.address.place.city}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Ulica: {poll.address.street_name} {poll.address.home_number}/{poll.address.apartment_number}</p>
+                        <p className={"label"}>Ulica: {user.address.street_name} {user.address.home_number}/{user.address.apartment_number}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Kod pocztowy: {poll.address.postal_code}</p>
+                        <p className={"label"}>Kod pocztowy: {user.address.postal_code}</p>
                     </div>
                 </div>
                 
@@ -355,37 +324,37 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Województwo: {poll.registered_address.place.voivodeship}</p>
+                        <p className={"label"}>Województwo: {user.registered_address.place.voivodeship}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Powiat: {poll.registered_address.place.district}</p>
+                        <p className={"label"}>Powiat: {user.registered_address.place.district}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Gmina: {poll.registered_address.place.community}</p>
+                        <p className={"label"}>Gmina: {user.registered_address.place.community}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Miasto: {poll.registered_address.place.city}</p>
+                        <p className={"label"}>Miasto: {user.registered_address.place.city}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Ulica: {poll.registered_address.street_name} {poll.registered_address.home_number}/{poll.registered_address.apartment_number}</p>
+                        <p className={"label"}>Ulica: {user.registered_address.street_name} {user.registered_address.home_number}/{user.registered_address.apartment_number}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Kod pocztowy: {poll.registered_address.postal_code}</p>
+                        <p className={"label"}>Kod pocztowy: {user.registered_address.postal_code}</p>
                     </div>
                 </div>
 
@@ -395,7 +364,7 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
                     </div>
                 </div>
 
-                {poll.workplace.type === "bezrobotny"? (
+                {user.workplace.type === "bezrobotny"? (
                     <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Bezrobotny: Tak</p>
@@ -406,73 +375,73 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Branża: {poll.workplace.type}</p>
+                        <p className={"label"}>Branża: {user.workplace.type}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Stanowisko: {poll.workplace.job_title}</p>
+                        <p className={"label"}>Stanowisko: {user.workplace.job_title}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Nazwa firmy: {poll.workplace.name}</p>
+                        <p className={"label"}>Nazwa firmy: {user.workplace.name}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Województwo: {poll.workplace.address.place.voivodeship}</p>
+                        <p className={"label"}>Województwo: {user.workplace.address.place.voivodeship}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Powiat: {poll.workplace.address.place.district}</p>
+                    <p className={"label"}>Powiat: {user.workplace.address.place.district}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Gmina: {poll.workplace.address.place.community}</p>
+                    <p className={"label"}>Gmina: {user.workplace.address.place.community}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Miasto: {poll.workplace.address.place.city}</p>
+                    <p className={"label"}>Miasto: {user.workplace.address.place.city}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Ulica: {poll.workplace.address.street_name} {poll.workplace.address.home_number}/{poll.workplace.address.apartment_number}</p>
+                    <p className={"label"}>Ulica: {user.workplace.address.street_name} {user.workplace.address.home_number}/{user.workplace.address.apartment_number}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Kod pocztowy: {poll.workplace.address.postal_code}</p>
+                    <p className={"label"}>Kod pocztowy: {user.workplace.address.postal_code}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Rodzaj umowy: {poll.workplace.contract}</p>
+                    <p className={"label"}>Rodzaj umowy: {user.workplace.contract}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Wynagrodzenie brutto: {poll.workplace.monthly_earnings.brutto}</p>
+                    <p className={"label"}>Wynagrodzenie brutto: {user.workplace.monthly_earnings.brutto}</p>
                     </div>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                    <p className={"label"}>Wynagrodzenie netto: {poll.workplace.monthly_earnings.netto}</p>
+                    <p className={"label"}>Wynagrodzenie netto: {user.workplace.monthly_earnings.netto}</p>
                     </div>
                 </div>
      
@@ -485,11 +454,11 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
                     <input type="button" onClick={previousPage} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
-                    <input type="button" onClick={sendPoll} className={"button is-success is-medium"} value="Wyślij ankietę"/>
+                    <input type="button" onClick={sendPolls} className={"button is-success is-medium"} value="Wyślij ankietę"/>
                 </div>
         </div>)
 }
 
 
 
-export default connect(mapStateToProps)(PollSummary);
+export default connect(mapStateToProps)(PollSummaryAdmin);

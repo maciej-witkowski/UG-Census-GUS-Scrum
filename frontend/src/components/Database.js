@@ -2,12 +2,13 @@ import {React, useState} from 'react';
 import CreateInput from './CreateInput'
 import * as actions from "../actions/actionCreators";
 import {connect} from "react-redux";
-import BasicForm from './BasicForm'
-import HouseholdForm from './HouseholdForm'
-import AddressForm from './AddressForm.js'
-import RegistrationAddressFrom from './RegisteredAddressFrom'
-import WorkplaceFrom from './WorkplaceFrom'
-import PollSummary from './PollSummary'
+import BasicFormAdmin from './BasicFormAdmin'
+import HouseholdFormAdmin from './HouseholdFormAdmin'
+import AddressFormAdmin from './AddressFormAdmin.js'
+import RegistrationAddressFromAdmin from './RegisteredAddressFromAdmin'
+import WorkplaceFromAdmin from './WorkplaceFromAdmin'
+import PollSummaryAdmin from './PollSummaryAdmin';
+import axios from 'axios'
 
 
 const mapStateToProps = state => ({
@@ -41,8 +42,23 @@ const Database = ({user, dispatch, read}) => {
         const userTmp = {
             pesel: event.target.pesel.value
         }
-        dispatch(actions.findUser(userTmp))
-        setFind(true)
+
+        axios.post("http://localhost:3000/users/getByPESEL", {pesel: userTmp.pesel})
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch(actions.findUser(data))
+                if(data.user){
+                    alert("Uzytkownik znaleziony")
+                    setFind(true)
+                } else {
+                    alert("Nie ma takiego użytkownika")
+                }
+            })
+            .catch(error => {
+                throw (error);
+            });
         event.preventDefault()
     }
 
@@ -73,16 +89,12 @@ const Database = ({user, dispatch, read}) => {
                 <div>
                     {num === 5?(<h1 className="title">Podsumowanie</h1>):null}
                     <div>
-                        {/* <form onSubmit={sendInfo}> */}
-                            {/* <fieldset disabled={!read && !profile.admin_id ? "disabled" : ""}> */}
-                                {num === 0 && (<BasicForm nextPage={nextPage} />)}
-                                {num === 1 && (<HouseholdForm   nextPage={nextPage} previousPage={previousPage} />)}
-                                {num === 2 && (<AddressForm nextPage={nextPage} previousPage={previousPage} />)}
-                                {num === 3 && (<RegistrationAddressFrom nextPage={nextPage} previousPage={previousPage} />)}
-                                {num === 4 && (<WorkplaceFrom nextPage={nextPage} previousPage={previousPage} deleteUser={deleteUser} resetNum={resetNum} />) }
-                                {num === 5 && (<PollSummary previousPage={previousPage} resetNum={resetNum} />) }
-                            {/* </fieldset> */}
-                        {/* </form> */}
+                        {num === 0 && (<BasicFormAdmin nextPage={nextPage} />)}
+                        {num === 1 && (<HouseholdFormAdmin   nextPage={nextPage} previousPage={previousPage} />)}
+                        {num === 2 && (<AddressFormAdmin nextPage={nextPage} previousPage={previousPage} />)}
+                        {num === 3 && (<RegistrationAddressFromAdmin nextPage={nextPage} previousPage={previousPage} />)}
+                        {num === 4 && (<WorkplaceFromAdmin nextPage={nextPage} previousPage={previousPage} deleteUser={deleteUser} resetNum={resetNum} />) }
+                        {num === 5 && (<PollSummaryAdmin previousPage={previousPage} resetNum={resetNum} />) }
                     </div>
                 </div>
             )}

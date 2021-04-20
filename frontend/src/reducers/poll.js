@@ -30,7 +30,7 @@ const initialState = {
                 number: 0,
                 children: [] // list of objects
             },
-            living_with: {
+            living_with_parents: {
                 type: "Sam",  // Sam, Z rodzicami, Z małżonkiem, Z partnerem, Ze wspólokatorem
                 people: []
             }

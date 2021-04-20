@@ -71,16 +71,19 @@ router.post('/getByPESEL', async (req, res) => {
         const foundPoll = await Poll.findOne({ pesel: pesel });
         if (foundPoll) {
             res.json({
+                user: true,
                 poll: foundPoll
             });
         } else {
             res.json({
-                poll: false
+                user: true,
+                poll: false,
+                profile: foundUser
             });
         }
     } else {
         res.json({
-            poll: false
+            user: false
         });
     }
 });
