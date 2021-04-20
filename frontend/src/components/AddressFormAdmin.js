@@ -4,53 +4,27 @@ import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,
-    poll: state.poll.poll
+    user: state.user.user
 });
 
-const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
+const AddressFormAdmin = ({previousPage, nextPage, dispatch, user}) => {
 
-    const [voivodeship, setVoivodeship] = useState(poll.registered_address.place.voivodeship);
-    const [district, setDistrict] = useState(poll.registered_address.place.district);
-    const [community, setCommunity] = useState(poll.registered_address.place.community);
-    const [city, setCity] = useState(poll.registered_address.place.city);
-    const [street_name, setStreet] = useState(poll.registered_address.street_name);
-    const [home_number, setHomeNum] = useState(poll.registered_address.home_number);
-    const [apartment_number, setApartment] = useState(poll.registered_address.apartment_number);
-    const [postal_code, setPostalCode] = useState(poll.registered_address.postal_code);
-
-    const [same, setSame] = useState(poll.registered_address.same);
+    const [voivodeship, setVoivodeship] = useState(user.address.place.voivodeship);
+    const [district, setDistrict] = useState(user.address.place.district);
+    const [community, setCommunity] = useState(user.address.place.community);
+    const [city, setCity] = useState(user.address.place.city);
+    const [street_name, setStreet] = useState(user.address.street_name);
+    const [home_number, setHomeNum] = useState(user.address.home_number);
+    const [apartment_number, setApartment] = useState(user.address.apartment_number);
+    const [postal_code, setPostalCode] = useState(user.address.postal_code);
 
     useEffect(() => {
-        console.log(poll);
-    }, [poll]);
-
-    useEffect(() => {
-        if (same) {
-            setVoivodeship(poll.address.place.voivodeship);
-            setDistrict(poll.address.place.district);
-            setCommunity(poll.address.place.community);
-            setCity(poll.address.place.city);
-            setStreet(poll.address.street_name);
-            setHomeNum(poll.address.home_number);
-            setApartment(poll.address.apartment_number);
-            setPostalCode(poll.address.postal_code);
-        }
-        else {
-            setVoivodeship("");
-            setDistrict("");
-            setCommunity("");
-            setCity("");
-            setStreet("");
-            setHomeNum("");
-            setApartment(0);
-            setPostalCode("");
-        }
-    }, [same]);
+        // console.log(user);
+    }, [user]);
 
     const updatePoll = () => {
         const info = {
-            registered_address: {
-                same: same,
+            address: {
                 place: {
                     voivodeship: voivodeship,
                     district: district,
@@ -63,7 +37,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
                 postal_code: postal_code
             }
         }
-        dispatch(actions.setInfo(info));
+        dispatch(actions.setInfoAdmin(info));
     }
 
     const previous = () => {
@@ -76,26 +50,16 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
         nextPage();
     }
 
-    return (
+    return(
             <div className={"box m-6 field is-centered"}>
 
-                
-                <div className={"column is-centered mx-5 mt-6"}>
-                    <p className={"subtitle has-text-danger-dark"}>Informacje o twoim obecnym adresie zamieszkania:</p>
+                 <div className={"column is-centered mx-5 mt-6"}>
+                    <p className={"subtitle has-text-danger-dark"}>Informacje o twoim adresie zamieszkania w dzieciństwie:</p>
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Taki sam jak adres z dzieciństwa</p>
-                    </div>
-                    <div className={"checkbox"}>
-                        <input className={"checkbox is-primary"} type="checkbox" name='same' checked={same} onChange={() => setSame(!same)}/>
-                    </div>
-                </div>
-
-                <div className={"column is-centered mx-5 is-5"}>
-                    <div>
-                        <p className={"label"}>W jakim województwie mieszkasz?</p>
+                        <p className={"label"}>W jakim województwie mieszkałeś/aś?</p>
                     </div>
                     <input className={"input is-info"} type="text" name='voivodeshipHousehold' value={voivodeship} placeholder={"Województwo"}
                     onChange={(ev) => setVoivodeship(ev.target.value)}
@@ -104,7 +68,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>W jakim powiacie mieszkasz?</p>
+                        <p className={"label"}>W jakim powiacie mieszkałeś/aś?</p>
                     </div>
                     <input className={"input is-info"} type="text" name='districtHousehold' value={district} placeholder={"Powiat"}
                     onChange={(ev) => setDistrict(ev.target.value)}
@@ -113,7 +77,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>W jakiej gminie mieszkasz?</p>
+                        <p className={"label"}>W jakiej gminie mieszkałeś/aś?</p>
                     </div>
                     <input className={"input is-info"} type="text" name='communityHousehold' value={community} placeholder={"Gmina"}
                     onChange={(ev) => setCommunity(ev.target.value)}
@@ -122,7 +86,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>W jakim mieście mieszkasz?</p>
+                        <p className={"label"}>W jakim mieście mieszkałeś/aś?</p>
                     </div>
                     <input className={"input is-info"} type="text" name='cityHousehold' value={city} placeholder={"Miasto"}
                     onChange={(ev) => setCity(ev.target.value)}
@@ -131,7 +95,7 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
-                        <p className={"label"}>Podaj nazwę ulicy</p>
+                        <p className={"label"}>Podaj nazwę ulicy:</p>
                     </div>
                     <input  className={"input is-info"} type="text" name='streetHousehold' value={street_name} placeholder={"Ulica"}
                     onChange={(ev) => setStreet(ev.target.value)}
@@ -172,4 +136,4 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
             </div>
 )
     }
-export default connect(mapStateToProps)(RegistrationAddressForm);
+export default connect(mapStateToProps)(AddressFormAdmin);

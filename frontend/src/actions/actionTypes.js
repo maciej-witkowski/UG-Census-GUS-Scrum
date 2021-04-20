@@ -7,3 +7,6 @@ export const DELETE_USER= 'DELETE_USER'
 export const GET_USERS= 'GET_USERS'
 export const GET_POLLS= 'GET_POLLS'
 export const SET_INFO= 'SET_INFO'
+export const SET_INFO_ADMIN= 'SET_INFO_ADMIN'
+export const UPDATE_POLLS= 'UPDATE_POLLS'
+

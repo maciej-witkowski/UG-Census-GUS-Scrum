@@ -86,6 +86,13 @@ export const setInfo = (info) => {
     }
 }
 
+export const setInfoAdmin = (info) => {
+    return {
+        type: actions.SET_INFO_ADMIN,
+        payload: info
+    }
+}
+
 export const sendPolls = (poll) => {
     return (dispatch) => {
         return axios.post("http://localhost:3000/polls/", {...poll})
@@ -119,21 +126,12 @@ export const register = (info) => {
     };
 };
 
-export const findUser = (user) => {
+export const findUser = (poll) => {
     return (dispatch) => {
-        return axios.post("http://localhost:3000/users/getByPESEL", {pesel: user.pesel})
-            .then(response => {
-                return response.data
-            })
-            .then(data => {
-                dispatch({
-                    type: actions.FIND_USER,
-                    payload: data
-                })
-            })
-            .catch(error => {
-                throw (error);
-            });
+        dispatch({
+            type: actions.FIND_USER,
+            payload: poll
+        })
     };
 }
 
@@ -145,7 +143,7 @@ export const updateUser = (update) => {
             })
             .then(data => {
                 dispatch({
-                    type: actions.SEND_POLLS,
+                    type: actions.UPDATE_POLLS,
                     payload: data
                 })
             })

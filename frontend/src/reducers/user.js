@@ -1,4 +1,4 @@
-import {FIND_USER, DELETE_USER} from "../actions/actionTypes";
+import {FIND_USER, DELETE_USER, SET_INFO_ADMIN, UPDATE_POLLS} from "../actions/actionTypes";
 
 const initialState = {
     user: {
@@ -30,7 +30,7 @@ const initialState = {
                 number: 0,
                 children: [] // list of objects
             },
-            living_with: {
+            living_with_parents: {
                 type: "Sam",  // Sam, Z rodzicami, Z małżonkiem, Z partnerem, Ze wspólokatorem
                 people: []
             }
@@ -91,10 +91,31 @@ const initialState = {
 const user = (state = initialState, action) => {
     switch(action.type) {
         case FIND_USER:
-            return {
-                user: {...state.user, ...action.payload.poll}
-            }
+            if(action.payload.poll){
+                return {
+                    user: {...state.user, ...action.payload.poll}
+                }
+            } else {
+                return {
+                    user: {...state.user, 
+                        name: action.payload.profile.firstName,
+                        surname: action.payload.profile.lastName,
+                        pesel: action.payload.profile.pesel
+                    }
+                }
+            }         
         case DELETE_USER:
+            return {
+                ...state, ...initialState
+            }
+        case SET_INFO_ADMIN:
+            return {
+                user: {
+                    ...state.user,
+                    ...action.payload
+                }
+            }
+        case UPDATE_POLLS:
             return {
                 ...state, ...initialState
             }

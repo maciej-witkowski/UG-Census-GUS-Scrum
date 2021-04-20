@@ -38,6 +38,16 @@ const AddressForm = ({previousPage, nextPage, dispatch, poll}) => {
             }
         }
         dispatch(actions.setInfo(info));
+        
+    }
+
+    const previous = () => {
+        updatePoll();
+        previousPage();
+    }
+
+    const next = () => {
+        updatePoll();
         nextPage();
     }
 
@@ -121,8 +131,8 @@ const AddressForm = ({previousPage, nextPage, dispatch, poll}) => {
                 </div>
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
-                    <input type="button" onClick={previousPage} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
-                    <input type="button" onClick={updatePoll} className={"button is-success is-medium"} value="Następna strona"/>
+                    <input type="button" onClick={previous} className={"button is-danger is-medium mr-4"} value="Poprzednia strona"/>
+                    <input type="button" onClick={next} className={"button is-success is-medium"} value="Następna strona"/>
                 </div>
             </div>
 )
