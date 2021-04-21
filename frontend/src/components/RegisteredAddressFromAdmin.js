@@ -36,14 +36,14 @@ const RegistrationAddressFormAdmin = ({previousPage, user, dispatch, nextPage}) 
             setPostalCode(user.address.postal_code);
         }
         else {
-            setVoivodeship("");
-            setDistrict("");
-            setCommunity("");
-            setCity("");
-            setStreet("");
-            setHomeNum("");
-            setApartment(0);
-            setPostalCode("");
+            setVoivodeship(user.registered_address.place.voivodeship);
+            setDistrict(user.registered_address.place.district);
+            setCommunity(user.registered_address.place.community);
+            setCity(user.registered_address.place.city);
+            setStreet(user.registered_address.street_name);
+            setHomeNum(user.registered_address.home_number);
+            setApartment(user.registered_address.apartment_number);
+            setPostalCode(user.registered_address.postal_code);
         }
     }, [same]);
 
@@ -97,72 +97,110 @@ const RegistrationAddressFormAdmin = ({previousPage, user, dispatch, nextPage}) 
                     <div>
                         <p className={"label"}>W jakim województwie mieszkasz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='voivodeshipHousehold' value={voivodeship} placeholder={"Województwo"}
+                    {same?
+                    (<input disabled className={"input is-info"} type="text" name='voivodeshipHousehold' value={voivodeship} placeholder={"Województwo"}
                     onChange={(ev) => setVoivodeship(ev.target.value)}
-                    />
+                    />):
+                    (<input className={"input is-info"} type="text" name='voivodeshipHousehold' value={voivodeship} placeholder={"Województwo"}
+                    onChange={(ev) => setVoivodeship(ev.target.value)}
+                    />)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakim powiacie mieszkasz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='districtHousehold' value={district} placeholder={"Powiat"}
+                    {same?
+                    (<input disabled className={"input is-info"} type="text" name='districtHousehold' value={district} placeholder={"Powiat"}
                     onChange={(ev) => setDistrict(ev.target.value)}
-                    />
+                    />)
+                    :
+                    (<input className={"input is-info"} type="text" name='districtHousehold' value={district} placeholder={"Powiat"}
+                    onChange={(ev) => setDistrict(ev.target.value)}
+                    />)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakiej gminie mieszkasz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='communityHousehold' value={community} placeholder={"Gmina"}
+                    {same?
+                    (<input disabled className={"input is-info"} type="text" name='communityHousehold' value={community} placeholder={"Gmina"}
                     onChange={(ev) => setCommunity(ev.target.value)}
-                    />
+                    />)
+                    :
+                    (<input className={"input is-info"} type="text" name='communityHousehold' value={community} placeholder={"Gmina"}
+                    onChange={(ev) => setCommunity(ev.target.value)}
+                    />)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>W jakim mieście mieszkasz?</p>
                     </div>
-                    <input className={"input is-info"} type="text" name='cityHousehold' value={city} placeholder={"Miasto"}
+                    {same? 
+                    (<input disabled className={"input is-info"} type="text" name='cityHousehold' value={city} placeholder={"Miasto"}
                     onChange={(ev) => setCity(ev.target.value)}
-                    />
+                    />)
+                    :
+                    (<input className={"input is-info"} type="text" name='cityHousehold' value={city} placeholder={"Miasto"}
+                    onChange={(ev) => setCity(ev.target.value)}
+                    />)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Podaj nazwę ulicy</p>
                     </div>
-                    <input  className={"input is-info"} type="text" name='streetHousehold' value={street_name} placeholder={"Ulica"}
+                    {same? 
+                    (<input disabled className={"input is-info"} type="text" name='streetHousehold' value={street_name} placeholder={"Ulica"}
                     onChange={(ev) => setStreet(ev.target.value)}
-                    />
+                    />)
+                    :
+                    (<input  className={"input is-info"} type="text" name='streetHousehold' value={street_name} placeholder={"Ulica"}
+                    onChange={(ev) => setStreet(ev.target.value)}
+                    />)} 
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr domu</p>
                     </div>
-                    <input  className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"}
+                    {same? 
+                    (<input disabled className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"}
                     onChange={(ev) => setHomeNum(ev.target.value)}
-                    />
+                    />)
+                    :
+                    (<input  className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"}
+                    onChange={(ev) => setHomeNum(ev.target.value)}
+                    />)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Nr lokalu</p>
                     </div>
-                    <input className={"input is-info"} type="number" name='apartmentNumberHousehold' min="0" value={apartment_number} placeholder={"Numer lokalu"}
+                    {same? 
+                    (<input disabled className={"input is-info"} type="number" name='apartmentNumberHousehold' min="0" value={apartment_number} placeholder={"Numer lokalu"}
                     onChange={(ev) => setApartment(ev.target.value)}
-                    />
+                    />)
+                    :
+                    (<input className={"input is-info"} type="number" name='apartmentNumberHousehold' min="0" value={apartment_number} placeholder={"Numer lokalu"}
+                    onChange={(ev) => setApartment(ev.target.value)}
+                    />)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5"}>
                     <div>
                         <p className={"label"}>Kod pocztowy</p>
                     </div>
-                    <input className={"input is-info"} type="text" name="postCodeHousehold" value={postal_code} placeholder={"Kod pocztowy"}
+                    {same? 
+                    (<input disabled className={"input is-info"} type="text" name="postCodeHousehold" value={postal_code} placeholder={"Kod pocztowy"}
                     onChange={(ev) => setPostalCode(ev.target.value)}
-                    />
+                    />):
+                    (<input className={"input is-info"} type="text" name="postCodeHousehold" value={postal_code} placeholder={"Kod pocztowy"}
+                    onChange={(ev) => setPostalCode(ev.target.value)}
+                    />)}
                 </div>
 
                 <div className={"column is-centered mx-5 is-5 mt-5 mb-4"}>
