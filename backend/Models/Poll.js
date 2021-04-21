@@ -82,7 +82,8 @@ const pollSchema = new Schema({
         }
     },
     complition_date: Date,
-    last_modified_date: Date
+    last_modified_date: Date,
+    filled: Boolean
 },
     { typeKey: '$type' }
 );

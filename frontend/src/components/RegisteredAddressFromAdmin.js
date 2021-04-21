@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile,
     user: state.user.user
 });
 

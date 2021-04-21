@@ -83,9 +83,10 @@ const initialState = {
             }
         },
         complition_date: "",
-        last_modified_date: ""
-    },
-    read: true
+        last_modified_date: "",
+        filled: false,
+        role: ""
+    }
 };
 
 
@@ -100,8 +101,7 @@ const poll = (state = initialState, action) => {
                     surname: action.payload.profile.lastName,
                     pesel: action.payload.profile.pesel,
                     role: action.payload.profile.role
-                },
-                read: action.payload.poll !== null ? false : true
+                }
             }
         case LOG_OUT:
             return {
@@ -112,7 +112,6 @@ const poll = (state = initialState, action) => {
                 return {
                     ...state,
                     poll: {...state.poll, ...action.payload.poll},
-                    read: false
                 }
             } else {
                 console.log(initialState.poll);

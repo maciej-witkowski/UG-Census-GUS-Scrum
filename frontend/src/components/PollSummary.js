@@ -4,11 +4,10 @@ import * as actions from "../actions/actionCreators";
 import axios from 'axios';
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile,
     poll: state.poll.poll,
 });
 
-const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
+const PollSummary = ({previousPage, poll, dispatch, resetNum}) => {
 
     const [buttonClicked, setButtonClicked] = useState(false);
     const [readyToReset, setReadyToReset] = useState(false);
@@ -20,7 +19,9 @@ const PollSummary = ({previousPage, profile, poll, dispatch, resetNum}) => {
             ...poll,
             complition_date: poll.complition_date === "" ? new Date() : poll.complition_date,
             last_modified_date: new Date(),
+            filled: true
         }
+        dispatch(actions.setInfo(readyInfo))
         dispatch(actions.sendPolls(readyInfo));
         setReadyToReset(true);
     }

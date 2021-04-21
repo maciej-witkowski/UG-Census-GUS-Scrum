@@ -16,6 +16,7 @@ const PollSummaryAdmin = ({previousPage, user, dispatch, resetNum}) => {
             ...user,
             complition_date: user.complition_date === "" ? new Date() : user.complition_date,
             last_modified_date: new Date(),
+            filled: true
         }
         alert(`Ankieta wysłana poprawnie`);
         dispatch(actions.updateUser(readyInfo));
