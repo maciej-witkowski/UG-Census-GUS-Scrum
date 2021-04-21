@@ -255,7 +255,7 @@ router.get('/workplace_type', async (req, res) => {
         result.forEach(poll => {
             let workplace_type = poll.workplace.type
             if (data.hasOwnProperty(`${workplace_type}`)) {
-                if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                if (poll.nationality === "polish" || poll.nationality === "Polish" || poll.nationality==="Polska") {
                     data[workplace_type].polish += 1
                 } else {
                     data[workplace_type].other += 1
@@ -265,7 +265,7 @@ router.get('/workplace_type', async (req, res) => {
                     polish: 0,
                     other: 0
                 }
-                if (poll.nationality === "polish" || poll.nationality === "Polish") {
+                if (poll.nationality === "polish" || poll.nationality === "Polish" || poll.nationality==="Polska") {
                     data[workplace_type].polish += 1
                 } else {
                     data[workplace_type].other += 1
