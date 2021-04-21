@@ -3,10 +3,11 @@ import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
-    poll: state.poll.poll
+    poll: state.poll.poll,
+    voivodeships: state.voivodeships.voivodeships
 });
 
-const AddressForm = ({previousPage, nextPage, dispatch, poll}) => {
+const AddressForm = ({previousPage, nextPage, dispatch, voivodeships, poll}) => {
 
     const [voivodeship, setVoivodeship] = useState(poll.address.place.voivodeship);
     const [district, setDistrict] = useState(poll.address.place.district);
@@ -19,6 +20,7 @@ const AddressForm = ({previousPage, nextPage, dispatch, poll}) => {
 
     useEffect(() => {
         // console.log(poll);
+        voivodeships.map(v => console.log(v.voivodeship));
     }, [poll]);
 
     const updatePoll = () => {
@@ -62,9 +64,14 @@ const AddressForm = ({previousPage, nextPage, dispatch, poll}) => {
                         <div>
                             <p className={"label"}>W jakim województwie mieszkałeś/aś?</p>
                         </div>
-                        <input className={"input is-info"} type="text" name='voivodeshipHousehold' value={voivodeship} placeholder={"Województwo"}
-                        onChange={(ev) => setVoivodeship(ev.target.value)}
-                        />
+           
+                        <div className="field is-narrow">
+                            <div className="select">
+                                <select name='voivodeshipHousehold' value={voivodeship} onChange={(ev) => setVoivodeship(ev.target.value)}>
+                                    {voivodeships.map(v => v.voivodeship).map(v => (<option value={v}>{v}</option>))}
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>

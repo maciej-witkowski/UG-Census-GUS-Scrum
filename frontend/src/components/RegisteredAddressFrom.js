@@ -3,10 +3,11 @@ import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
-    poll: state.poll.poll
+    poll: state.poll.poll,
+    voivodeships: state.voivodeships.voivodeships
 });
 
-const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
+const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, nextPage}) => {
 
     const [voivodeship, setVoivodeship] = useState(poll.registered_address.place.voivodeship);
     const [district, setDistrict] = useState(poll.registered_address.place.district);
@@ -97,13 +98,21 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
                             <p className={"label"}>W jakim województwie mieszkasz?</p>
                         </div>
                         {same? (
-                            <input disabled className={"input is-info"} type="text" name='voivodeshipHousehold' value={voivodeship} placeholder={"Województwo"}
-                            onChange={(ev) => setVoivodeship(ev.target.value)}
-                            />
+                           <div className="field is-narrow">
+                           <div className="select">
+                               <select disabled name='voivodeshipHousehold' value={voivodeship} onChange={(ev) => setVoivodeship(ev.target.value)}>
+                                   {voivodeships.map(v => v.voivodeship).map(v => (<option value={v}>{v}</option>))}
+                               </select>
+                           </div>
+                            </div>
                         ):
-                        (<input className={"input is-info"} type="text" name='voivodeshipHousehold' value={voivodeship} placeholder={"Województwo"}
-                        onChange={(ev) => setVoivodeship(ev.target.value) }
-                        />)}
+                        (<div className="field is-narrow">
+                        <div className="select">
+                            <select name='voivodeshipHousehold' value={voivodeship} onChange={(ev) => setVoivodeship(ev.target.value)}>
+                                {voivodeships.map(v => v.voivodeship).map(v => (<option value={v}>{v}</option>))}
+                            </select>
+                        </div>
+                         </div>)}
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>

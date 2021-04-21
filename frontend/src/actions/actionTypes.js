@@ -9,4 +9,5 @@ export const GET_POLLS= 'GET_POLLS'
 export const SET_INFO= 'SET_INFO'
 export const SET_INFO_ADMIN= 'SET_INFO_ADMIN'
 export const UPDATE_POLLS= 'UPDATE_POLLS'
+export const GET_VOIVODESHIPS= 'GET_VOIVODESHIPS'
 

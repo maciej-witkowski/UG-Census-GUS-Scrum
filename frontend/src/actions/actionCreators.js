@@ -79,6 +79,13 @@ export const logOut = () => {
     }
 }
 
+export const getVoivodeships = () => {
+    return {
+        type: actions.GET_VOIVODESHIPS,
+        payload: {}
+    }
+}
+
 export const setInfo = (info) => {
     return {
         type: actions.SET_INFO,
@@ -134,6 +141,7 @@ export const findUser = (poll) => {
         })
     };
 }
+
 
 export const updateUser = (update) => {
     return (dispatch) => {
