@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const pollSchema = new Schema({
-    type: String,
+    role: String,
     pesel: String,
     name: String,
     nationality: String,

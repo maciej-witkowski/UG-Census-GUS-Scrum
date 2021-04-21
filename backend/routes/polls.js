@@ -161,7 +161,7 @@ router.get('/wyksztalceniesrednie', async (req, res) => {
         const x = Object.keys(allpolls).length
         let ilesrednie = 0
         for (let i = 0; i < x; i++) {
-            if (allpolls[i].education === "Wykształcenie średnie") {
+            if (allpolls[i].education === "średnie") {
                 ilesrednie = ilesrednie + 1
             }
         }
@@ -177,7 +177,7 @@ router.get('/wyksztalceniepodstawowe', async (req, res) => {
         const x = Object.keys(allpolls).length
         let ilepodstawowe = 0
         for (let i = 0; i < x; i++) {
-            if (allpolls[i].education === "Wykształcenie podstawowe") {
+            if (allpolls[i].education === "podstawowe") {
                 ilepodstawowe = ilepodstawowe + 1
             }
         }
@@ -192,7 +192,7 @@ router.get('/wyksztalceniewyzsze', async (req, res) => {
         const x = Object.keys(allpolls).length
         let ilewyzsze = 0
         for (let i = 0; i < x; i++) {
-            if (allpolls[i].education === "Wykształcenie wyższe") {
+            if (allpolls[i].education === "wyższe") {
                 ilewyzsze = ilewyzsze + 1
             }
         }
@@ -533,7 +533,7 @@ router.get('/wyksztalceniezawodowe', async (req, res) => {
         const x = Object.keys(allpolls).length
         let ilezawodowe = 0
         for (let i = 0; i < x; i++) {
-            if (allpolls[i].education === "Wykształcenie zasadnicze zawodowe") {
+            if (allpolls[i].education === "zasadnicze zawodowe") {
                 ilezawodowe = ilezawodowe + 1
             }
         }
@@ -550,7 +550,7 @@ router.get('/wyksztalceniegimnazjalne', async (req, res) => {
         const x = Object.keys(allpolls).length
         let ilegimbaza = 0
         for (let i = 0; i < x; i++) {
-            if (allpolls[i].education === "Wykształcenie gimnazjalne") {
+            if (allpolls[i].education === "gimnazjalne") {
                 ilegimbaza = ilegimbaza + 1
             }
         }
