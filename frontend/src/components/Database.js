@@ -48,9 +48,9 @@ const Database = ({user, dispatch, read}) => {
                 return response.data
             })
             .then(data => {
-                dispatch(actions.findUser(data))
                 if(data.user){
                     alert("Uzytkownik znaleziony")
+                    dispatch(actions.findUser(data))
                     setFind(true)
                 } else {
                     alert("Nie ma takiego użytkownika")
