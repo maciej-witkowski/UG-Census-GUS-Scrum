@@ -36,14 +36,14 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, nextPage}) => {
             setPostalCode(poll.address.postal_code);
         }
         else {
-            setVoivodeship("");
-            setDistrict("");
-            setCommunity("");
-            setCity("");
-            setStreet("");
-            setHomeNum("");
-            setApartment(0);
-            setPostalCode("");
+            setVoivodeship(poll.registered_address.place.voivodeship);
+            setDistrict(poll.registered_address.place.district);
+            setCommunity(poll.registered_address.place.community);
+            setCity(poll.registered_address.place.city);
+            setStreet(poll.registered_address.street_name);
+            setHomeNum(poll.registered_address.home_number);
+            setApartment(poll.registered_address.apartment_number);
+            setPostalCode(poll.registered_address.postal_code);
         }
     }, [same]);
 
