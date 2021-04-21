@@ -83,7 +83,9 @@ const initialState = {
             }
         },
         complition_date: "",
-        last_modified_date: ""
+        last_modified_date: "",
+        filled: false,
+        role: ""
     }
 };
 

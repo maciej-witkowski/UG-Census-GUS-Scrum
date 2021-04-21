@@ -1,13 +1,11 @@
 import {React, useState, useEffect, Children} from "react";
 import {connect} from "react-redux";
-import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile,
     poll: state.poll.poll
 });
 
-const ChildForm = ({profile, poll, passChild, index}) => {
+const ChildForm = ({poll, passChild, index}) => {
 
 
     const [name, setName] = useState("");

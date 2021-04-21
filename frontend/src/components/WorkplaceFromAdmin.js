@@ -1,7 +1,6 @@
 import {React, useState, useEffect} from "react";
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
-import axios from 'axios';
 
 const mapStateToProps = state => ({
     profile: state.profile.profile,

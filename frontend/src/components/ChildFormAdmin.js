@@ -1,13 +1,11 @@
 import {React, useState, useEffect, Children} from "react";
 import {connect} from "react-redux";
-import * as actions from "../actions/actionCreators";
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile,
     user: state.user.user
 });
 
-const ChildFormAdmin = ({profile, user, passChild, index}) => {
+const ChildFormAdmin = ({user, passChild, index}) => {
 
 
     const [name, setName] = useState("");

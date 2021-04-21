@@ -4,7 +4,6 @@ import * as actions from "../actions/actionCreators";
 import ChildForm from './ChildForm';
 
 const mapStateToProps = state => ({
-    profile: state.profile.profile,
     user: state.user.user
 });
 

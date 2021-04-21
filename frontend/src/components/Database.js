@@ -21,7 +21,7 @@ const data = [
     ['surname', 'Nazwisko']
 ]
 
-const Database = ({user, dispatch, read}) => {
+const Database = ({user, dispatch}) => {
     const [find, setFind] = useState(false)
     const [num, setNum] = useState(0)
     
@@ -93,7 +93,7 @@ const Database = ({user, dispatch, read}) => {
                         {num === 1 && (<HouseholdFormAdmin   nextPage={nextPage} previousPage={previousPage} />)}
                         {num === 2 && (<AddressFormAdmin nextPage={nextPage} previousPage={previousPage} />)}
                         {num === 3 && (<RegistrationAddressFromAdmin nextPage={nextPage} previousPage={previousPage} />)}
-                        {num === 4 && (<WorkplaceFromAdmin nextPage={nextPage} previousPage={previousPage} deleteUser={deleteUser} resetNum={resetNum} />) }
+                        {num === 4 && (<WorkplaceFromAdmin nextPage={nextPage} previousPage={previousPage} deleteUser={deleteUser} />) }
                         {num === 5 && (<PollSummaryAdmin previousPage={previousPage} resetNum={resetNum} />) }
                     </div>
                 </div>
