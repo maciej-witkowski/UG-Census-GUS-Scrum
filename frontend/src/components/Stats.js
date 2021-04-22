@@ -66,7 +66,7 @@ const Stats = () => {
             has: []
         },
         {   
-            name:"Zbiór danych o lokalizacji ankieterów",
+            name:"Zbiór danych o wszystkich województwach",
             locally:false,
             required: false,
             needs: 1,
@@ -136,7 +136,7 @@ const Stats = () => {
         .then(res=> {
             setwojewodztwo(res.data.data.voivodeships)
             setczydostalem(true)
-            handleChangeLocallyState("Zbiór danych o lokalizacji ankieterów")
+            handleChangeLocallyState("Zbiór danych o wszystkich województwach")
         });
 
         axios.get("http://localhost:3000/polls/ileankietwyslano")
@@ -395,22 +395,24 @@ const Stats = () => {
         setReqWoj3(reqWoj2)
         setShowStats(true)
     }
-    const [wojewodztwa2, setWojewodztwa2] = useState(["dolnośląskie",
-    "kujawsko-pomorskie",
-    "lubelskie",
-    "lubuskie",
-    "mazowieckie",
-    "małopolskie",
-    "opolskie",
-    "podkarpackie",
-    "podlaskie",
-    "pomorskie",
-    "warmińsko-mazurskie",
-    "wielkopolskie",
-    "zachodniopomorskie",
-    "łódzkie",
-    "śląskie",
-    "świętokrzyskie"])
+    const [wojewodztwa2, setWojewodztwa2] = useState([
+        "dolnośląskie",
+        "kujawsko-pomorskie",
+        "lubelskie",
+        "lubuskie",
+        "łódzkie",
+        "małopolskie",
+        "mazowieckie",
+        "opolskie",
+        "podkarpackie",
+        "podlaskie",
+        "pomorskie",
+        "śląskie",
+        "świętokrzyskie",
+        "warmińsko-mazurskie",
+        "wielkopolskie",
+        "zachodniopomorskie",
+    ])
     const sortWoj = () => {
         let x = [...wojewodztwa2]
         x.sort((a,b)=> a < b ? 1 : -1)
@@ -451,13 +453,14 @@ const Stats = () => {
                             </div>)}
                     </form>
                             <div className="panel-block ml-6 mr-6">
-                                {cosiek ? <div className={"select is-multiple is-medium"}>
-                                    <select multiple size={16}>
+                                {cosiek ? <div className={"select is-multiple is-medium"} style={{width: "100%"}}>
+                                    <ul style={{width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
                                         {wojewodztwa2.map(woj=>
-                                            <option onClick={()=>{handleAddWoj2(woj)}}>
+                                            <li style={{width: "50%", display: "flex", justifyContent: "space-between", color: "black"}}>
+                                                <input type="checkbox"  onClick={()=>{handleAddWoj2(woj)}}/>
                                                 {woj}
-                                            </option>)}
-                                    </select>
+                                            </li>)}
+                                    </ul>
                                 </div> : null}
                             </div>
                         <div className="panel-block mr-6 ml-6">
@@ -918,7 +921,7 @@ const Stats = () => {
                 </div>
             </div> : null }
 
-            {displayStats.filter(stat=>stat.name === "Zbiór danych o lokalizacji ankieterów").length ? 
+            {displayStats.filter(stat=>stat.name === "Zbiór danych o wszystkich województwach").length ? 
             czydostalem ?
                 <div>
                     {Object.keys(wojewodztwo).map(function(key, index) {
