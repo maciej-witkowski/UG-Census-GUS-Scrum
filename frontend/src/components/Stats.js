@@ -435,77 +435,157 @@ const Stats = () => {
     }
     return(
         <div>
-            
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-            }}>
-                <div style={{
-                    width: "20%"
-                }}>
-                    <form id="myForm">
-                    {stats.map(stat => 
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            width: "100%",
-                            borderBottom: "solid gray 1px"
-                        }}>
-                            <input type="checkbox" style={{marginRight: "10px"}} onClick={()=>handleAddToRequired(stat.name)}/>
-                            <p style={{margin: "0"}}>{stat.name}</p>
-                        </div>
-                        
-                    )}
+            <h1 className="title">Statystyki</h1>
+            <div className={"columns"}>
+                <div className={"column is-half is-offset-one-quarter"}>
+                    <article className="panel is-warning is-centered has-text-centered">
+                        <p className="panel-heading has-text-centered ">
+                            Zaznacz interesujące Cię statystyki
+                        </p>
+                        <form id="myForm">
+                        {stats.map(stat =>
+                            <div className="panel-block ml-6 mr-6">
+                                <input type="checkbox" className={"is-medium"} onClick={()=>handleAddToRequired(stat.name)}/>
+                                <a className={"subtitle"}>{stat.name}</a>
+
+                            </div>)}
                     </form>
-                    {cosiek ? <ul style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            width: "100%",
-                            borderBottom: "solid gray 1px",
-                            height: "100px",
-                            overflowY: "scroll"
-                        }}>
-                                {wojewodztwa2.map(woj=><li onClick={()=>{handleAddWoj2(woj)}} style={{width: "70%", display: "flex", justifyContent: "space-between", alignItems: "center", color: "black"}}><input type="checkbox"/>{woj}</li>)}
-                            </ul> : null}
-                    <div style={{display: "flex", justifyContent: "space-between", width: "100%"}}>
-                        <button onClick={()=>{
-                            handleRefreshStats();
-                            // setShowStats(true);
-                            setButtonText("Odśwież pokazywane statystyki")
+                            <div className="panel-block ml-6 mr-6">
+                                {cosiek ? <div className={"select is-multiple is-medium"}>
+                                    <select multiple size={16}>
+                                        {wojewodztwa2.map(woj=>
+                                            <option onClick={()=>{handleAddWoj2(woj)}}>
+                                                {woj}
+                                            </option>)}
+                                    </select>
+                                </div> : null}
+                            </div>
+                        <div className="panel-block mr-6 ml-6">
+                            <button onClick={()=>{
+                                handleRefreshStats();
+                                setButtonText("Odśwież pokazywane statystyki");
+                            }}
+                                    className="button is-link is-outlined is-fullwidth"
+                            >
+                                {buttonText}
+                            </button>
+                        </div>
+                        <div className="panel-block mr-6 ml-6">
+                            <button onClick={()=>{
+                                document.getElementById("myForm").reset();
 
-                        }} style={{
-                            backgroundColor: "black",
-                            margin: "20px 0",
-                            padding: "5px"
-                        }}>{buttonText}</button>
-                        <button style={{
-                            backgroundColor: "black",
-                            margin: "20px 0",
-                            padding: "5px",
-                        }} onClick={()=>{
-                            document.getElementById("myForm").reset();
+                                setStats([...stats.map(stat=> {return {...stat, required: false} })]);
+                                setButtonText("Pokaż statystyki z zaznaczonych dziedzin");
 
-                            setStats([...stats.map(stat=> {return {...stat, required: false} })]);                                                
-                            setButtonText("Pokaż statystyki z zaznaczonych dziedzin");
+                                setCosiek(false);
+                                setDisplayStats([]);
+                                setShowStats(false)
 
-
-                            setCosiek(false);
-                            setDisplayStats([]);
-                            setShowStats(false)
-
-                            setReqWoj2([])
-                            setReqWoj3([])
-                        }}>Reset</button>
-                    </div>
+                                setReqWoj2([])
+                                setReqWoj3([])
+                            }}
+                                    className="button is-danger is-outlined is-fullwidth"
+                            >
+                                Reset
+                            </button>
+                        </div>
+                    </article>
                 </div>
-
-
             </div>
+            
+            {/*<div style={{*/}
+            {/*    display: "flex",*/}
+            {/*    flexDirection: "column",*/}
+            {/*    justifyContent: "center",*/}
+            {/*    alignItems: "center",*/}
+            {/*}}>*/}
+            {/*    <div style={{*/}
+            {/*        width: "20%"*/}
+            {/*    }}>*/}
+            {/*        <form id="myForm">*/}
+            {/*        {stats.map(stat =>*/}
+            {/*            <div style={{*/}
+            {/*                display: "flex",*/}
+            {/*                justifyContent: "space-between",*/}
+            {/*                alignItems: "center",*/}
+            {/*                width: "100%",*/}
+            {/*                borderBottom: "solid gray 1px"*/}
+            {/*            }}>*/}
+            {/*                <input type="checkbox" style={{marginRight: "10px"}} onClick={()=>handleAddToRequired(stat.name)}/>*/}
+            {/*                <p style={{margin: "0"}}>{stat.name}</p>*/}
+            {/*                {cosiek ? <ul style={{*/}
+            {/*                    display: "flex",*/}
+            {/*                    flexDirection: "column",*/}
+            {/*                    justifyContent: "space-between",*/}
+            {/*                    alignItems: "center",*/}
+            {/*                    width: "100%",*/}
+            {/*                    borderBottom: "solid gray 1px",*/}
+            {/*                    height: "100px",*/}
+            {/*                    overflowY: "scroll"*/}
+            {/*                }}>*/}
+            {/*                    <div className="select">*/}
+            {/*                        <select>*/}
+            {/*                            <option>Select dropdown</option>*/}
+            {/*                            <option>With options</option>*/}
+            {/*                        </select>*/}
+            {/*                    </div>*/}
+            {/*                    {wojewodztwa2.map(woj=>*/}
+            {/*                        <li onClick={()=>{handleAddWoj2(woj)}} style={{width: "70%", display: "flex", justifyContent: "space-between", alignItems: "center", color: "black"}}*/}
+            {/*                        >*/}
+            {/*                            <input type="checkbox"/>*/}
+            {/*                            {woj}*/}
+            {/*                        </li>)}*/}
+            {/*                </ul> : null}*/}
+            {/*            </div>*/}
+
+            {/*        )}*/}
+            {/*        </form>*/}
+            {/*        {cosiek ? <ul style={{*/}
+            {/*                display: "flex",*/}
+            {/*                flexDirection: "column",*/}
+            {/*                justifyContent: "space-between",*/}
+            {/*                alignItems: "center",*/}
+            {/*                width: "100%",*/}
+            {/*                borderBottom: "solid gray 1px",*/}
+            {/*                height: "100px",*/}
+            {/*                overflowY: "scroll"*/}
+            {/*            }}>*/}
+            {/*                    {wojewodztwa2.map(woj=><li onClick={()=>{handleAddWoj2(woj)}} style={{width: "70%", display: "flex", justifyContent: "space-between", alignItems: "center", color: "black"}}><input type="checkbox"/>{woj}</li>)}*/}
+            {/*                </ul> : null}*/}
+            {/*        <div style={{display: "flex", justifyContent: "space-between", width: "100%"}}>*/}
+            {/*            <button onClick={()=>{*/}
+            {/*                handleRefreshStats();*/}
+            {/*                // setShowStats(true);*/}
+            {/*                setButtonText("Odśwież pokazywane statystyki")*/}
+
+            {/*            }} style={{*/}
+            {/*                backgroundColor: "black",*/}
+            {/*                margin: "20px 0",*/}
+            {/*                padding: "5px"*/}
+            {/*            }}>{buttonText}</button>*/}
+            {/*            <button style={{*/}
+            {/*                backgroundColor: "black",*/}
+            {/*                margin: "20px 0",*/}
+            {/*                padding: "5px",*/}
+            {/*            }} onClick={()=>{*/}
+            {/*                document.getElementById("myForm").reset();*/}
+
+            {/*                setStats([...stats.map(stat=> {return {...stat, required: false} })]);*/}
+            {/*                setButtonText("Pokaż statystyki z zaznaczonych dziedzin");*/}
+
+
+            {/*                setCosiek(false);*/}
+            {/*                setDisplayStats([]);*/}
+            {/*                setShowStats(false)*/}
+
+            {/*                setReqWoj2([])*/}
+            {/*                setReqWoj3([])*/}
+            {/*            }}>Reset</button>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+
+
+            {/*</div>*/}
 
 
 
@@ -521,8 +601,7 @@ const Stats = () => {
             }, true) ? 
             (
                 <div>
-                                <h1 className="title">Statystyki:</h1>
-                                {displayStats.filter(stat=>stat.name === "Informacje ogólne").length ? 
+                    {displayStats.filter(stat=>stat.name === "Informacje ogólne").length ?
             <div className={"columns m-3"}>
                 <div className={"column box has-text-centered m-3"}>
                     <p className={"title has-text-danger is-1"}>{ileankiet} <b className={"subtitle"}>wysłanych ankiet</b></p>
