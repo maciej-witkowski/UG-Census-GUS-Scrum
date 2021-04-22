@@ -32,6 +32,24 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
 
     const [buttonClicked, setButtonClicked] = useState(false);
 
+    const [nations, setNations] = useState([])
+
+    const [errors, setErrors] = useState({
+        nameError: "",
+        surnameError: "",
+        peselError: "",
+        dateError: "",
+        sexError: "",
+        confessionError: "",
+        marital_statusError: "",
+        educationError: "",
+        residenceTypeError: "",
+        residenceFromError: "",
+        residenceTillError: "",
+        disabilityExistsError: "",
+        disabilityDegreeError: ""
+    });
+
     useEffect(() => {
         console.log(poll);
     }, [poll]);
@@ -43,22 +61,20 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
     }, [disabilityExists]);
 
 
-    const updatePoll = () => {
+    const updatePoll = async () => {
         const patternPesel = /^[0-9]{11}$/
         let res;
 
         if (residenceType === "Tymczasowy meldunek") {
-            res =  {
+            res = {
                 type: residenceType,
                 period: {
                     from: residenceFrom,
                     till: residenceTill
                 }
             }
-        }
-
-        else {
-            res =  {
+        } else {
+            res = {
                 type: residenceType,
                 period: {
                     from: "",
@@ -67,16 +83,15 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
             }
         }
 
-        let disability; 
+        let disability;
 
         if (disabilityExists) {
-            disability  = {
+            disability = {
                 exists: disabilityExists,
                 degree: disabilityDegree
             }
-        }
-        else {
-            disability  = {
+        } else {
+            disability = {
                 exists: false,
                 degree: ""
             }
@@ -97,33 +112,127 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
         }
         dispatch(actions.setInfo(info));
 
-        if(patternPesel.test(pesel)){
-            setButtonClicked(true);
-        } else {
-            alert("Pesel jest wymagany!")
+        const errorCheck = {
+            nameError: "",
+            surnameError: "",
+            peselError: "",
+            dateError: "",
+            sexError: "",
+            confessionError: "",
+            marital_statusError: "",
+            educationError: "",
+            residenceFromError: "",
+            residenceTillError: "",
         }
+
+        if (name) {
+            errorCheck.nameError = ""
+        } else {
+            errorCheck.nameError = "Imię jest obowiązkowe!"
+        }
+
+        if (surname) {
+            errorCheck.surnameError = ""
+        } else {
+            errorCheck.surnameError = "Nazwisko jest obowiązkowe!"
+        }
+
+        if (pesel) {
+            errorCheck.peselError = ""
+        } else {
+            errorCheck.peselError = "PESEL jest obowiązkowy!"
+        }
+
+        if (date) {
+            errorCheck.dateError = ""
+        } else {
+            errorCheck.dateError = "Data urodzenia jest obowiązkowa!"
+        }
+
+        if (!errorCheck.peselError && !errorCheck.dateError) {
+            if (await checkPeselValidAndDisplayAlerts()) {
+                errorCheck.peselError = ""
+                errorCheck.dateError = ""
+                errorCheck.sexError = ""
+            } else {
+                errorCheck.peselError = "Podany numer PESEL nie pasuje do daty urodzenia oraz wybranej płci!"
+                errorCheck.dateError = "Podana data urodzenia nie zgadza się z numerem PESEL"
+                errorCheck.sexError = "Podana płeć nie zgadza się z numerem PESEL"
+            }
+        }
+
+        if (residenceType === "Tymczasowy meldunek") {
+            if (residenceFrom) {
+                errorCheck.residenceFromError = ""
+            } else {
+                errorCheck.residenceFromError = "Data rozpoczęcia pobytu jest obowiązkowa!"
+            }
+
+            if (residenceTill) {
+                errorCheck.residenceTillError = ""
+            } else {
+                errorCheck.residenceTillError = "Data zakończenia pobytu jest obowiązkowa!"
+            }
+        } else {
+            errorCheck.residenceFromError = ""
+            errorCheck.residenceTillError = ""
+        }
+
+        setErrors(errorCheck);
+        setButtonClicked(true);
     }
 
-    const checkPeselValidAndDisplayAlerts = () => {
-        axios.post(`http://localhost:3000/polls/pesel`, {pesel: pesel, date_of_birth: date, sex: sex}).then(res => {
-            console.log(res.data);
-            if (res.data.success===true) { 
-                nextPage();
-                setButtonClicked(false);
-            }
-            else {
-                alert(`Podany pesel jest niezgodny z płcią lub datą urodzenia`);
-                setButtonClicked(false);
-            }
+    // const checkPeselValidAndDisplayAlerts = () => {
+    //     axios.post(`http://localhost:3000/polls/pesel`, {pesel: pesel, date_of_birth: date, sex: sex}).then(res => {
+    //         console.log(res.data);
+    //         if (res.data.success===true) {
+    //             nextPage();
+    //             setButtonClicked(false);
+    //         }
+    //         else {
+    //             alert(`Podany pesel jest niezgodny z płcią lub datą urodzenia`);
+    //             setButtonClicked(false);
+    //         }
+    //     }).catch(err => console.log(err))
+    // }
+
+    const checkPeselValidAndDisplayAlerts = async () => {
+        return await axios.post(`http://localhost:3000/polls/pesel`, {
+            pesel: pesel,
+            date_of_birth: date,
+            sex: sex
+        }).then(res => {
+            return res.data.success;
         }).catch(err => console.log(err))
     }
 
     useEffect(() => {
         if (buttonClicked) {
-            checkPeselValidAndDisplayAlerts();
+            if (Object.values(errors).every(x => x === '')) {
+                nextPage()
+            } else {
+                setButtonClicked(false);
+                alert("Nie wszystkie pola zostały wypełnione!")
+            }
         }
 
     }, [buttonClicked])
+
+    // useEffect(() => {
+    //     if (buttonClicked) {
+    //         checkPeselValidAndDisplayAlerts();
+    //     }
+    //
+    // }, [buttonClicked])
+
+    useEffect(() => {
+        axios.get(`http://localhost:3000/data/nations`)
+            .then(res => {
+                res.data.countries.sort()
+                setNations(res.data.countries);
+            })
+            .catch(err => console.log(err))
+    })
 
     return (
             <div className={"box m-6 field is-centered"}>
@@ -133,6 +242,9 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                             <p className="label">Twoje imie:</p>
                         </div>
                         <input className={"input is-info"} type="text" name="name" value={name} onChange={(ev) => setName(ev.target.value)} placeholder={"Imie"} />
+                        <li>
+                            <p style={{minHeight: "1rem"}}>{errors.nameError ? errors.nameError : ""}</p>
+                        </li>
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
@@ -140,6 +252,9 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                             <p className="label">Twoje nazwisko:</p>
                         </div>
                         <input className={"input is-info"} type="text" name="surname" value={surname} onChange={(ev) => setSurname(ev.target.value)} placeholder={"Nazwisko"} />
+                        <li>
+                            <p style={{minHeight: "1rem"}}>{errors.surnameError ? errors.surnameError : ""}</p>
+                        </li>
                     </div>
                     {Object.keys(profile).length === 0 ? (
                         <div className={"column is-centered mx-5 is-5"}>
@@ -147,6 +262,9 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                                 <p className={"label"}>Twój PESEL:</p>
                             </div>
                             <input className={"input is-info"} type="text" name="pesel" value={pesel} onChange={(ev) => setPesel(ev.target.value)} placeholder={"PESEL"}/>
+                            <li>
+                                <p style={{minHeight: "1rem"}}>{errors.peselError ? errors.peselError : ""}</p>
+                            </li>
                         </div>
                     )
                     :
@@ -156,6 +274,9 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                                 <p className={"label"}>Twój PESEL:</p>
                             </div>
                             <input className={"input is-info"} type="text" name="pesel" value={pesel} onChange={(ev) => setPesel(ev.target.value)} placeholder={"PESEL"} readOnly/>
+                            <li>
+                                <p style={{minHeight: "1rem"}}>{errors.peselError ? errors.peselError : ""}</p>
+                            </li>
                         </div>
                     )}
 
@@ -163,7 +284,20 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                         <div>
                             <p className={"label"}>Jaki jest twój kraj pochodzenia:</p>
                         </div>
-                        <input className={"input is-info"} type="text" name="nationality" value={nationality} onChange={(ev) => setNationality(ev.target.value)} placeholder={"Kraj pochodzenia"}/>
+                        {/*<input className={"input is-info"} type="text" name="nationality" value={nationality} onChange={(ev) => setNationality(ev.target.value)} placeholder={"Kraj pochodzenia"}/>*/}
+                        <div className={"control is-5"}>
+                            <div className="field-body">
+                                <div className="field is-narrow">
+                                    <div className="select">
+                                        <select name='nationality' value={nationality} onChange={(ev) => setNationality(ev.target.value)}>
+                                            {nations.map((nation, index) => {
+                                                return <option key={index} value={nation}>{nation}</option>
+                                            })}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
@@ -180,11 +314,16 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                             <p className={"label"}>Od kiedy?</p>
                         </div>
                         <input className={"input is-info"} type="date" name='residenceFrom' value={residenceFrom} onChange={(ev) => setResidenceFrom(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
+                        <li>
+                            <p style={{minHeight: "1rem"}}>{errors.residenceFromError ? errors.residenceFromError : ""}</p>
+                        </li>
                         <div>
                             <p className={"label"}>Do kiedy?</p>
                         </div>
                         <input className={"input is-info"} type="date" name='residenceTill' value={residenceTill} onChange={(ev) => setResidenceTill(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
-                    </div>): null}
+                        <li>
+                            <p style={{minHeight: "1rem"}}>{errors.residenceTillError ? errors.residenceTillError : ""}</p>
+                        </li>                    </div>): null}
 
                     <div className={"column is-centered mx-5 is-5"}>
                         <div>
@@ -220,6 +359,9 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                             <p className={"label"}>Data Twoich urodzin:</p>
                         </div>
                         <input className={"input is-info"} type="date" name='date' value={date} onChange={(ev) => setDate(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
+                        <li>
+                            <p style={{minHeight: "1rem"}}>{errors.dateError ? errors.dateError : ""}</p>
+                        </li>
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
@@ -233,12 +375,15 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                                         <select name='sex' value={sex} onChange={(ev) => setSex(ev.target.value)}>
                                             <option value='Kobieta'>Kobieta</option>
                                             <option value='Mężczyzna'>Mężczyzna</option>
-                                            <option value='Wole nie odpowiadać'>Wole nie odpowiadać</option>
+                                            <option value='Wolę nie odpowiadać'>Wole nie odpowiadać</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <li>
+                            <p style={{minHeight: "1rem"}}>{errors.sexError ? errors.sexError : ""}</p>
+                        </li>
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
@@ -257,6 +402,8 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                                 <div className="field is-narrow">
                                     <div className="select">
                                         <select name='marital' value={marital_status} onChange={(ev) => setMaritalStatus(ev.target.value)}>
+                                            <option value='Wolny'>Wolny</option>
+                                            <option value='Wolna'>Wolna</option>
                                             <option value='Żonaty'>Żonaty</option>
                                             <option value='Zamężna'>Zamężna</option>
                                             <option value='Wdowiec'>Wdowiec</option>
