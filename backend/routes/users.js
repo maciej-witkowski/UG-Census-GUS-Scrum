@@ -65,26 +65,28 @@ router.post('/login/user', async (req, res) => {
 
 router.post('/getByPESEL', async (req, res) => {
     const pesel = req.body.pesel;
-    const foundUser = await User.findOne({ pesel: pesel });
 
-    if (foundUser) {
-        const foundPoll = await Poll.findOne({ pesel: pesel });
-        if (foundPoll) {
-            res.json({
-                user: true,
-                poll: foundPoll
-            });
-        } else {
+    const foundPoll = await Poll.findOne({ pesel: pesel });
+    if (foundPoll) {
+        res.json({
+            user: true,
+            poll: foundPoll
+        });
+    } else {
+        const foundUser = await User.findOne({ pesel: pesel });
+        
+        if (foundUser){
             res.json({
                 user: true,
                 poll: false,
                 profile: foundUser
             });
         }
-    } else {
-        res.json({
-            user: false
-        });
+        else{
+            res.json({
+                user: false
+            });
+        }
     }
 });
 router.post('/login/admin', async (req, res) => {

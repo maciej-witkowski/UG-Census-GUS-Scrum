@@ -83,10 +83,10 @@ router.post('/pesel', async (req, res) => {
         if (date_of_birth == date_of_birth_from_PESEL && sex == sex_from_PESEL) {
             res.json({ success: true })
         } else {
-            res.json({ success: true })
+            res.json({ success: false })
         }
     } else {
-        res.json({ success: true })
+        res.json({ success: false })
     }
 
 });
