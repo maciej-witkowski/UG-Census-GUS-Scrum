@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config()
 
-
 const users = require('./routes/users');
 const polls = require('./routes/polls');
 const pesel = require('./routes/pesel');
+const data = require('./routes/data');
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +15,7 @@ app.use(cors());
 app.use('/users', users);
 app.use('/polls', polls);
 app.use('/pesel', pesel);
+app.use('/data', data);
 
 const dbConnData = {
   username: process.env.MONGO_USERNAME_ADMIN,

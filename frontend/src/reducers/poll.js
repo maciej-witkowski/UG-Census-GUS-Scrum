@@ -5,7 +5,7 @@ const initialState = {
         type: "",
         pesel: "",
         name: "",
-        nationality: "",
+        nationality: "Polska",
         residence: {
             type: "Stały meldunek",
             period: {
@@ -21,7 +21,7 @@ const initialState = {
         sex: "Kobieta",
         confession: "",
         surname: "",
-        marital_status: "Żonaty",
+        marital_status: "Wolny",
         education: "Wykształcenie podstawowe",
         household: {
             saved: false,
