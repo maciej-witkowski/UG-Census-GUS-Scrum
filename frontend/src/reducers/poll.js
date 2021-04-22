@@ -36,8 +36,9 @@ const initialState = {
             }
         },
         address: {
+            saved: false,
             place: {
-                voivodeship: "",
+                voivodeship: "Dolnośląskie",
                 district: "",
                 community: "",
                 city: ""
@@ -48,9 +49,10 @@ const initialState = {
             postal_code: ""
         },
         registered_address: {
+            saved: false,
             same: false,
             place: {
-                voivodeship: "",
+                voivodeship: "Dolnośląskie",
                 district: "",
                 community: "",
                 city: ""

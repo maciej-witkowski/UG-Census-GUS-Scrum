@@ -18,12 +18,68 @@ const AddressForm = ({previousPage, nextPage, dispatch, voivodeships, poll}) => 
     const [apartment_number, setApartment] = useState(poll.address.apartment_number);
     const [postal_code, setPostalCode] = useState(poll.address.postal_code);
 
+    const [saved, setSaved] = useState(poll.address.saved);
+
     useEffect(() => {
-        // console.log(poll);
-        voivodeships.map(v => console.log(v.voivodeship));
+        console.log(poll);
+        // voivodeships.map(v => console.log(v.voivodeship));
     }, [poll]);
 
+    useEffect(() => {
+        if (saved === false) {
+        if (voivodeship === "Dolnośląskie") {
+            setDistrict("bolesławiecki")
+        }
+        if (voivodeship === "Kujawsko-pomorskie") {
+            setDistrict("aleksandrowski")
+        }
+        if (voivodeship === "Lubelskie") {
+            setDistrict("bialski")
+        }
+        if (voivodeship === "Lubuskie") {
+            setDistrict("gorzowski")
+        }
+        if (voivodeship === "Łódzkie") {
+            setDistrict("bełchatowski")
+        }
+        if (voivodeship === "Małopolskie") {
+            setDistrict("bocheński")
+        }
+        if (voivodeship === "Mazowieckie") {
+            setDistrict("białobrzeski")
+        }
+        if (voivodeship === "Opolskie") {
+            setDistrict("brzeski")
+        }
+        if (voivodeship === "Podkarpackie") {
+            setDistrict("bieszczadzki")
+        }
+        if (voivodeship === "Podlaskie") {
+            setDistrict("augustowski")
+        }
+        if (voivodeship === "Pomorskie") {
+            setDistrict("bytowski")
+        }
+        if (voivodeship === "Śląskie") {
+            setDistrict("będziński")
+        }
+        if (voivodeship === "Świętokrzyskie") {
+            setDistrict("buski")
+        }
+        if (voivodeship === "Warmińsko-mazurskie") {
+            setDistrict("bartoszycki")
+        }
+        if (voivodeship === "Wielkopolskie") {
+            setDistrict("chodzieski")
+        }
+        if (voivodeship === "Zachodniopomorskie") {
+            setDistrict("białogardzki")
+        }
+    }
+    }, [voivodeship]);
+
     const updatePoll = () => {
+        setSaved(true);
         const info = {
             address: {
                 place: {
@@ -52,6 +108,16 @@ const AddressForm = ({previousPage, nextPage, dispatch, voivodeships, poll}) => 
         nextPage();
     }
 
+    const createDistrictOptions = (voivodeship) => {
+        return (<div className="field is-narrow">
+            <div className="select">
+                <select name='districtHousehold' value={district} onChange={(ev) => setDistrict(ev.target.value)}>
+                    {voivodeships.filter(v => v.voivodeship === voivodeship)[0].districts.map((d, i) => (<option key={i} value={d.district}>{d.district}</option>))}
+                </select>
+            </div>
+        </div>)
+    }
+
     return(
             <div className={"box m-6 field is-centered"}>
                 <fieldset disabled={poll.filled ? "disabled" : ""}>
@@ -68,7 +134,7 @@ const AddressForm = ({previousPage, nextPage, dispatch, voivodeships, poll}) => 
                         <div className="field is-narrow">
                             <div className="select">
                                 <select name='voivodeshipHousehold' value={voivodeship} onChange={(ev) => setVoivodeship(ev.target.value)}>
-                                    {voivodeships.map(v => v.voivodeship).map(v => (<option value={v}>{v}</option>))}
+                                    {voivodeships.map(v => v.voivodeship).map((v, i) => (<option key={i} value={v}>{v}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -78,9 +144,39 @@ const AddressForm = ({previousPage, nextPage, dispatch, voivodeships, poll}) => 
                         <div>
                             <p className={"label"}>W jakim powiacie mieszkałeś/aś?</p>
                         </div>
-                        <input className={"input is-info"} type="text" name='districtHousehold' value={district} placeholder={"Powiat"}
-                        onChange={(ev) => setDistrict(ev.target.value)}
-                        />
+
+                        {voivodeship === "Dolnośląskie"? 
+                        (createDistrictOptions("Dolnośląskie")):null}
+                        {voivodeship === "Kujawsko-pomorskie"? 
+                        (createDistrictOptions("Kujawsko-pomorskie")):null}
+                        {voivodeship === "Lubelskie"? 
+                        (createDistrictOptions("Lubelskie")):null}
+                        {voivodeship === "Lubuskie"? 
+                        (createDistrictOptions("Lubuskie")):null}
+                        {voivodeship === "Łódzkie"? 
+                        (createDistrictOptions("Łódzkie")):null}
+                         {voivodeship === "Małopolskie"? 
+                        (createDistrictOptions("Małopolskie")):null}
+                         {voivodeship === "Mazowieckie"? 
+                        (createDistrictOptions("Mazowieckie")):null}
+                         {voivodeship === "Opolskie"? 
+                        (createDistrictOptions("Opolskie")):null}
+                         {voivodeship === "Podkarpackie"? 
+                        (createDistrictOptions("Podkarpackie")):null}
+                        {voivodeship === "Podlaskie"? 
+                        (createDistrictOptions("Podlaskie")):null}
+                        {voivodeship === "Pomorskie"? 
+                        (createDistrictOptions("Pomorskie")):null}
+                        {voivodeship === "Śląskie"? 
+                        (createDistrictOptions("Śląskie")):null}
+                        {voivodeship === "Świętokrzyskie"? 
+                        (createDistrictOptions("Świętokrzyskie")):null}
+                        {voivodeship === "Warmińsko-mazurskie"? 
+                        (createDistrictOptions("Warmińsko-mazurskie")):null}
+                        {voivodeship === "Wielkopolskie"? 
+                        (createDistrictOptions("Wielkopolskie")):null}
+                        {voivodeship === "Zachodniopomorskie"? 
+                        (createDistrictOptions("Zachodniopomorskie")):null}
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
