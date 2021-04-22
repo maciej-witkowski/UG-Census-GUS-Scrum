@@ -71,6 +71,13 @@ const Stats = () => {
             required: false,
             needs: 1,
             has: []
+        },
+        {
+            name: "Wybierz konkretne województwo",
+            locally: false,
+            required: false,
+            needs: 1,
+            has: []
         }
     ])
     const [ileankiet,setankiety] = useState([]);
@@ -280,6 +287,7 @@ const Stats = () => {
                 }
                 setWojewodztwa(list);
                 handleChangeLocallyState("Statystyki ludności dla województw")
+                handleChangeLocallyState("Wybierz konkretne województwo")
             });
 
             axios.get("http://localhost:3000/polls/nationality_communes")
@@ -351,12 +359,18 @@ const Stats = () => {
         
     }, []);
 
+    const [cosiek, setCosiek] = useState(false)
     const [dataRequired, setDataRequired] = useState([])
     const [displayStats, setDisplayStats] = useState([])
     const [showStats, setShowStats] = useState(false)
     const [buttonText, setButtonText] = useState("Pokaż statystyki z zaznaczonych dziedzin")
     const handleAddToRequired = (name) => {
-        // console.log(name)
+        console.log(name)
+        if (name == "Wybierz konkretne województwo") {
+            setCosiek(!stats.filter(stat => stat.name === name)[0].required)
+            setReqWoj2([])
+            // setReqWoj3([])
+        }
         // let x = stats
         stats.filter(stat => stat.name === name)[0].required = !stats.filter(stat => stat.name === name)[0].required
         // stats.forEach(stat => {console.log(stat.name, ": ", stat.required);})
@@ -378,7 +392,46 @@ const Stats = () => {
     }
     const handleRefreshStats = () => {
         setDisplayStats(stats.filter(stat=>stat.required))
+        setReqWoj3(reqWoj2)
         setShowStats(true)
+    }
+    const [wojewodztwa2, setWojewodztwa2] = useState(["dolnośląskie",
+    "kujawsko-pomorskie",
+    "lubelskie",
+    "lubuskie",
+    "mazowieckie",
+    "małopolskie",
+    "opolskie",
+    "podkarpackie",
+    "podlaskie",
+    "pomorskie",
+    "warmińsko-mazurskie",
+    "wielkopolskie",
+    "zachodniopomorskie",
+    "łódzkie",
+    "śląskie",
+    "świętokrzyskie"])
+    const sortWoj = () => {
+        let x = [...wojewodztwa2]
+        x.sort((a,b)=> a < b ? 1 : -1)
+    }
+    sortWoj()
+    const [reqWoj2, setReqWoj2] = useState([])
+    const [reqWoj3, setReqWoj3] = useState([])
+    const handleAddWoj2 = (name) => {
+        if (cosiek) {
+            if (!reqWoj2.includes(name)) {
+                let x = [...reqWoj2]
+                x.push(name)
+                setReqWoj2([...x])
+            } else {
+                let x = [...reqWoj2]
+                x = x.filter(woj => woj !== name)
+                setReqWoj2([...x])
+            }
+            
+        }
+        console.log(reqWoj2);     
     }
     return(
         <div>
@@ -392,6 +445,7 @@ const Stats = () => {
                 <div style={{
                     width: "20%"
                 }}>
+                    <form id="myForm">
                     {stats.map(stat => 
                         <div style={{
                             display: "flex",
@@ -403,24 +457,52 @@ const Stats = () => {
                             <input type="checkbox" style={{marginRight: "10px"}} onClick={()=>handleAddToRequired(stat.name)}/>
                             <p style={{margin: "0"}}>{stat.name}</p>
                         </div>
+                        
                     )}
+                    </form>
+                    {cosiek ? <ul style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "100%",
+                            borderBottom: "solid gray 1px",
+                            height: "100px",
+                            overflowY: "scroll"
+                        }}>
+                                {wojewodztwa2.map(woj=><li onClick={()=>{handleAddWoj2(woj)}} style={{width: "70%", display: "flex", justifyContent: "space-between", alignItems: "center", color: "black"}}><input type="checkbox"/>{woj}</li>)}
+                            </ul> : null}
+                    <div style={{display: "flex", justifyContent: "space-between", width: "100%"}}>
+                        <button onClick={()=>{
+                            handleRefreshStats();
+                            // setShowStats(true);
+                            setButtonText("Odśwież pokazywane statystyki")
+
+                        }} style={{
+                            backgroundColor: "black",
+                            margin: "20px 0",
+                            padding: "5px"
+                        }}>{buttonText}</button>
+                        <button style={{
+                            backgroundColor: "black",
+                            margin: "20px 0",
+                            padding: "5px",
+                        }} onClick={()=>{
+                            document.getElementById("myForm").reset();
+
+                            setStats([...stats.map(stat=> {return {...stat, required: false} })]);                                                
+                            setButtonText("Pokaż statystyki z zaznaczonych dziedzin");
+
+
+                            setCosiek(false);
+                            setDisplayStats([]);
+                            setShowStats(false)
+
+                            setReqWoj2([])
+                            setReqWoj3([])
+                        }}>Reset</button>
+                    </div>
                 </div>
-
-
-
-
-                <button onClick={()=>{
-                    handleRefreshStats();
-                    // setShowStats(true);
-                    setButtonText("Odśwież pokazywane statystyki")
-
-                }} style={{
-                    backgroundColor: "black",
-                    margin: "20px 0"
-                }}>{buttonText}</button>
-
-
-
 
 
             </div>
@@ -429,7 +511,7 @@ const Stats = () => {
 
             {/* dataRequired */}
             {showStats ? stats.reduce((acc, curr) => {
-                console.log(curr)
+                // console.log(curr)
                 if (curr.required) {
                     return acc && curr.locally
                 } else {
@@ -439,7 +521,7 @@ const Stats = () => {
             }, true) ? 
             (
                 <div>
-                                <h1 className="title">Statystyki</h1>
+                                <h1 className="title">Statystyki:</h1>
                                 {displayStats.filter(stat=>stat.name === "Informacje ogólne").length ? 
             <div className={"columns m-3"}>
                 <div className={"column box has-text-centered m-3"}>
@@ -784,6 +866,33 @@ const Stats = () => {
                     })}
                 </div>
                 : null : null }
+                {displayStats.filter(stat=>stat.name === "Wybierz konkretne województwo").length ? 
+                <div>
+                    {Object.keys(wojewodztwo).map(function(key, index) {
+                        if (reqWoj3.includes(key)) {
+                        return (
+                            <div key={index}  className={"panel m-4"}>
+                                <div className={"column box m-3"}>
+                                    <p className={"title has-text-danger is-2 has-text-centered"}><b className={"subtitle"}>Województwo:  </b> {key}</p>
+                                    <div className={"subtitle has-text-centered has-text-success is-3"}>{wojewodztwo[key].working} <b className={"subtitle"}>osób  </b></div>
+                                    <div  className={"rows"}>
+                                        {Object.keys(wojewodztwo[key].districts).map(function(key2, index2) {
+                                            return <div key={index2} className={"columns box m-1"}>
+                                                <div className={"column has-text-warning-dark has-text-weight-bold is-capitalized"}><b className={"has-text-warning-dark"}>Powiat: {key2}</b>-{wojewodztwo[key].districts[key2].working}</div>
+
+                                                {Object.keys(wojewodztwo[key].districts[key2].communes).map(function(key3, index3) {
+                                                    return <div key={index3}>
+                                                        <div className={"column box m-1 has-text-success-dark is-capitalized"}><b className={"has-text-info-dark"}>{key3}:</b> {wojewodztwo[key].districts[key2].communes[key3].working} osoba</div>
+                                                    </div>
+                                                })}
+                                            </div>
+                                        })}
+                                    </div>
+                                </div>
+                            </div>)}
+                    })}
+                </div>
+                : null}
                 </div>
                 ) : <div style={{
                 display: "flex",
