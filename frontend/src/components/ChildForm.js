@@ -12,7 +12,6 @@ const ChildForm = ({poll, passChild, index}) => {
     const [surname, setSurname] = useState("");
     const [pesel, setPesel] = useState("");
 
-
     const [children, setChildren] = useState(poll.household.children.children);  // set children when next page 
 
     const [saved, setSaved] = useState(poll.household.saved);

@@ -7,7 +7,8 @@ const mapStateToProps = state => ({
     poll: state.poll.poll
 });
 
-const HouseholdForm = ({previousPage, poll, dispatch, nextPage}) => {
+const HouseholdForm = ({previousPage, poll,
+                           dispatch, nextPage}) => {
 
     const [childrenExists, setChildrenExists] = useState(poll.household.children.exists);
     const [childrenNumber, setChildrenNumber] = useState(poll.household.children.number);
