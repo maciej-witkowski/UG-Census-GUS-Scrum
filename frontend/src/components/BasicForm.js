@@ -243,7 +243,7 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                         </div>
                         <input className={"input is-info"} type="text" name="name" value={name} onChange={(ev) => setName(ev.target.value)} placeholder={"Imie"} />
                         <li>
-                            <p style={{minHeight: "1rem"}}>{errors.nameError ? errors.nameError : ""}</p>
+                            <p style={{minHeight: "1rem", color: "red"}}>{errors.nameError ? errors.nameError : ""}</p>
                         </li>
                     </div>
 
@@ -253,7 +253,7 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                         </div>
                         <input className={"input is-info"} type="text" name="surname" value={surname} onChange={(ev) => setSurname(ev.target.value)} placeholder={"Nazwisko"} />
                         <li>
-                            <p style={{minHeight: "1rem"}}>{errors.surnameError ? errors.surnameError : ""}</p>
+                            <p style={{minHeight: "1rem", color: "red"}}>{errors.surnameError ? errors.surnameError : ""}</p>
                         </li>
                     </div>
                     {Object.keys(profile).length === 0 ? (
@@ -263,7 +263,7 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                             </div>
                             <input className={"input is-info"} type="text" name="pesel" value={pesel} onChange={(ev) => setPesel(ev.target.value)} placeholder={"PESEL"}/>
                             <li>
-                                <p style={{minHeight: "1rem"}}>{errors.peselError ? errors.peselError : ""}</p>
+                                <p style={{minHeight: "1rem", color: "red"}}>{errors.peselError ? errors.peselError : ""}</p>
                             </li>
                         </div>
                     )
@@ -275,7 +275,7 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                             </div>
                             <input className={"input is-info"} type="text" name="pesel" value={pesel} onChange={(ev) => setPesel(ev.target.value)} placeholder={"PESEL"} readOnly/>
                             <li>
-                                <p style={{minHeight: "1rem"}}>{errors.peselError ? errors.peselError : ""}</p>
+                                <p style={{minHeight: "1rem", color: "red"}}>{errors.peselError ? errors.peselError : ""}</p>
                             </li>
                         </div>
                     )}
@@ -315,15 +315,16 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                         </div>
                         <input className={"input is-info"} type="date" name='residenceFrom' value={residenceFrom} onChange={(ev) => setResidenceFrom(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
                         <li>
-                            <p style={{minHeight: "1rem"}}>{errors.residenceFromError ? errors.residenceFromError : ""}</p>
+                            <p style={{minHeight: "1rem", color: "red"}}>{errors.residenceFromError ? errors.residenceFromError : ""}</p>
                         </li>
                         <div>
                             <p className={"label"}>Do kiedy?</p>
                         </div>
                         <input className={"input is-info"} type="date" name='residenceTill' value={residenceTill} onChange={(ev) => setResidenceTill(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
                         <li>
-                            <p style={{minHeight: "1rem"}}>{errors.residenceTillError ? errors.residenceTillError : ""}</p>
-                        </li>                    </div>): null}
+                            <p style={{minHeight: "1rem", color: "red"}}>{errors.residenceTillError ? errors.residenceTillError : ""}</p>
+                        </li>
+                    </div>): null}
 
                     <div className={"column is-centered mx-5 is-5"}>
                         <div>
@@ -360,7 +361,7 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                         </div>
                         <input className={"input is-info"} type="date" name='date' value={date} onChange={(ev) => setDate(ev.target.value)} placeholder={"YYYY-MM-DD"}/>
                         <li>
-                            <p style={{minHeight: "1rem"}}>{errors.dateError ? errors.dateError : ""}</p>
+                            <p style={{minHeight: "1rem", color: "red"}}>{errors.dateError ? errors.dateError : ""}</p>
                         </li>
                     </div>
 
@@ -382,7 +383,7 @@ const BasicForm = ({nextPage, profile, poll, dispatch}) => {
                             </div>
                         </div>
                         <li>
-                            <p style={{minHeight: "1rem"}}>{errors.sexError ? errors.sexError : ""}</p>
+                            <p style={{minHeight: "1rem", color: "red"}}>{errors.sexError ? errors.sexError : ""}</p>
                         </li>
                     </div>
 

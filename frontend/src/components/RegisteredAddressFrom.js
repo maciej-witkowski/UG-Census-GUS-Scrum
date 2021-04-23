@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from "react";
 import {connect} from "react-redux";
 import * as actions from "../actions/actionCreators";
+import axios from "axios";
 
 const mapStateToProps = state => ({
     poll: state.poll.poll,
@@ -20,6 +21,18 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
 
     const [same, setSame] = useState(poll.registered_address.same);
     const [saved, setSaved] = useState(poll.registered_address.saved);
+
+    const [communes, setCommunes] = useState([])
+
+    const [buttonClicked, setButtonClicked] = useState(false);
+
+    const [errors, setErrors] = useState({
+        cityError: "",
+        street_nameError: "",
+        home_numberError: "",
+        apartment_numberError: "",
+        postal_codeError: "",
+    });
 
     useEffect(() => {
         console.log(poll);
@@ -103,6 +116,8 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
 
 
     const updatePoll = () => {
+        const patternPostalCode = /^[0-9]{2}-[0-9]{3}$/
+
         setSaved(true)
         const info = {
             registered_address: {
@@ -120,6 +135,49 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
             }
         }
         dispatch(actions.setInfo(info));
+
+        const errorCheck = {
+            cityError: "",
+            street_nameError: "",
+            home_numberError: "",
+            apartment_numberError: "",
+            postal_codeError: "",
+        }
+
+        if (city) {
+            errorCheck.cityError = ""
+        } else {
+            console.log("Chujowe city")
+            errorCheck.cityError = "Podanie miasta jest obowiązkowe!"
+        }
+
+        if (street_name) {
+            errorCheck.street_nameError = ""
+        } else {
+            console.log("Chujowa ulica")
+            errorCheck.street_nameError = "Podanie ulicy jest obowiązkowe!"
+        }
+
+        if (home_number) {
+            errorCheck.home_numberError = ""
+        } else {
+            errorCheck.home_numberError = "Podanie numeru domu jest obowiązkowe!"
+        }
+
+        if (parseInt(apartment_number) > 0) {
+            errorCheck.apartment_numberError = ""
+        } else {
+            errorCheck.apartment_numberError = "Podanie numeru lokalu jest obowiązkowe!"
+        }
+
+        if (patternPostalCode.test(postal_code)) {
+            errorCheck.postal_codeError = ""
+        } else {
+            errorCheck.postal_codeError = "Nieprawidłowy kod pocztowy!"
+        }
+
+        setErrors(errorCheck);
+        setButtonClicked(true);
     }
 
     const previous = () => {
@@ -129,7 +187,6 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
 
     const next = () => {
         updatePoll();
-        nextPage();
     }
 
     const createDistrictOptions = (voivodeship) => {
@@ -146,6 +203,27 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
     </div>)
     }
 
+    useEffect(() => {
+        if (district) {
+            axios.get(`http://localhost:3000/data/communes/${district}`)
+                .then(res => {
+                    res.data.communes.sort()
+                    setCommunes(res.data.communes);
+                })
+                .catch(err => console.log(err))
+        }
+    })
+
+    useEffect(() => {
+        if (buttonClicked) {
+            if (Object.values(errors).every(x => x === '')) {
+                nextPage()
+            } else {
+                setButtonClicked(false);
+                alert("Nie wszystkie pola zostały wypełnione!")
+            }
+        }
+    }, [buttonClicked])
 
     return (
             <div className={"box m-6 field is-centered"}>
@@ -234,10 +312,25 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
                         <input disabled className={"input is-info"} type="text" name='communityHousehold' value={community} placeholder={"Gmina"}
                         onChange={(ev) => setCommunity(ev.target.value)}
                         />):
-                        (
-                            <input className={"input is-info"} type="text" name='communityHousehold' value={community} placeholder={"Gmina"}
-                            onChange={(ev) => setCommunity(ev.target.value)}
-                            />)}
+                            (
+                                // <input className={"input is-info"} type="text" name='communityHousehold' value={community} placeholder={"Gmina"}
+                                // onChange={(ev) => setCommunity(ev.target.value)}
+                                // />
+                                <div className={"control is-5"}>
+                                    <div className="field-body">
+                                        <div className="field is-narrow">
+                                            <div className="select">
+                                                <select name='communityHousehold' value={community} onChange={(ev) => setCommunity(ev.target.value)}>
+                                                    {communes.map((commune, index) => {
+                                                        return <option key={index} value={commune}>{commune}</option>
+                                                    })}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
 
                     </div>
 
@@ -249,9 +342,15 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
                         onChange={(ev) => setCity(ev.target.value)}
                         />)
                         :
-                        (<input className={"input is-info"} type="text" name='cityHousehold' value={city} placeholder={"Miasto"}
-                        onChange={(ev) => setCity(ev.target.value)}
-                        />)}
+                            (
+                                <div>
+                                    <input className={"input is-info"} type="text" name='cityHousehold' value={city} placeholder={"Miasto"} onChange={(ev) => setCity(ev.target.value)}/>
+                                    <li>
+                                        <p style={{minHeight: ".5rem", color: "red"}}>{errors.cityError ? errors.cityError : ""}</p>
+                                    </li>
+                                </div>
+                            )
+                        }
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
@@ -263,9 +362,15 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
                         onChange={(ev) => setStreet(ev.target.value)}
                         />)
                         :
-                        (<input  className={"input is-info"} type="text" name='streetHousehold' value={street_name} placeholder={"Ulica"}
-                        onChange={(ev) => setStreet(ev.target.value)}
-                        />)}
+                            (
+                                <div>
+                                    <input  className={"input is-info"} type="text" name='streetHousehold' value={street_name} placeholder={"Ulica"} onChange={(ev) => setStreet(ev.target.value)}/>
+                                    <li>
+                                        <p style={{minHeight: ".5rem", color: "red"}}>{errors.street_nameError ? errors.street_nameError : ""}</p>
+                                    </li>
+                                </div>
+                            )
+                        }
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
@@ -276,10 +381,16 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
                         <input disabled className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"}
                         onChange={(ev) => setHomeNum(ev.target.value)}
                         />)
-                        : (
-                        <input  className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"}
-                        onChange={(ev) => setHomeNum(ev.target.value)}
-                        />)}
+                        :
+                            (
+                                <div>
+                                    <input  className={"input is-info"} type="text" name='homeNumberHousehold' value={home_number} placeholder={"Numer domu"} onChange={(ev) => setHomeNum(ev.target.value)}/>
+                                    <li>
+                                        <p style={{minHeight: ".5rem", color: "red"}}>{errors.home_numberError ? errors.home_numberError : ""}</p>
+                                    </li>
+                                </div>
+                            )
+                        }
                     </div>
 
                     <div className={"column is-centered mx-5 is-5"}>
@@ -290,10 +401,16 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
                         <input disabled className={"input is-info"} type="number" name='apartmentNumberHousehold' min="0" value={apartment_number} placeholder={"Numer lokalu"}
                         onChange={(ev) => setApartment(ev.target.value)}
                         />)
-                        :(
-                            <input className={"input is-info"} type="number" name='apartmentNumberHousehold' min="0" value={apartment_number} placeholder={"Numer lokalu"}
-                            onChange={(ev) => setApartment(ev.target.value)}
-                            />)}
+                        :
+                            (
+                                <div>
+                                    <input className={"input is-info"} type="number" name='apartmentNumberHousehold' min="0" value={apartment_number} placeholder={"Numer lokalu"} onChange={(ev) => setApartment(ev.target.value)}/>
+                                    <li>
+                                        <p style={{minHeight: ".5rem", color: "red"}}>{errors.apartment_numberError ? errors.apartment_numberError : ""}</p>
+                                    </li>
+                                </div>
+                            )
+                        }
 
                     </div>
 
@@ -306,9 +423,15 @@ const RegistrationAddressForm = ({previousPage, poll, dispatch, voivodeships, ne
                         onChange={(ev) => setPostalCode(ev.target.value)}
                         />)
                         :
-                        (<input className={"input is-info"} type="text" name="postCodeHousehold" value={postal_code} placeholder={"Kod pocztowy"}
-                        onChange={(ev) => setPostalCode(ev.target.value)}
-                        />)}
+                            (
+                                <div>
+                                    <input className={"input is-info"} type="text" name="postCodeHousehold" value={postal_code} placeholder={"Kod pocztowy"} onChange={(ev) => setPostalCode(ev.target.value)}/>
+                                    <li>
+                                        <p style={{minHeight: ".5rem", color: "red"}}>{errors.postal_codeError ? errors.postal_codeError : ""}</p>
+                                    </li>
+                                </div>
+                            )
+                        }
                     </div>
                 </fieldset>
 
