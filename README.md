@@ -1,2 +1,15 @@
 # Scrum project
-Actual: Sprint 3
+Final project for university course called "IT project management".
+
+### Used technologies
+
+- Javascript
+- React
+- React Router
+- Redux
+- Axios
+- Bulma
+
+- Express
+- MongoDB
+
